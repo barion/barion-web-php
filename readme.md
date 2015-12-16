@@ -13,7 +13,11 @@ All with just a few simple pieces of code!
 
 # Version history
 
-* **1.0.0** November 11. 2015.
+* **1.1.0** November 27. 2015.
+* **1.0.1** November 26. 2015.
+* **1.0.0** November 17. 2015.
+
+For details about version changes, please refer to the **changelog.txt** file.
 
 # System requirements
 
@@ -106,7 +110,7 @@ $ppr->PaymentType = PaymentType::Immediate;
 $ppr->FundingSources = array(FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
-$ppr->Locale = Locale::EN;
+$ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
 $ppr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";

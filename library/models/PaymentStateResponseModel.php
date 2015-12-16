@@ -18,6 +18,26 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
     public $Total;
     public $Transactions;
     public $RecurrenceResult;
+    
+    function __construct()
+    {
+        $this->PaymentId = "";
+        $this->PaymentRequestId = "";
+        $this->POSId = "";
+        $this->POSName = "";
+        $this->Status = "";
+        $this->PaymentType = "";
+        $this->FundingSource = "";
+        $this->AllowedFundingSources = "";
+        $this->GuestCheckout = "";
+        $this->CreatedAt = "";
+        $this->ValidUntil = "";
+        $this->CompletedAt = "";
+        $this->ReservedUntil = "";
+        $this->Total = 0;
+        $this->Transactions = array();
+        $this->RecurrenceResult = "";
+    }
 
     public function fromJson($json)
     {

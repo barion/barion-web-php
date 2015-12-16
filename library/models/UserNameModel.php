@@ -6,6 +6,13 @@ class UserNameModel implements iBarionModel
     public $FirstName;
     public $LastName;
     public $OrganizationName;
+    
+    function __construct() {
+        $this->LoginName = "";
+        $this->FirstName = "";
+        $this->LastName = "";
+        $this->OrganizationName = "";
+    }
 
     public function fromJson($json)
     {

@@ -8,6 +8,15 @@ class PaymentTransactionModel
     public $Comment;
     public $Items;
     public $PayeeTransactions;
+    
+    function __construct() {
+        $this->POSTransactionId = "";
+        $this->Payee = "";
+        $this->Total = 0;
+        $this->Comment = "";
+        $this->Items = array();
+        $this->PayeeTransactions = array();
+    }
 
     public function AddItem(ItemModel $item){
         if ($this->Items == null) {

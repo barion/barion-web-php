@@ -47,7 +47,7 @@ abstract class RecurrenceResult {
     const NotFound = "NotFound";
 }
 
-abstract class Locale {
+abstract class UILocale {
     const HU = "hu-HU";
     const EN = "en-US";
 }

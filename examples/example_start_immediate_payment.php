@@ -18,20 +18,20 @@ $BC = new BarionClient($myPosKey, 2, BarionEnvironment::Test);
 
 // create the item model
 $item = new ItemModel();
-$item->Name = "TestItem";
-$item->Description = "A test item for payment";
+$item->Name = "TestItem"; // no more than 250 characters
+$item->Description = "A test item for payment"; // no more than 500 characters
 $item->Quantity = 1;
-$item->Unit = "piece";
+$item->Unit = "piece"; // no more than 50 characters
 $item->UnitPrice = 1000;
 $item->ItemTotal = 1000;
-$item->SKU = "ITEM-01";
+$item->SKU = "ITEM-01"; // no more than 100 characters
 
 // create the transaction
 $trans = new PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
-$trans->Payee = $myEmailAddress;
+$trans->Payee = $myEmailAddress; // no more than 256 characters
 $trans->Total = 1000;
-$trans->Comment = "Test Transaction";
+$trans->Comment = "Test Transaction"; // no more than 640 characters
 $trans->AddItem($item); // add the item to the transaction
 
 // create the request model
@@ -39,10 +39,10 @@ $psr = new PreparePaymentRequestModel();
 $psr->GuestCheckout = true; // we allow guest checkout
 $psr->PaymentType = PaymentType::Immediate; // we want an immediate payment
 $psr->FundingSources = array(FundingSourceType::All); // both Barion wallet and bank card accepted
-$psr->PaymentRequestId = "TESTPAY-01";
-$psr->PayerHint = "user@example.com";
-$psr->Locale = Locale::EN; // the UI language will be English 
-$psr->OrderNumber = "ORDER-0001";
+$psr->PaymentRequestId = "TESTPAY-01"; // no more than 100 characters
+$psr->PayerHint = "user@example.com"; // no more than 256 characters
+$psr->Locale = UILocale::EN; // the UI language will be English 
+$psr->OrderNumber = "ORDER-0001"; // no more than 100 characters
 $psr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $psr->AddTransaction($trans); // add the transaction to the payment
 

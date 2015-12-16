@@ -4,6 +4,11 @@ class UserModel implements iBarionModel
 {
     public $Name;
     public $Email;
+    
+    function __construct() {
+        $this->Name = "";
+        $this->Email = "";
+    }
 
     function fromJson($json)
     {

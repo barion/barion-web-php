@@ -9,6 +9,17 @@ class ItemModel implements iBarionModel
     public $UnitPrice;
     public $ItemTotal;
     public $SKU;
+    
+    function __construct()
+    {
+        $this->Name = "";
+        $this->Description = "";
+        $this->Quantity = 0;
+        $this->Unit = "";
+        $this->UnitPrice = 0;
+        $this->ItemTotal = 0;
+        $this->SKU = "";
+    }
 
     public function fromJson($json)
     {

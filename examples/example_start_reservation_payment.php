@@ -18,29 +18,29 @@ $BC = new BarionClient($myPosKey, 2, BarionEnvironment::Test);
 
 // create the item models
 $item1 = new ItemModel();
-$item1->Name = "TestItem";
-$item1->Description = "A test item for payment";
+$item1->Name = "TestItem"; // no more than 250 characters
+$item1->Description = "A test item for payment"; // no more than 500 characters
 $item1->Quantity = 1;
-$item1->Unit = "piece";
+$item1->Unit = "piece"; // no more than 50 characters
 $item1->UnitPrice = 1000;
 $item1->ItemTotal = 1000;
-$item1->SKU = "ITEM-01";
+$item1->SKU = "ITEM-01"; // no more than 100 characters
 
 $item2 = new ItemModel();
-$item2->Name = "AnotherTestItem";
-$item2->Description = "Another test item for payment";
+$item2->Name = "AnotherTestItem"; // no more than 250 characters
+$item2->Description = "Another test item for payment"; // no more than 500 characters
 $item2->Quantity = 2;
-$item2->Unit = "piece";
+$item2->Unit = "piece"; // no more than 50 characters
 $item2->UnitPrice = 250;
 $item2->ItemTotal = 250;
-$item2->SKU = "ITEM-02";
+$item2->SKU = "ITEM-02"; // no more than 100 characters
 
 // create the transaction
 $trans = new PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-02";
-$trans->Payee = $myEmailAddress;
+$trans->Payee = $myEmailAddress; // no more than 256 characters
 $trans->Total = 1500;
-$trans->Comment = "Test Transaction";
+$trans->Comment = "Test Transaction"; // no more than 640 characters
 $trans->AddItem($item1); // add the items to the transaction
 $trans->AddItem($item2);
 
@@ -51,10 +51,10 @@ $psr->PaymentType = PaymentType::Reservation; // we want an immediate payment
 $psr->ReservationPeriod = "1:00:00:00"; // money is reserved for one day
 $psr->PaymentWindow = "00:20:00"; // the payment must be completed in 20 minutes
 $psr->FundingSources = array(FundingSourceType::All); // both Barion wallet and bank card accepted
-$psr->PaymentRequestId = "TESTPAY-02";
-$psr->PayerHint = "user@example.com";
-$psr->Locale = Locale::EN; // the UI language will be English 
-$psr->OrderNumber = "ORDER-0002";
+$psr->PaymentRequestId = "TESTPAY-02"; // no more than 100 characters
+$psr->PayerHint = "user@example.com"; // no more than 256 characters
+$psr->Locale = UILocale::EN; // the UI language will be English 
+$psr->OrderNumber = "ORDER-0002"; // no more than 100 characters
 $psr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $psr->AddTransaction($trans);  // add the transaction to the payment
 

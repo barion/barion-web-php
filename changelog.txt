@@ -1,0 +1,16 @@
+Changelog for "barion/barion-web-php"
+----------------------------------------
+
+v1.1.0 : 2015-11-27
+- Library class "Locale" renamed to "UILocale"
+- Minimized notices from uninitialized indices
+
+v1.0.1 : 2015-11-26
+- Fixed minor include path issues
+
+v1.0.0 : 2015-11-17
+- Initial release
+
+----------------------------------------
+© 2015 Barion Payment Inc.
+All rights reserved.

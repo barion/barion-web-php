@@ -7,7 +7,16 @@ class FinishReservationResponseModel extends BaseResponseModel implements iBario
     public $PaymentRequestId;
     public $Status;
     public $Transactions;
-
+    
+    function __construct()
+    {
+        $this->IsSuccessful = false;
+        $this->PaymentId = "";
+        $this->PaymentRequestId = "";
+        $this->Status = "";
+        $this->Transactions = array();
+    }
+    
     public function fromJson($json)
     {
         if (!empty($json)) {

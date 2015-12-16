@@ -4,6 +4,11 @@ class RefundResponseModel extends BaseResponseModel implements iBarionModel
 {
     public $PaymentId;
     public $RefundedTransactions;
+    
+    function __construct() {
+        $this->PaymentId = "";
+        $this->RefundedTransactions = array();
+    }
 
     public function fromJson($json)
     {

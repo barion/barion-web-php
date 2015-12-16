@@ -21,7 +21,7 @@ $trans = new TransactionToRefundModel();
 $trans->TransactionId = "33333333-3333-3333-3333-333333333333"; // <-- Replace this with the original transaction ID!
 $trans->POSTransactionId = "TRANS-04"; // <-- Replace this with the original POS transaction ID!
 $trans->AmountToRefund = 100;
-$trans->Comment = "Refund because of complaint";
+$trans->Comment = "Refund because of complaint"; // no more than 640 characters
 
 $rr = new RefundRequestModel($paymentId);
 $rr->AddTransaction($trans);

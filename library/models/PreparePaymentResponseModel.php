@@ -13,6 +13,12 @@ class PreparePaymentResponseModel extends BaseResponseModel implements iBarionMo
     function __construct()
     {
         parent::__construct();
+        $this->PaymentId = "";
+        $this->PaymentRequestId = "";
+        $this->Status = "";
+        $this->QRUrl = "";
+        $this->RecurrenceResult = "";
+        $this->PaymentRedirectUrl = "";
         $this->Transactions = array();
     }
 

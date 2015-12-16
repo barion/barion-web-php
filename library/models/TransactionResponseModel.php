@@ -7,6 +7,14 @@ class TransactionResponseModel implements iBarionModel
     public $Status;
     public $TransactionTime;
     public $RelatedId;
+    
+    function __construct() {
+        $this->POSTransactionId = "";
+        $this->TransactionId = "";
+        $this->Status = "";
+        $this->TransactionTime = "";
+        $this->RelatedId = "";
+    }
 
     public function fromJson($json)
     {

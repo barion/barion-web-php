@@ -15,6 +15,22 @@ class TransactionDetailModel implements iBarionModel
     public $RelatedId;
     public $POSId;
     public $PaymentId;
+    
+    function __construct() {
+        $this->TransactionId = "";
+        $this->POSTransactionId = "";
+        $this->TransactionTime = "";
+        $this->Total = 0;
+        $this->Payer = new UserModel();
+        $this->Payee = new UserModel();
+        $this->Comment = "";
+        $this->Status = "";
+        $this->TransactionType = "";
+        $this->Items = array();
+        $this->RelatedId = "";
+        $this->POSId = "";
+        $this->PaymentId = "";
+    }
 
     public function fromJson($json)
     {

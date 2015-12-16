@@ -8,6 +8,7 @@ class FinishReservationRequestModel extends BaseRequestModel
     function __construct($paymentId)
     {
         $this->PaymentId = $paymentId;
+        $this->Transactions = array();
     }
 
     public function AddTransaction(PaymentTransactionModel $transaction)
