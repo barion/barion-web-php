@@ -5,7 +5,7 @@
 *  
 *  Getting detailed information about a payment
 *  
-*  © 2015 Barion Payment Inc.
+*  ï¿½ 2015 Barion Payment Inc.
 */
 
 require_once '../library/BarionClient.php';
@@ -20,5 +20,3 @@ $BC = new BarionClient($myPosKey, 2, BarionEnvironment::Test);
 $paymentDetails = $BC->GetPaymentState($paymentId);
 
 // TODO: process the information contained in $paymentDetails
-
-?>

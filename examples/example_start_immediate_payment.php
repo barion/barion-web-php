@@ -5,7 +5,7 @@
 *  
 *  Starting an immediate payment with one product
 *  
-*  © 2015 Barion Payment Inc.
+*  ï¿½ 2015 Barion Payment Inc.
 */
 
 require_once '../library/BarionClient.php';
@@ -53,5 +53,3 @@ if ($myPayment->RequestSuccessful === true) {
   // redirect the user to the Barion Smart Gateway
   header("Location: " . BARION_WEB_URL_TEST . "?id=" . $myPayment->PaymentId);
 }
-
-?>

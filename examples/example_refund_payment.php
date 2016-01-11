@@ -5,7 +5,7 @@
 *  
 *  Refunding a payment partially (refunding 100 Ft from a payment)
 *  
-*  © 2015 Barion Payment Inc.
+*  ï¿½ 2015 Barion Payment Inc.
 */
 
 require_once '../library/BarionClient.php';
@@ -31,5 +31,3 @@ $refundResult = $BC->RefundPayment($rr);
 if ($refundResult->RequestSuccessful) {
     // TODO: process the information contained in $refundResult
 }
-
-?>

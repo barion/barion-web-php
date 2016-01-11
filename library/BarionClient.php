@@ -1,5 +1,21 @@
 <?php
 
+/**
+ * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 /*
 *  
 *  BarionClient.php
@@ -11,8 +27,8 @@ include 'helpers/loader.php';
 
 class BarionClient
 {
-    private $POSId;
-    private $UserName;
+    private $Environment;
+
     private $Password;
     private $APIVersion;
     private $POSKey;
@@ -22,23 +38,26 @@ class BarionClient
 
     function __construct($poskey, $version = 2, $env = BarionEnvironment::Prod)
     {
+
         $this->POSKey = $poskey;
         $this->APIVersion = $version;
+        $this->Environment = $env;
+
         switch ($env) {
-            
+
             case BarionEnvironment::Test:
-            $this->BARION_API_URL = BARION_API_URL_TEST;
-            $this->BARION_WEB_URL = BARION_WEB_URL_TEST;
-            break;
-            
+                $this->BARION_API_URL = BARION_API_URL_TEST;
+                $this->BARION_WEB_URL = BARION_WEB_URL_TEST;
+                break;
+
             case BarionEnvironment::Prod:
             default:
-            $this->BARION_API_URL = BARION_API_URL_PROD;
-            $this->BARION_WEB_URL = BARION_WEB_URL_PROD;
-            break;
+                $this->BARION_API_URL = BARION_API_URL_PROD;
+                $this->BARION_WEB_URL = BARION_WEB_URL_PROD;
+                break;
         }
     }
-    
+
     /* -------- BARION API CALL IMPLEMENTATIONS -------- */
 
     /* 
@@ -53,7 +72,9 @@ class BarionClient
         if (!empty($response)) {
             $json = json_decode($response, true);
             $rm->fromJson($json);
-            $rm->PaymentRedirectUrl = $this->BARION_WEB_URL . "?" . http_build_query(array("id" => $rm->PaymentId));
+            if (!empty($rm->PaymentId)) {
+                $rm->PaymentRedirectUrl = $this->BARION_WEB_URL . "?" . http_build_query(array("id" => $rm->PaymentId));
+            }
         }
         return $rm;
     }
@@ -112,7 +133,8 @@ class BarionClient
     *  NOTE: This call is deprecated and is only working with username & password authentication.
     *  If no username and/or password was set, this method returns NULL.
     */
-    public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large) {
+    public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)
+    {
         $model = new PaymentQRRequestModel($paymentId);
         $model->POSKey = $this->POSKey;
         $model->Username = $username;
@@ -122,7 +144,7 @@ class BarionClient
         $response = $this->GetFromBarion($url, $model);
         return $response;
     }
-    
+
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
 
     /* 
@@ -139,9 +161,22 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+        if ($this->Environment == BarionEnvironment::Test) {
+            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '\ssl\cacert.pem');
+            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '\ssl\gd_bundle-g2.crt');
+        }
 
         $output = curl_exec($ch);
+        if ($err_nr = curl_errno($ch)) {
+            $error = new ApiErrorModel();
+            $error->ErrorCode = "CURL_ERROR";
+            $error->Title = "CURL Error #" . $err_nr;
+            $error->Description = curl_error($ch);
 
+            $response = new BaseResponseModel();
+            $response->Errors = array($error);
+            $output = json_encode($response);
+        }
         curl_close($ch);
 
         return $output;
@@ -159,16 +194,27 @@ class BarionClient
 
         curl_setopt_array($ch, array(
             CURLOPT_URL => $fullUrl,
-            CURLOPT_CAPATH => ".",
             CURLOPT_RETURNTRANSFER => true
         ));
 
-        $output = curl_exec($ch);
+        if ($this->Environment == BarionEnvironment::Test) {
+            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '\ssl\cacert.pem');
+            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '\ssl\gd_bundle-g2.crt');
+        }
 
+        $output = curl_exec($ch);
+        if (curl_errno($ch)) {
+            $error = new ApiErrorModel();
+            $error->ErrorCode = "CURL_ERROR";
+            $error->Title = "CURL Error";
+            $error->Description = curl_error($ch);
+
+            $response = new BaseResponseModel();
+            $response->Errors = array($error);
+            $output = json_encode($response);
+        }
         curl_close($ch);
 
         return $output;
     }
 }
-
-?>

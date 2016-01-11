@@ -1,5 +1,10 @@
 Changelog for "barion/barion-web-php"
 ----------------------------------------
+v1.2.0:  2016-01-11
+- SSL certificates included for the TEST environment
+- cURL errors are transferred to the client to help debugging
+- Removed end php tags
+- Added licencing headers
 
 v1.1.0 : 2015-11-27
 - Library class "Locale" renamed to "UILocale"
@@ -12,5 +17,5 @@ v1.0.0 : 2015-11-17
 - Initial release
 
 ----------------------------------------
-© 2015 Barion Payment Inc.
+© 2016 Barion Payment Inc.
 All rights reserved.

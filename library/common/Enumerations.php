@@ -1,6 +1,7 @@
 <?php
 
-abstract class BarionEnvironment {
+abstract class BarionEnvironment
+{
     const Test = "test";
     const Prod = "prod";
 }
@@ -34,22 +35,23 @@ abstract class PaymentStatus
     const Failed = "Failed";
 }
 
-abstract class QRCodeSize {
+abstract class QRCodeSize
+{
     const Small = "Small";
     const Normal = "Normal";
     const Large = "Large";
 }
 
-abstract class RecurrenceResult {
+abstract class RecurrenceResult
+{
     const None = "None";
     const Successful = "Successful";
     const Failed = "Failed";
     const NotFound = "NotFound";
 }
 
-abstract class UILocale {
+abstract class UILocale
+{
     const HU = "hu-HU";
     const EN = "en-US";
 }
-
-?>

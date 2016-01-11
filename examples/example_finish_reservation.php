@@ -5,7 +5,7 @@
 *  
 *  Starting a reservation payment with two products
 *  
-*  © 2015 Barion Payment Inc.
+*  ï¿½ 2015 Barion Payment Inc.
 */
 
 require_once '../library/BarionClient.php';
@@ -53,5 +53,3 @@ $finishReservationResult = $BC->FinishReservation($frrm);
 if ($finishReservationResult->RequestSuccessful) {
     // TODO: process the information contained in $finishReservationResult
 }
-
-?>
