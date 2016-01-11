@@ -19,7 +19,10 @@
 include "iBarionModel.php";
 include "BarionHelper.php";
 
-$include_dirs = Array(realpath(dirname(__FILE__) . "/../common"), realpath(dirname(__FILE__) . "/../models"));
+$include_dirs = Array(
+    realpath(join(DIRECTORY_SEPARATOR, array(dirname(dirname(__FILE__)), "common"))),
+    realpath(join(DIRECTORY_SEPARATOR, array(dirname(dirname(__FILE__)), "models")))
+);
 
 foreach ($include_dirs as $dir) {
     foreach (glob($dir . '/*.php') as $file) {

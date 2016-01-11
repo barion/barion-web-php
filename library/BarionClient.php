@@ -23,7 +23,7 @@
 *  
 */
 
-include 'helpers/loader.php';
+include 'helpers' . DIRECTORY_SEPARATOR .'loader.php';
 
 class BarionClient
 {
@@ -137,7 +137,7 @@ class BarionClient
     {
         $model = new PaymentQRRequestModel($paymentId);
         $model->POSKey = $this->POSKey;
-        $model->Username = $username;
+        $model->UserName = $username;
         $model->Password = $password;
         $model->Size = $qrCodeSize;
         $url = $this->BARION_API_URL . API_ENDPOINT_QRCODE;
@@ -162,8 +162,8 @@ class BarionClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
         if ($this->Environment == BarionEnvironment::Test) {
-            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '\ssl\cacert.pem');
-            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '\ssl\gd_bundle-g2.crt');
+            curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
+            curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'gd_bundle-g2.crt')));
         }
 
         $output = curl_exec($ch);
@@ -198,8 +198,8 @@ class BarionClient
         ));
 
         if ($this->Environment == BarionEnvironment::Test) {
-            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '\ssl\cacert.pem');
-            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '\ssl\gd_bundle-g2.crt');
+            curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
+            curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'gd_bundle-g2.crt')));
         }
 
         $output = curl_exec($ch);
