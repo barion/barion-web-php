@@ -13,6 +13,7 @@ All with just a few simple pieces of code!
 
 # Version history
 
+* **1.2.2** January 11.  2016.
 * **1.1.0** November 27. 2015.
 * **1.0.1** November 26. 2015.
 * **1.0.0** November 17. 2015.
