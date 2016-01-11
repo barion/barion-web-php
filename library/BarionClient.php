@@ -162,8 +162,8 @@ class BarionClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
         if ($this->Environment == BarionEnvironment::Test) {
-            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '\ssl\cacert.pem');
-            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '\ssl\gd_bundle-g2.crt');
+            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/ssl/cacert.pem');
+            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '/ssl/gd_bundle-g2.crt');
         }
 
         $output = curl_exec($ch);
@@ -198,8 +198,8 @@ class BarionClient
         ));
 
         if ($this->Environment == BarionEnvironment::Test) {
-            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '\ssl\cacert.pem');
-            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '\ssl\gd_bundle-g2.crt');
+            curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__) . '/ssl/cacert.pem');
+            curl_setopt($ch, CURLOPT_CAPATH, dirname(__FILE__) . '/ssl/gd_bundle-g2.crt');
         }
 
         $output = curl_exec($ch);
