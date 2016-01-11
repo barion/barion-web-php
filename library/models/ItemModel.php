@@ -39,13 +39,13 @@ class ItemModel implements iBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->Name = $json['Name'];
-            $this->Description = $json['Description'];
-            $this->Quantity = $json['Quantity'];
-            $this->Unit = $json['Unit'];
-            $this->UnitPrice = $json['UnitPrice'];
-            $this->ItemTotal = $json['ItemTotal'];
-            $this->SKU = $json['SKU'];
+            $this->Name = jget($json, 'Name');
+            $this->Description = jget($json, 'Description');
+            $this->Quantity = jget($json, 'Quantity');
+            $this->Unit = jget($json, 'Unit');
+            $this->UnitPrice = jget($json, 'UnitPrice');
+            $this->ItemTotal = jget($json, 'ItemTotal');
+            $this->SKU = jget($json, 'SKU');
         }
     }
 }

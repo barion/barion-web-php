@@ -36,7 +36,7 @@ $item2->ItemTotal = 250;
 $item2->SKU = "ITEM-02"; // no more than 100 characters
 
 // create the transaction model
-$trans = new PaymentTransactionModel();
+$trans = new TransactionToFinishModel();
 $trans->TransactionId = "33333333-3333-3333-3333-333333333333"; // <-- Replace this with the original transaction ID!
 $trans->Total = 1500;
 $trans->Comment = "Reservation complete"; // no more than 640 characters

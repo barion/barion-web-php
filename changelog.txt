@@ -1,5 +1,7 @@
 Changelog for "barion/barion-web-php"
 ----------------------------------------
+v1.2.2:  2016-01-11
+- FIX: Some issues with the models (finish reservation and QR models)
 v1.2.1:  2016-01-11
 - FIX: Adding DIRECTORY_SEPARATOR to the path construction (thx to @zelding, based on: https://github.com/barion/barion-web-php/pull/1)
 v1.2.0:  2016-01-11

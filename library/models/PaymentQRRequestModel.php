@@ -17,6 +17,8 @@
  */
 class PaymentQRRequestModel extends BaseRequestModel
 {
+    public $UserName;
+    public $Password;
     public $PaymentId;
     public $Size;
 

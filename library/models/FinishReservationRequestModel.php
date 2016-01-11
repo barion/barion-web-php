@@ -26,7 +26,7 @@ class FinishReservationRequestModel extends BaseRequestModel
         $this->Transactions = array();
     }
 
-    public function AddTransaction(PaymentTransactionModel $transaction)
+    public function AddTransaction(TransactionToFinishModel $transaction)
     {
         if ($this->Transactions == null) {
             $this->Transactions = array();
@@ -38,7 +38,7 @@ class FinishReservationRequestModel extends BaseRequestModel
     {
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
-                if ($transaction instanceof PaymentTransactionModel) {
+                if ($transaction instanceof TransactionToFinishModel) {
                     $this->AddTransaction($transaction);
                 }
             }
