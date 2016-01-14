@@ -13,6 +13,7 @@ All with just a few simple pieces of code!
 
 # Version history
 
+* **1.2.3** January 14.  2016.
 * **1.2.2** January 11.  2016.
 * **1.1.0** November 27. 2015.
 * **1.0.1** November 26. 2015.
@@ -23,8 +24,8 @@ For details about version changes, please refer to the **changelog.txt** file.
 # System requirements
 
 * PHP 5.2 or higher
-* cURL module enabled
-* SSL enabled
+* cURL module enabled (at least v7.18.1)
+* SSL enabled (systems uisng OpenSSL with the version of 0.9.8f at least)
 
 # Installation
 
@@ -67,6 +68,9 @@ With these parameters you can create an instance of the **BarionClient** class:
 ```php
 $BC = new BarionClient($myPosKey, $apiVersion, $environment);
 ```
+
+If you're having problems with the SSL connection then you can set the fourth parameter to true: `$useBundledRootCerts`
+This will use the bundled root certificate list instead of the server provided one. 
 
 # Examples
 

@@ -1,5 +1,7 @@
 Changelog for "barion/barion-web-php"
 ----------------------------------------
+v1.2.3:  2016-01-14
+- FIX: Extra option for environments with SSL problems
 v1.2.2:  2016-01-11
 - FIX: Some issues with the models (finish reservation and QR models)
 v1.2.1:  2016-01-11

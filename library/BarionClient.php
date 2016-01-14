@@ -23,7 +23,7 @@
 *  
 */
 
-include 'helpers' . DIRECTORY_SEPARATOR .'loader.php';
+include 'helpers' . DIRECTORY_SEPARATOR . 'loader.php';
 
 class BarionClient
 {
@@ -36,7 +36,17 @@ class BarionClient
     private $BARION_API_URL = "";
     private $BARION_WEB_URL = "";
 
-    function __construct($poskey, $version = 2, $env = BarionEnvironment::Prod)
+    private $UseBundledRootCertificates;
+
+    /**
+     *  Constructor
+     *
+     * @param $poskey The secret POSKey of your shop
+     * @param int $version The version of the Barion API
+     * @param string $env The environment to connect to
+     * @param bool $useBundledRootCerts Set this to true if you're having problem with SSL connection
+     */
+    function __construct($poskey, $version = 2, $env = BarionEnvironment::Prod, $useBundledRootCerts = false)
     {
 
         $this->POSKey = $poskey;
@@ -56,13 +66,19 @@ class BarionClient
                 $this->BARION_WEB_URL = BARION_WEB_URL_PROD;
                 break;
         }
+
+        $this->UseBundledRootCertificates = $useBundledRootCerts;
     }
 
     /* -------- BARION API CALL IMPLEMENTATIONS -------- */
 
-    /* 
-    *  Prepare a new payment 
-    */
+
+    /**
+     * Prepare a new payment
+     *
+     * @param PreparePaymentRequestModel $model The request model for payment preparation
+     * @return PreparePaymentResponseModel Returns the response from the Barion API
+     */
     public function PreparePayment(PreparePaymentRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
@@ -79,9 +95,13 @@ class BarionClient
         return $rm;
     }
 
-    /* 
-    *  Finish an existing reservation 
-    */
+    /**
+     *
+     * Finish an existing reservation
+     *
+     * @param FinishReservationRequestModel $model The request model for the finish process
+     * @return FinishReservationResponseModel Returns the response from the Barion API
+     */
     public function FinishReservation(FinishReservationRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
@@ -95,9 +115,13 @@ class BarionClient
         return $rm;
     }
 
-    /* 
-    *  Refund a payment partially or totally
-    */
+
+    /**
+     * Refund a payment partially or totally
+     *
+     * @param RefundRequestModel $model The request model for the refund process
+     * @return RefundResponseModel Returns the response from the Barion API
+     */
     public function RefundPayment(RefundRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
@@ -111,9 +135,13 @@ class BarionClient
         return $rm;
     }
 
-    /* 
-    *  Get detailed information about a given payment 
-    */
+
+    /**
+     * Get detailed information about a given payment
+     *
+     * @param string $paymentId The Id of the payment
+     * @return PaymentStateResponseModel Returns the response from the Barion API
+     */
     public function GetPaymentState($paymentId)
     {
         $model = new PaymentStateRequestModel($paymentId);
@@ -128,11 +156,19 @@ class BarionClient
         return $ps;
     }
 
-    /* 
-    *  Get the QR code image for a given payment 
-    *  NOTE: This call is deprecated and is only working with username & password authentication.
-    *  If no username and/or password was set, this method returns NULL.
-    */
+    /**
+     * Get the QR code image for a given payment
+     *
+     * NOTE: This call is deprecated and is only working with username & password authentication.
+     * If no username and/or password was set, this method returns NULL.
+     *
+     * @deprecated
+     * @param $username The username of the shop's owner
+     * @param $password The password of the shop's owner
+     * @param $paymentId The Id of the payment
+     * @param string $qrCodeSize The desired size of the QR image
+     * @return mixed|string Returns the response of the QR request
+     */
     public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)
     {
         $model = new PaymentQRRequestModel($paymentId);
@@ -147,9 +183,16 @@ class BarionClient
 
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
 
-    /* 
-    *  Managing HTTP POST requests 
+    /*
+    *
     */
+    /**
+     * Managing HTTP POST requests
+     *
+     * @param $url The URL of the API endpoint
+     * @param $data The data object to be sent to the endpoint
+     * @return mixed|string Returns the response of the API
+     */
     private function PostToBarion($url, $data)
     {
         $ch = curl_init();
@@ -161,9 +204,13 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
-        if ($this->Environment == BarionEnvironment::Test) {
+
+        if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
-            curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'gd_bundle-g2.crt')));
+
+            if ($this->Environment == BarionEnvironment::Test) {
+                curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'gd_bundle-g2.crt')));
+            }
         }
 
         $output = curl_exec($ch);
@@ -182,9 +229,14 @@ class BarionClient
         return $output;
     }
 
-    /* 
-    *  Managing HTTP GET requests 
-    */
+
+    /**
+     * Managing HTTP GET requests
+     *
+     * @param $url The URL of the API endpoint
+     * @param $data The data object to be sent to the endpoint
+     * @return mixed|string Returns the response of the API
+     */
     private function GetFromBarion($url, $data)
     {
         $ch = curl_init();
@@ -192,21 +244,22 @@ class BarionClient
         $getData = http_build_query($data);
         $fullUrl = $url . '?' . $getData;
 
-        curl_setopt_array($ch, array(
-            CURLOPT_URL => $fullUrl,
-            CURLOPT_RETURNTRANSFER => true
-        ));
+        curl_setopt($ch, CURLOPT_URL, $fullUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-        if ($this->Environment == BarionEnvironment::Test) {
+        if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
-            curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'gd_bundle-g2.crt')));
+
+            if ($this->Environment == BarionEnvironment::Test) {
+                curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'gd_bundle-g2.crt')));
+            }
         }
 
         $output = curl_exec($ch);
-        if (curl_errno($ch)) {
+        if ($err_nr = curl_errno($ch)) {
             $error = new ApiErrorModel();
             $error->ErrorCode = "CURL_ERROR";
-            $error->Title = "CURL Error";
+            $error->Title = "CURL Error #" . $err_nr;
             $error->Description = curl_error($ch);
 
             $response = new BaseResponseModel();
