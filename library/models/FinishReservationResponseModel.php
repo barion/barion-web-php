@@ -25,6 +25,7 @@ class FinishReservationResponseModel extends BaseResponseModel implements iBario
 
     function __construct()
     {
+        parent::__construct();
         $this->IsSuccessful = false;
         $this->PaymentId = "";
         $this->PaymentRequestId = "";

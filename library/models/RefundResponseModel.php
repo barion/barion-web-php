@@ -22,6 +22,7 @@ class RefundResponseModel extends BaseResponseModel implements iBarionModel
 
     function __construct()
     {
+        parent::__construct();
         $this->PaymentId = "";
         $this->RefundedTransactions = array();
     }
