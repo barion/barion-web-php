@@ -50,4 +50,23 @@ class TransactionToFinishModel
             }
         }
     }
+    
+    public function AddPayeeTransaction(PayeeTransactionModel $model)
+    {
+        if ($this->PayeeTransactions == null) {
+            $this->PayeeTransactions = array();
+        }
+        array_push($this->PayeeTransactions, $model);
+    }
+
+    public function AddPayeeTransactions($transactions)
+    {
+        if (!empty($transactions)) {
+            foreach ($transactions as $transaction) {
+                if ($transaction instanceof PayeeTransactionModel) {
+                    $this->AddPayeeTransaction($transaction);
+                }
+            }
+        }
+    }
 }
