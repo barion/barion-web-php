@@ -55,3 +55,16 @@ abstract class UILocale
     const HU = "hu-HU";
     const EN = "en-US";
 }
+
+abstract class Currency
+{
+    const HUF = "HUF";
+    const EUR = "EUR";
+    const USD = "USD";
+
+    public static function isValid($name)
+    {
+        $constants = self::getConstants();
+        return array_key_exists($name, $constants);
+    }
+}
