@@ -24,6 +24,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
     public $Status;
     public $PaymentType;
     public $FundingSource;
+    public $FundingInformation;
     public $AllowedFundingSources;
     public $GuestCheckout;
     public $CreatedAt;
@@ -45,6 +46,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
         $this->Status = "";
         $this->PaymentType = "";
         $this->FundingSource = "";
+        $this->FundingInformation = new FundingInformationModel();
         $this->AllowedFundingSources = "";
         $this->GuestCheckout = "";
         $this->CreatedAt = "";
@@ -67,6 +69,10 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->Status = jget($json, 'Status');
             $this->PaymentType = jget($json, 'PaymentType');
             $this->FundingSource = jget($json, 'FundingSource');
+            if(!empty($json['FundingInformation'])) {
+                $this->FundingInformation = new FundingInformationModel();
+                $this->FundingInformation->fromJson(jget($json, 'FundingInformation'));
+            }
             $this->GuestCheckout = jget($json, 'GuestCheckout');
             $this->CreatedAt = jget($json, 'CreatedAt');
             $this->ValidUntil = jget($json, 'ValidUntil');
