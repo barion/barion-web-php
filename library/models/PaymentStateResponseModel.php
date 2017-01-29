@@ -31,6 +31,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
     public $CompletedAt;
     public $ReservedUntil;
     public $Total;
+    public $Currency;
     public $Transactions;
     public $RecurrenceResult;
 
@@ -51,6 +52,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
         $this->CompletedAt = "";
         $this->ReservedUntil = "";
         $this->Total = 0;
+        $this->Currency = "";
         $this->Transactions = array();
         $this->RecurrenceResult = "";
     }
@@ -71,6 +73,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->CompletedAt = jget($json, 'CompletedAt');
             $this->ReservedUntil = jget($json, 'ReservedUntil');
             $this->Total = jget($json, 'Total');
+            $this->Currency = jget($json, 'Currency');
             $this->AllowedFundingSources = jget($json, 'AllowedFundingSources');
             $this->RecurrenceResult = jget($json, 'RecurrenceResult');
 
