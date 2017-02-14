@@ -13,6 +13,9 @@ All with just a few simple pieces of code!
 
 # Version history
 
+* **1.2.7** February 14.  2017.
+* **1.2.5** November 07.  2016.
+* **1.2.4** May 25.  2016.
 * **1.2.3** January 14.  2016.
 * **1.2.2** January 11.  2016.
 * **1.1.0** November 27. 2015.
