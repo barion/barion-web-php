@@ -21,6 +21,7 @@ class TransactionDetailModel implements iBarionModel
     public $POSTransactionId;
     public $TransactionTime;
     public $Total;
+    public $Currency;
     public $Payer;
     public $Payee;
     public $Comment;
@@ -37,6 +38,7 @@ class TransactionDetailModel implements iBarionModel
         $this->POSTransactionId = "";
         $this->TransactionTime = "";
         $this->Total = 0;
+        $this->Currency = "";
         $this->Payer = new UserModel();
         $this->Payee = new UserModel();
         $this->Comment = "";
@@ -55,6 +57,7 @@ class TransactionDetailModel implements iBarionModel
             $this->POSTransactionId = $json['POSTransactionId'];
             $this->TransactionTime = $json['TransactionTime'];
             $this->Total = $json['Total'];
+            $this->Currency = $json['Currency'];
 
             $this->Payer = new UserModel();
             $this->Payer->fromJson($json['Payer']);
