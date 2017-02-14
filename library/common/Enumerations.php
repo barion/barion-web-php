@@ -25,14 +25,20 @@ abstract class PaymentStatus
     const Prepared = "Prepared";
     // 20
     const Started = "Started";
-    // 30
+    // 21
+    const InProgress = "InProgress";
+    // 25
     const Reserved = "Reserved";
-    // 40
+    // 30
     const Canceled = "Canceled";
-    // 50
+    // 40
     const Succeeded = "Succeeded";
-    // 60
+    // 50
     const Failed = "Failed";
+    // 60
+    const PartiallySucceeded = "PartiallySucceeded";
+    // 70
+    const Expired = "Expired";
 }
 
 abstract class QRCodeSize

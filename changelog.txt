@@ -1,5 +1,16 @@
 Changelog for "barion/barion-web-php"
 ----------------------------------------
+v1.2.7:  2017-02-14
+- MERGE: Added FundingInformation and BankCard to PaymentStateResponse
+- MERGE: Added currency to PaymentStateResponseModel and TransactionDetailModel
+- Added "Expired", "PartiallySucceeded" and "InProgress" payment states to enumeration
+
+v1.2.5:  2016-11-07
+- MERGE: Added currency handling to the start payment request model to handle EUR/USD currencies
+
+v1.2.4:  2016-05-25
+- MERGE: Added parent constructor call to ResponseModels to get the Errors array initialized properly
+
 v1.2.3:  2016-01-14
 - FIX: Extra option for environments with SSL problems
 v1.2.2:  2016-01-11
