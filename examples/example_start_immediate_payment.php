@@ -42,6 +42,7 @@ $psr->FundingSources = array(FundingSourceType::All); // both Barion wallet and 
 $psr->PaymentRequestId = "TESTPAY-01"; // no more than 100 characters
 $psr->PayerHint = "user@example.com"; // no more than 256 characters
 $psr->Locale = UILocale::EN; // the UI language will be English 
+$psr->Currency = Currency::HUF;
 $psr->OrderNumber = "ORDER-0001"; // no more than 100 characters
 $psr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $psr->AddTransaction($trans); // add the transaction to the payment
