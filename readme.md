@@ -105,6 +105,7 @@ $trans = new PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "webshop@example.com";
 $trans->Total = 1000;
+$trans->Currency = "HUF";
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 ```
@@ -120,6 +121,7 @@ $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
 $ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
+$ppr->Currency = "HUF";
 $ppr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
@@ -148,6 +150,7 @@ PreparePaymentRequestModel Object
                     [POSTransactionId] => TRANS-01
                     [Payee] => webshop@example.com
                     [Total] => 1000
+                    [Currency] => HUF
                     [Comment] => Test transaction containing the product
                     [Items] => Array
                         (
@@ -166,6 +169,7 @@ PreparePaymentRequestModel Object
                 )
         )
     [Locale] => en-US
+    [Currency] => HUF
     [OrderNumber] => ORDER-0001
     [ShippingAddress] => 12345 NJ, Example ave. 6.
     [InitiateRecurrence] =>
@@ -401,6 +405,18 @@ PaymentStateResponseModel Object
     [Status] => Succeeded
     [PaymentType] => Immediate
     [FundingSource] => BankCard
+    [FundingInformation] => FundingInformationModel Object
+        (
+            [BankCard] => BankCardModel Object
+                (
+                    [MaskedPan] => 1234
+                    [BankCardType] => MasterCard
+                    [ValidThruYear] => 2019
+                    [ValidThruMonth] => 9
+                )
+
+            [AuthorizationCode] => 123456
+        )
     [AllowedFundingSources] => Array
         (
             [0] => All
@@ -411,6 +427,7 @@ PaymentStateResponseModel Object
     [CompletedAt] => 2015-11-12T10:09:35.525
     [ReservedUntil] =>
     [Total] => 1000
+    [Currency] => HUF
     [Transactions] => Array
         (
             [0] => TransactionDetailModel Object
@@ -419,6 +436,7 @@ PaymentStateResponseModel Object
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2015-11-12T09:47:12.189
                     [Total] => 1000
+                    [Currency] => HUF
                     [Payer] => UserModel Object
                         (
                             [Name] => John Doe
@@ -455,6 +473,7 @@ PaymentStateResponseModel Object
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 50
+                    [Currency] => HUF
                     [Payer] => UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
@@ -481,6 +500,7 @@ PaymentStateResponseModel Object
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 10
+                    [Currency] => HUF
                     [Payer] => UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
@@ -510,7 +530,7 @@ PaymentStateResponseModel Object
 )
 ```
 
-As you can see, the payment status is now **Succeeded**, which means the payment has been completed successfully. The **FundingSource** paramter shows that the payment was completed using a bank card. Also, the **Payer** parameter of the first transaction shows that the payment was completed by the *John Doe (user@example.com)* user account.
+As you can see, the payment status is now **Succeeded**, which means the payment has been completed successfully. The **FundingSource** paramter shows that the payment was completed using a bank card. Information about the bank card is available in the **FundingInformation** property. Also, the **Payer** parameter of the first transaction shows that the payment was completed by the *John Doe (user@example.com)* user account.
 
 # Further examples
 
