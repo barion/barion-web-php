@@ -105,7 +105,7 @@ $trans = new PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "webshop@example.com";
 $trans->Total = 1000;
-$trans->Currency = "HUF";
+$trans->Currency = Currency::HUF;
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 ```
@@ -121,7 +121,7 @@ $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
 $ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
-$ppr->Currency = "HUF";
+$ppr->Currency = Currency::HUF;
 $ppr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
@@ -293,6 +293,7 @@ PaymentStateResponseModel Object
     [CompletedAt] =>
     [ReservedUntil] =>
     [Total] => 1000
+    [Currency] => HUF
     [Transactions] => Array
         (
             [0] => TransactionDetailModel Object
@@ -301,6 +302,7 @@ PaymentStateResponseModel Object
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2015-11-12T09:47:12.189
                     [Total] => 1000
+                    [Currency] => HUF
                     [Payer] => UserModel Object
                         (
                             [Name] =>
@@ -337,6 +339,7 @@ PaymentStateResponseModel Object
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 50
+                    [Currency] => HUF
                     [Payer] => UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
@@ -363,6 +366,7 @@ PaymentStateResponseModel Object
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 10
+                    [Currency] => HUF
                     [Payer] => UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
