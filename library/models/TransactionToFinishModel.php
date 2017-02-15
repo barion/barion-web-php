@@ -51,7 +51,7 @@ class TransactionToFinishModel
         }
     }
     
-    public function AddPayeeTransaction(PayeeTransactionModel $model)
+    public function AddPayeeTransaction(PayeeTransactionToFinishModel $model)
     {
         if ($this->PayeeTransactions == null) {
             $this->PayeeTransactions = array();
@@ -63,7 +63,7 @@ class TransactionToFinishModel
     {
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
-                if ($transaction instanceof PayeeTransactionModel) {
+                if ($transaction instanceof PayeeTransactionToFinishModel) {
                     $this->AddPayeeTransaction($transaction);
                 }
             }
