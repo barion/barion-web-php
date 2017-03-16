@@ -30,13 +30,27 @@ class BaseResponseModel
     {
         if (!empty($json)) {
             $this->RequestSuccessful = true;
-            if (!empty($json['Errors'])) {
+            if (!array_key_exists('Errors', $json) || !empty($json['Errors'])) {
                 $this->RequestSuccessful = false;
             }
-            foreach ($json['Errors'] as $error) {
-                $apiError = new ApiErrorModel();
-                $apiError->fromJson($error);
-                array_push($this->Errors, $apiError);
+
+            if (array_key_exists('Errors', $json)) {
+                foreach ($json['Errors'] as $error) {
+                    $apiError = new ApiErrorModel();
+                    $apiError->fromJson($error);
+                    array_push($this->Errors, $apiError);
+                }
+            } else {
+                $internalError = new ApiErrorModel();
+                $internalError->ErrorCode = "500";
+                if (array_key_exists('ExceptionMessage', $json)) {
+                    $internalError->Title = $json['ExceptionMessage'];
+                    $internalError->Description = $json['ExceptionType'];
+                } else {
+                    $internalError->Title = "Internal Server Error";
+                }
+
+                array_push($this->Errors, $internalError);
             }
         }
     }
