@@ -25,7 +25,7 @@
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
-      "Barion\\": "lib/",
+      "Barion\\": "lib/"
     }
   }
 }
