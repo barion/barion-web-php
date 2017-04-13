@@ -14,12 +14,22 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ * @param $json
+ * @param $propertyName
+ * @return null
  */
 
 /*
 *  Helper functions
 */
 
+/**
+ * Gets the value of the specified property from the json
+ *
+ * @param string $json The json
+ * @param string $propertyName
+ * @return null The value of the property
+ */
 function jget($json, $propertyName)
 {
     return isset($json[$propertyName]) ? $json[$propertyName] : null;

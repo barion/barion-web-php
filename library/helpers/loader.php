@@ -26,6 +26,6 @@ $include_dirs = Array(
 
 foreach ($include_dirs as $dir) {
     foreach (glob($dir . '/*.php') as $file) {
-        include $file;
+        include_once $file;
     }
 }

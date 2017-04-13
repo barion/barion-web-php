@@ -75,7 +75,8 @@ abstract class Currency
 
     public static function isValid($name)
     {
-        $constants = self::getConstants();
+        $class = new ReflectionClass(__CLASS__);
+        $constants = $class->getConstants();
         return array_key_exists($name, $constants);
     }
 }

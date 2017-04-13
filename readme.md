@@ -13,6 +13,7 @@ All with just a few simple pieces of code!
 
 # Version history
 
+* **1.2.8** April 13. 2017
 * **1.2.7** February 14.  2017.
 * **1.2.5** November 07.  2016.
 * **1.2.4** May 25.  2016.
@@ -26,9 +27,9 @@ For details about version changes, please refer to the **changelog.txt** file.
 
 # System requirements
 
-* PHP 5.2 or higher
+* PHP 5.4 or higher
 * cURL module enabled (at least v7.18.1)
-* SSL enabled (systems uisng OpenSSL with the version of 0.9.8f at least)
+* SSL enabled (systems using OpenSSL with the version of 0.9.8f at least)
 
 # Installation
 
@@ -542,4 +543,4 @@ As you can see, the payment status is now **Succeeded**, which means the payment
 
 To view more examples about the usage of the Barion library, refer to the example files found in the examples folder of the repository.
 
-*© 2015 Barion Payment Inc.*
+*© 2017 Barion Payment Inc.*
