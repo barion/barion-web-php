@@ -1,7 +1,11 @@
 Changelog for "barion/barion-web-php"
 ----------------------------------------
+
 v1.3.0: 2017-03-27
 - Added composer support and published the fork on packagist.
+
+v1.2.8:  2017-04-13
+- FIX:  Refunded transactions parsed correctly
 
 v1.2.7:  2017-02-14
 - MERGE: Added FundingInformation and BankCard to PaymentStateResponse

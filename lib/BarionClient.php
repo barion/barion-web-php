@@ -41,7 +41,7 @@ class BarionClient
     /**
      *  Constructor
      *
-     * @param $poskey The secret POSKey of your shop
+     * @param string $poskey The secret POSKey of your shop
      * @param int $version The version of the Barion API
      * @param string $env The environment to connect to
      * @param bool $useBundledRootCerts Set this to true if you're having problem with SSL connection
@@ -163,9 +163,9 @@ class BarionClient
      * If no username and/or password was set, this method returns NULL.
      *
      * @deprecated
-     * @param $username The username of the shop's owner
-     * @param $password The password of the shop's owner
-     * @param $paymentId The Id of the payment
+     * @param string $username The username of the shop's owner
+     * @param string $password The password of the shop's owner
+     * @param string $paymentId The Id of the payment
      * @param string $qrCodeSize The desired size of the QR image
      * @return mixed|string Returns the response of the QR request
      */
@@ -189,8 +189,8 @@ class BarionClient
     /**
      * Managing HTTP POST requests
      *
-     * @param $url The URL of the API endpoint
-     * @param $data The data object to be sent to the endpoint
+     * @param string $url The URL of the API endpoint
+     * @param object $data The data object to be sent to the endpoint
      * @return mixed|string Returns the response of the API
      */
     private function PostToBarion($url, $data)
@@ -233,8 +233,8 @@ class BarionClient
     /**
      * Managing HTTP GET requests
      *
-     * @param $url The URL of the API endpoint
-     * @param $data The data object to be sent to the endpoint
+     * @param string $url The URL of the API endpoint
+     * @param object $data The data object to be sent to the endpoint
      * @return mixed|string Returns the response of the API
      */
     private function GetFromBarion($url, $data)
