@@ -1,4 +1,4 @@
-# BarionPHP
+﻿# BarionPHP
 
 **BarionPHP** is a compact PHP library to manage online e-money and card payments via the *Barion Smart Gateway*.
 It allows you to accept credit card and e-money payments in just a few lines of code.
@@ -27,7 +27,7 @@ For details about version changes, please refer to the **changelog.txt** file.
 
 # System requirements
 
-* PHP 5.4 or higher
+* PHP 5.6 or higher
 * cURL module enabled (at least v7.18.1)
 * SSL enabled (systems using OpenSSL with the version of 0.9.8f at least)
 
