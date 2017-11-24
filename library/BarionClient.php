@@ -196,6 +196,12 @@ class BarionClient
     private function PostToBarion($url, $data)
     {
         $ch = curl_init();
+        
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        if ($userAgent == "") {
+            $cver = curl_version();
+            $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
+        }
 
         $postData = json_encode($data);
 
@@ -203,7 +209,7 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json"));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "User-Agent: $userAgent"));
 
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
@@ -243,9 +249,16 @@ class BarionClient
 
         $getData = http_build_query($data);
         $fullUrl = $url . '?' . $getData;
+        
+        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        if ($userAgent == "") {
+            $cver = curl_version();
+            $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
+        }
 
         curl_setopt($ch, CURLOPT_URL, $fullUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: $userAgent"));
 
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
