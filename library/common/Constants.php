@@ -18,9 +18,9 @@
 
 /* URL constants for Barion API communication */
 
-DEFINE("BARION_API_URL_PROD", "https://api.barion.com/");
+DEFINE("BARION_API_URL_PROD", "https://api.barion.com");
 DEFINE("BARION_WEB_URL_PROD", "https://secure.barion.com/Pay");
-DEFINE("BARION_API_URL_TEST", "https://api.test.barion.com/");
+DEFINE("BARION_API_URL_TEST", "https://api.test.barion.com");
 DEFINE("BARION_WEB_URL_TEST", "https://secure.test.barion.com/Pay");
 
 DEFINE("API_ENDPOINT_PREPAREPAYMENT", "/Payment/Start");
