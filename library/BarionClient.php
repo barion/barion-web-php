@@ -210,6 +210,10 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "User-Agent: $userAgent"));
+        
+        if(substr(phpversion(), 0, 3) < 5.6) {
+            curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+        }
 
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
@@ -259,6 +263,10 @@ class BarionClient
         curl_setopt($ch, CURLOPT_URL, $fullUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: $userAgent"));
+        
+        if(substr(phpversion(), 0, 3) < 5.6) {
+            curl_setopt($ch, CURLOPT_SSLVERSION, 6);
+        }
 
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
