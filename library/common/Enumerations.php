@@ -64,7 +64,7 @@ abstract class UILocale
     const SL = "sl-SI";
     const SK = "sk-SK";
     const FR = "fr-FR";
-    
+    const CZ = "cs-CZ";
 }
 
 abstract class Currency
@@ -72,6 +72,7 @@ abstract class Currency
     const HUF = "HUF";
     const EUR = "EUR";
     const USD = "USD";
+    const CZK = "CZK";
 
     public static function isValid($name)
     {
