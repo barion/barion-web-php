@@ -1,4 +1,7 @@
 # Changelog
+### [v1.3](https://github.com/barion/barion-web-php/releases/tag/v1.3) 2019-03-12
+- ADD: CZK currency and czech locale
+
 ### [v1.2.9](https://github.com/barion/barion-web-php/releases/tag/v1.2.9) 2017-05-16
 - FIX: PaymenStateResponse extended to parse all the available fields
 
