@@ -65,6 +65,7 @@ abstract class UILocale
     const SK = "sk-SK";
     const FR = "fr-FR";
     const CZ = "cs-CZ";
+    const GR = "el-GR";
 }
 
 abstract class Currency
