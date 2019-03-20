@@ -1,4 +1,7 @@
 # Changelog
+### [v1.3.1](https://github.com/barion/barion-web-php/releases/tag/v1.3.1) 2019-03-20
+- ADD: Greek locale support (el-GR)
+
 ### [v1.3](https://github.com/barion/barion-web-php/releases/tag/v1.3) 2019-03-12
 - ADD: CZK currency and czech locale
 
