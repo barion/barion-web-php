@@ -541,6 +541,18 @@ PaymentStateResponseModel Object
 
 As you can see, the payment status is now **Succeeded**, which means the payment has been completed successfully. The **FundingSource** parameter shows that the payment was completed using a bank card. Information about the bank card is available in the **FundingInformation** property. Also, the **Payer** parameter of the first transaction shows that the payment was completed by the *John Doe (user@example.com)* user account.
 
+# Basic troubleshooting
+
+Here are a few common mistakes you might want to double check for before reaching out to our support:
+
+**1. I get a "User authentication failed" error when sending my request**
+- Check if you are sending the correct POSkey to the correct environment, e.g. if you want to call the API in the TEST environment, use the POSkey of the shop that you registered on the TEST website.
+- Check if the sent data is actually a valid JSON string, without any special characters, delimiters, line-breaks or invalid encoding.
+
+**2. I get a "Shop is closed" error message in the TEST environment**
+- Check if your shop is open after logging in to the Barion Test website. Please note that you must fill out every data of your shop and then send it to approval. After this, approval will automatically be completed and your shop will be in Open status. This only applies to the TEST environment.
+
+
 # Further examples
 
 To view more examples about the usage of the Barion library, refer to the example files found in the examples folder of the repository.
