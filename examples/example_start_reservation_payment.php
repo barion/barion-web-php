@@ -44,6 +44,19 @@ $trans->Comment = "Test Transaction"; // no more than 640 characters
 $trans->AddItem($item1); // add the items to the transaction
 $trans->AddItem($item2);
 
+// create the shipping address
+$shippingAddress = new ShippingAddressModel();
+$shippingAddress->DeliveryMethod = "LocalPickup"; // this can be anything up to 50 characters
+$shippingAddress->Country = "HU";
+$shippingAddress->Region = null;
+$shippingAddress->City = "Budapest";
+$shippingAddress->Zip = "1111";
+$shippingAddress->Street = "Teszt utca 1.";
+$shippingAddress->Street2 = "1. emelet 1. ajto";
+$shippingAddress->Street3 = "";
+$shippingAddress->FullName = "Teszt Tamás";
+$shippingAddress->Phone = "36301122334";
+
 // create the request model
 $psr = new PreparePaymentRequestModel();
 $psr->GuestCheckout = true; // we allow guest checkout
@@ -56,7 +69,7 @@ $psr->PayerHint = "user@example.com"; // no more than 256 characters
 $psr->Locale = UILocale::EN; // the UI language will be English 
 $psr->Currency = Currency::HUF;
 $psr->OrderNumber = "ORDER-0002"; // no more than 100 characters
-$psr->ShippingAddress = "12345 NJ, Example ave. 6.";
+$psr->ShippingAddress = $shippingAddress;
 $psr->AddTransaction($trans);  // add the transaction to the payment
 
 // send the request
