@@ -1,4 +1,7 @@
 # Changelog
+### [v1.3.2]  2019-08-05
+- FIX: added shipping address model and fixed shipping address structure in examples
+
 ### [v1.3.1](https://github.com/barion/barion-web-php/releases/tag/v1.3.1) 2019-03-20
 - ADD: Greek locale support (el-GR)
 
