@@ -114,6 +114,46 @@ class BarionClient
         }
         return $rm;
     }
+    
+    /**
+     *
+     * Capture the previously authorized money in a Delayed Capture payment
+     *
+     * @param CaptureRequestModel $model The request model for the capture process
+     * @return CaptureResponseModel Returns the response from the Barion API
+     */
+    public function Capture(CaptureRequestModel $model)
+    {
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_CAPTURE;
+        $response = $this->PostToBarion($url, $model);
+        $captureResponse = new CaptureResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $captureResponse->fromJson($json);
+        }
+        return $captureResponse;
+    }
+
+    /**
+     *
+     * Cancel a pending authorization on a Delayed Capture payment
+     *
+     * @param CancelAuthorizationRequestModel $model The request model for cancelling the authorization
+     * @return CancelAuthorizationResponseModel Returns the response from the Barion API
+     */
+    public function CancelAuthorization(CancelAuthorizationRequestModel $model)
+    {
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_CANCELAUTHORIZATION;
+        $response = $this->PostToBarion($url, $model);
+        $cancelAuthResponse = new CancelAuthorizationResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $cancelAuthResponse->fromJson($json);
+        }
+        return $cancelAuthResponse;
+    }
 
 
     /**

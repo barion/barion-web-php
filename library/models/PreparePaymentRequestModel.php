@@ -19,6 +19,7 @@ class PreparePaymentRequestModel extends BaseRequestModel
 {
     public $PaymentType;
     public $ReservationPeriod;
+    public $DelayedCapturePeriod;
     public $PaymentWindow;
     public $GuestCheckout;
     public $FundingSources;
