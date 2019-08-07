@@ -29,11 +29,18 @@ class PreparePaymentRequestModel extends BaseRequestModel
     public $Locale;
     public $OrderNumber;
     public $ShippingAddress;
+    public $BillingAddress;
     public $InitiateRecurrence;
     public $RecurrenceId;
     public $RedirectUrl;
     public $CallbackUrl;
     public $Currency;
+    public $CardHolderNameHint;
+    public $PayerPhoneNumber;
+    public $PayerWorkPhoneNumber;
+    public $PayerHomePhoneNumber;
+    public $PayerAccountInformation;
+    public $PurchaseInformation;
 
     function __construct($requestId = null, $type = PaymentType::Immediate, $guestCheckoutAllowed = true, $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = "hu-HU", $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, $callbackUrl = null, $currency = Currency::HUF)
     {
