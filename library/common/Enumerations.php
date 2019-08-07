@@ -10,6 +10,7 @@ abstract class PaymentType
 {
     const Immediate = "Immediate";
     const Reservation = "Reservation";
+    const DelayedCapture = "DelayedCapture";
 }
 
 abstract class FundingSourceType
@@ -27,8 +28,12 @@ abstract class PaymentStatus
     const Started = "Started";
     // 21
     const InProgress = "InProgress";
+    // 22
+    const Waiting = "Waiting";
     // 25
     const Reserved = "Reserved";
+    // 26
+    const Authorized = "Authorized";
     // 30
     const Canceled = "Canceled";
     // 40
