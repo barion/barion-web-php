@@ -42,7 +42,6 @@ $trans->AddItem($item); // add the item to the transaction
 
 // create the addresses
 $shippingAddress = new ShippingAddressModel();
-$shippingAddress->DeliveryMethod = "LocalPickup";
 $shippingAddress->Country = "DE";
 $shippingAddress->Region = null;
 $shippingAddress->City = "Berlin";
@@ -50,8 +49,6 @@ $shippingAddress->Zip = "10243";
 $shippingAddress->Street = "Karl-Marx-Allee 93A";
 $shippingAddress->Street2 = "1. ebene";
 $shippingAddress->Street3 = "";
-$shippingAddress->FullName = "John Doe";
-$shippingAddress->Phone = "36301122334";
 
 $billingAddress = new BillingAddressModel();
 $billingAddress->Country = "DE";

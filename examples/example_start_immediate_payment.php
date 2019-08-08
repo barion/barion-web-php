@@ -36,7 +36,6 @@ $trans->AddItem($item); // add the item to the transaction
 
 // create the shipping address
 $shippingAddress = new ShippingAddressModel();
-$shippingAddress->DeliveryMethod = "LocalPickup"; // this can be anything up to 50 characters
 $shippingAddress->Country = "HU";
 $shippingAddress->Region = null;
 $shippingAddress->City = "Budapest";
@@ -44,8 +43,6 @@ $shippingAddress->Zip = "1111";
 $shippingAddress->Street = "Teszt utca 1.";
 $shippingAddress->Street2 = "1. emelet 1. ajto";
 $shippingAddress->Street3 = "";
-$shippingAddress->FullName = "Teszt Tamás";
-$shippingAddress->Phone = "36301122334";
 
 // create the request model
 $psr = new PreparePaymentRequestModel();

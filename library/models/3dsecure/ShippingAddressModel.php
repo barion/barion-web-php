@@ -17,7 +17,6 @@
  */
 class ShippingAddressModel implements iBarionModel
 {
-    public $DeliveryMethod;
     public $Country;
     public $Region;
     public $City;
@@ -25,12 +24,9 @@ class ShippingAddressModel implements iBarionModel
     public $Street;
     public $Street2;
     public $Street3;
-    public $FullName;
-    public $Phone;
 
     function __construct()
     {
-        $this->DeliveryMethod = "";
         $this->Country = "";
         $this->Region = "";
         $this->City = "";
@@ -38,14 +34,11 @@ class ShippingAddressModel implements iBarionModel
         $this->Street = "";
         $this->Street2 = "";
         $this->Street3 = "";
-        $this->FullName = "";
-        $this->Phone = "";
     }
 
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->DeliveryMethod = jget($json, 'DeliveryMethod');
             $this->Country = jget($json, 'Country');
             $this->Region = jget($json, 'Region');
             $this->City = jget($json, 'City');
@@ -53,8 +46,6 @@ class ShippingAddressModel implements iBarionModel
             $this->Street = jget($json, 'Street');
             $this->Street2 = jget($json, 'Street2');
             $this->Street3 = jget($json, 'Street3');
-            $this->FullName = jget($json, 'FullName');
-            $this->Phone = jget($json, 'Phone');
         }
     }
 }
