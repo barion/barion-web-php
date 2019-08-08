@@ -127,7 +127,6 @@ $ppr->PayerHint = "user@example.com";
 $ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
 $ppr->Currency = Currency::HUF;
-$ppr->ShippingAddress = "12345 NJ, Example ave. 6.";
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
@@ -177,7 +176,6 @@ PreparePaymentRequestModel Object
     [Locale] => en-US
     [Currency] => HUF
     [OrderNumber] => ORDER-0001
-    [ShippingAddress] => 12345 NJ, Example ave. 6.
     [InitiateRecurrence] =>
     [RecurrenceId] =>
     [RedirectUrl] => http://webshop.example.com/afterpayment
