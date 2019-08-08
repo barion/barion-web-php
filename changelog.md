@@ -1,4 +1,8 @@
 # Changelog
+### [v1.4.0](https://github.com/barion/barion-web-php/releases/tag/v1.4.0) 2019-08-08
+- ADD: supporting payment properties related to 3D Secure authentication
+- ADD: support for Delayed Capture payment scenarios
+
 ### v1.3.2  2019-08-05
 - FIX: added shipping address model and fixed shipping address structure in examples
 
