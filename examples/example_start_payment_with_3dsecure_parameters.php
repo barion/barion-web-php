@@ -49,6 +49,7 @@ $shippingAddress->Zip = "10243";
 $shippingAddress->Street = "Karl-Marx-Allee 93A";
 $shippingAddress->Street2 = "1. ebene";
 $shippingAddress->Street3 = "";
+$shippingAddress->FullName = "Thomas Testing";
 
 $billingAddress = new BillingAddressModel();
 $billingAddress->Country = "DE";

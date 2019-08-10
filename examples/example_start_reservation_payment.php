@@ -53,6 +53,7 @@ $shippingAddress->Zip = "1111";
 $shippingAddress->Street = "Teszt utca 1.";
 $shippingAddress->Street2 = "1. emelet 1. ajto";
 $shippingAddress->Street3 = "";
+$shippingAddress->FullName = "Teszt Tibor";
 
 // create the request model
 $psr = new PreparePaymentRequestModel();

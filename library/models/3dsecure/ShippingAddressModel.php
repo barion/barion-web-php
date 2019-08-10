@@ -24,6 +24,7 @@ class ShippingAddressModel implements iBarionModel
     public $Street;
     public $Street2;
     public $Street3;
+    public $FullName;
 
     function __construct()
     {
@@ -34,6 +35,7 @@ class ShippingAddressModel implements iBarionModel
         $this->Street = "";
         $this->Street2 = "";
         $this->Street3 = "";
+        $this->FullName = "";
     }
 
     public function fromJson($json)
@@ -46,6 +48,7 @@ class ShippingAddressModel implements iBarionModel
             $this->Street = jget($json, 'Street');
             $this->Street2 = jget($json, 'Street2');
             $this->Street3 = jget($json, 'Street3');
+            $this->FullName = jget($json, 'FullName');
         }
     }
 }
