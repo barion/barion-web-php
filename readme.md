@@ -12,6 +12,7 @@ It allows you to accept credit card and e-money payments in just a few lines of 
 All with just a few simple pieces of code!
 
 # Version history
+* **1.4.1** August 14. 2019.
 * **1.4.0** August 08. 2019.
 * **1.3.2** August 05. 2019.
 * **1.3.1** March 20. 2019.
