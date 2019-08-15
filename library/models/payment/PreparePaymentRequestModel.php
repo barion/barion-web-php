@@ -41,6 +41,8 @@ class PreparePaymentRequestModel extends BaseRequestModel
     public $PayerHomePhoneNumber;
     public $PayerAccountInformation;
     public $PurchaseInformation;
+    public $RecurrenceType;
+    public $ChallengePreference;
 
     function __construct($requestId = null, $type = PaymentType::Immediate, $guestCheckoutAllowed = true, $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = "hu-HU", $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, $callbackUrl = null, $currency = Currency::HUF)
     {

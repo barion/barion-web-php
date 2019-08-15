@@ -190,3 +190,16 @@ abstract class PurchaseType
     const QuasiCashTransaction = "QuasiCashTransaction";
     const PrePaidVacationAndLoan = "PrePaidVacationAndLoan";
 }
+
+abstract class RecurrenceType 
+{
+    const MerchantInitiatedPayment = "MerchantInitiatedPayment";
+    const OneClickPayment = "OneClickPayment";
+}
+
+abstract class ChallengePreference 
+{
+    const NoPreference = "NoPreference";
+    const ChallengeRequired = "ChallengeRequired";
+    const NoChallengeNeeded = "NoChallengeNeeded";
+}

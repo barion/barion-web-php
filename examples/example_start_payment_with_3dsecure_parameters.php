@@ -113,6 +113,7 @@ $psr->PayerWorkPhoneNumber = "36301122334";
 $psr->PayerHomePhoneNumber = "36301122334";
 $psr->PayerAccountInformation = $payerAccountInfo;
 $psr->PurchaseInformation = $purchaseInfo;
+$psr->ChallengePreference = ChallengePreference::NoPreference;
 
 // send the request
 $myPayment = $BC->PreparePayment($psr);
