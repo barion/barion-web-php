@@ -1,4 +1,7 @@
 # Changelog
+### [v1.4.2](https://github.com/barion/barion-web-php/releases/tag/v1.4.2) 2019-08-15
+- ADD: added RecurrenceType and ChallengePreference 3DS properties
+
 ### [v1.4.1](https://github.com/barion/barion-web-php/releases/tag/v1.4.1) 2019-08-14
 - FIX: fixed shipping address model parameters
 - ADD: detailed documentation for different payment scenarios
