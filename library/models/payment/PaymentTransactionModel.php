@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
+use Barion\Models\Common\ItemModel;
+
 class PaymentTransactionModel
 {
     public $POSTransactionId;

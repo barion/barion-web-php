@@ -15,6 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
+use Barion\Helpers\iBarionModel;
+use Barion\Models\Common\FundingInformationModel;
+use Barion\Models\BaseResponseModel;
+
 class PaymentStateResponseModel extends BaseResponseModel implements iBarionModel
 {
     public $PaymentId;
@@ -76,32 +83,32 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->PaymentId = jget($json, 'PaymentId');
-            $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->OrderNumber = jget($json, 'OrderNumber');
-            $this->POSId = jget($json, 'POSId');
-            $this->POSName = jget($json, 'POSName');
-            $this->POSOwnerEmail = jget($json, 'POSOwnerEmail');
-            $this->Status = jget($json, 'Status');
-            $this->PaymentType = jget($json, 'PaymentType');
-            $this->FundingSource = jget($json, 'FundingSource');
+            $this->PaymentId = \Barion\Helpers\jget($json, 'PaymentId');
+            $this->PaymentRequestId = \Barion\Helpers\jget($json, 'PaymentRequestId');
+            $this->OrderNumber = \Barion\Helpers\jget($json, 'OrderNumber');
+            $this->POSId = \Barion\Helpers\jget($json, 'POSId');
+            $this->POSName = \Barion\Helpers\jget($json, 'POSName');
+            $this->POSOwnerEmail = \Barion\Helpers\jget($json, 'POSOwnerEmail');
+            $this->Status = \Barion\Helpers\jget($json, 'Status');
+            $this->PaymentType = \Barion\Helpers\jget($json, 'PaymentType');
+            $this->FundingSource = \Barion\Helpers\jget($json, 'FundingSource');
             if(!empty($json['FundingInformation'])) {
                 $this->FundingInformation = new FundingInformationModel();
-                $this->FundingInformation->fromJson(jget($json, 'FundingInformation'));
+                $this->FundingInformation->fromJson(Barion\Helpers\jget($json, 'FundingInformation'));
             }
-            $this->AllowedFundingSources = jget($json, 'AllowedFundingSources');
-            $this->GuestCheckout = jget($json, 'GuestCheckout');
-            $this->CreatedAt = jget($json, 'CreatedAt');
-            $this->ValidUntil = jget($json, 'ValidUntil');
-            $this->CompletedAt = jget($json, 'CompletedAt');
-            $this->ReservedUntil = jget($json, 'ReservedUntil');
-            $this->Total = jget($json, 'Total');
-            $this->Currency = jget($json, 'Currency');
-            $this->RecurrenceResult = jget($json, 'RecurrenceResult');
-            $this->SuggestedLocale = jget($json, 'SuggestedLocale');
-            $this->FraudRiskScore = jget($json, 'FraudRiskScore');
-            $this->RedirectUrl = jget($json, 'RedirectUrl');
-            $this->CallbackUrl = jget($json, 'CallbackUrl');
+            $this->AllowedFundingSources = \Barion\Helpers\jget($json, 'AllowedFundingSources');
+            $this->GuestCheckout = \Barion\Helpers\jget($json, 'GuestCheckout');
+            $this->CreatedAt = \Barion\Helpers\jget($json, 'CreatedAt');
+            $this->ValidUntil = \Barion\Helpers\jget($json, 'ValidUntil');
+            $this->CompletedAt = \Barion\Helpers\jget($json, 'CompletedAt');
+            $this->ReservedUntil = \Barion\Helpers\jget($json, 'ReservedUntil');
+            $this->Total = \Barion\Helpers\jget($json, 'Total');
+            $this->Currency = \Barion\Helpers\jget($json, 'Currency');
+            $this->RecurrenceResult = \Barion\Helpers\jget($json, 'RecurrenceResult');
+            $this->SuggestedLocale = \Barion\Helpers\jget($json, 'SuggestedLocale');
+            $this->FraudRiskScore = \Barion\Helpers\jget($json, 'FraudRiskScore');
+            $this->RedirectUrl = \Barion\Helpers\jget($json, 'RedirectUrl');
+            $this->CallbackUrl = \Barion\Helpers\jget($json, 'CallbackUrl');
 
             $this->Transactions = array();
 

@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Refund;
+
+use Barion\Helpers\iBarionModel;
+
 class RefundedTransactionModel implements iBarionModel {
 
     public $TransactionId;

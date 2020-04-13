@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Secure3d;
+
+use Barion\Helpers\iBarionModel;
+
 class PurchaseInformationModel implements iBarionModel
 {
     public $DeliveryTimeframe;
@@ -45,16 +50,16 @@ class PurchaseInformationModel implements iBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->DeliveryTimeframe = jget($json, 'DeliveryTimeframe');
-            $this->DeliveryEmailAddress = jget($json, 'DeliveryEmailAddress');
-            $this->PreOrderDate = jget($json, 'PreOrderDate');
-            $this->AvailabilityIndicator = jget($json, 'AvailabilityIndicator');
-            $this->ReOrderIndicator = jget($json, 'ReOrderIndicator');
-            $this->RecurringExpiry = jget($json, 'RecurringExpiry');
-            $this->RecurringFrequency = jget($json, 'RecurringFrequency');
-            $this->ShippingAddressIndicator = jget($json, 'ShippingAddressIndicator');
-            $this->GiftCardPurchase = jget($json, 'GiftCardPurchase');
-            $this->PurchaseType = jget($json, 'PurchaseType');
+            $this->DeliveryTimeframe = \Barion\Helpers\jget($json, 'DeliveryTimeframe');
+            $this->DeliveryEmailAddress = \Barion\Helpers\jget($json, 'DeliveryEmailAddress');
+            $this->PreOrderDate = \Barion\Helpers\jget($json, 'PreOrderDate');
+            $this->AvailabilityIndicator = \Barion\Helpers\jget($json, 'AvailabilityIndicator');
+            $this->ReOrderIndicator = \Barion\Helpers\jget($json, 'ReOrderIndicator');
+            $this->RecurringExpiry = \Barion\Helpers\jget($json, 'RecurringExpiry');
+            $this->RecurringFrequency = \Barion\Helpers\jget($json, 'RecurringFrequency');
+            $this->ShippingAddressIndicator = \Barion\Helpers\jget($json, 'ShippingAddressIndicator');
+            $this->GiftCardPurchase = \Barion\Helpers\jget($json, 'GiftCardPurchase');
+            $this->PurchaseType = \Barion\Helpers\jget($json, 'PurchaseType');
         }
     }
 }

@@ -19,6 +19,8 @@
  * @return null
  */
 
+namespace Barion\Helpers;
+
 /*
 *  Helper functions
 */

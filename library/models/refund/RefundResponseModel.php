@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace Barion\Models\Refund;
+
+use Barion\Helpers\iBarionModel;
+use Barion\Models\BaseResponseModel;
+
 class RefundResponseModel extends BaseResponseModel implements iBarionModel
 {
     public $PaymentId;
@@ -32,7 +37,7 @@ class RefundResponseModel extends BaseResponseModel implements iBarionModel
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->PaymentId = jget($json, 'PaymentId');
+            $this->PaymentId = \Barion\Helpers\jget($json, 'PaymentId');
             $this->RefundedTransactions = array();
 
             if (!empty($json['RefundedTransactions'])) {

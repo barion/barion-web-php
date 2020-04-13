@@ -15,6 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
+use Barion\Common\QRCodeSize;
+use Barion\Models\BaseRequestModel;
+
 class PaymentQRRequestModel extends BaseRequestModel
 {
     public $UserName;

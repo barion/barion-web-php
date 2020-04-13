@@ -1,4 +1,7 @@
 # Changelog
+### v1.4.3 2020-04-14
+- Added composer support and published the fork on packagist.
+
 ### [v1.4.2](https://github.com/barion/barion-web-php/releases/tag/v1.4.2) 2019-08-15
 - ADD: added RecurrenceType and ChallengePreference 3DS properties
 

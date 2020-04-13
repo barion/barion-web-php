@@ -1,0 +1,28 @@
+{
+  "name": "barion/barion-web-php",
+  "description": "Barion PHP library",
+  "keywords": [
+    "barion",
+    "payment processing",
+    "api"
+  ],
+  "homepage": "https://www.barion.com",
+  "authors": [
+    {
+      "name": "Barion and contributors",
+      "homepage": "https://github.com/barion/barion-web-php"
+    }
+  ],
+  "type": "library",
+  "require": {
+    "ext-curl": "*",
+    "php": ">=5.6"
+  },
+  "license": "Apache-2.0",
+  "minimum-stability": "dev",
+  "autoload": {
+    "psr-4": {
+      "Barion\\": "library/"
+    }
+  }
+}

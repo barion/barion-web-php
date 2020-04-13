@@ -15,6 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
+use Barion\Common\PaymentType;
+use Barion\Common\FundingSourceType;
+use Barion\Models\BaseRequestModel;
+
 class PreparePaymentRequestModel extends BaseRequestModel
 {
     public $PaymentType;

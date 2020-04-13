@@ -6,10 +6,10 @@ Here we are going to start a reservation payment, where the user pays for two pr
 
 To start an online payment, you have to create one or more **Payment Transaction** objects, add transaction **Items** to them, then group these transactions together in a **Payment** object.
 
-First, create the two **ItemModel** instances:
+First, create the two **Barion\Models\Common\ItemModel** instances:
 
 ```php
-$item1 = new ItemModel();
+$item1 = new Barion\Models\Common\ItemModel();
 $item1->Name = "BestPresso Coffee Machine";
 $item1->Description = "BPC2303 coffee machine, 1-year warranty";
 $item1->Quantity = 1;
@@ -18,7 +18,7 @@ $item1->UnitPrice = 499.95;
 $item1->ItemTotal = 499.95;
 $item1->SKU = "BPC2303";
 
-$item2 = new ItemModel();
+$item2 = new Barion\Models\Common\ItemModel();
 $item2->Name = "BestPresso XL Coffee Machine";
 $item2->Description = "BPC4000 XL professional coffee machine, 3-year warranty";
 $item2->Quantity = 1;
@@ -28,32 +28,32 @@ $item2->ItemTotal = 1199.95;
 $item2->SKU = "BPC4000";
 ```
 
-Then create a **PaymentTransactionModel** and add the two **ItemModel** instances mentioned above to it:
+Then create a **Barion\Models\Payment\PaymentTransactionModel** and add the two **Barion\Models\Common\ItemModel** instances mentioned above to it:
 
 ```php
-$trans = new PaymentTransactionModel();
+$trans = new Barion\Models\Payment\PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "barionaccount@demo-merchant.shop";
 $trans->Total = 1699.9;
-$trans->Currency = Currency::EUR;
+$trans->Currency = Barion\Common\Currency::EUR;
 $trans->Comment = "Test transaction containing the products";
 $trans->AddItem($item1);
 $trans->AddItem($item2);
 ```
 
-Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactionModel** mentioned above to it:
+Finally, create a **Barion\Models\Payment\PreparePaymentRequestModel** and add the **Barion\Models\Payment\PaymentTransactionModel** mentioned above to it:
 
 ```php
-$ppr = new PreparePaymentRequestModel();
+$ppr = new Barion\Models\Payment\PreparePaymentRequestModel();
 $ppr->GuestCheckout = true;
-$ppr->PaymentType = PaymentType::Reservation;
+$ppr->PaymentType = Barion\Common\PaymentType::Reservation;
 $ppr->ReservationPeriod = "7.00:00:00";
-$ppr->FundingSources = array(FundingSourceType::All);
+$ppr->FundingSources = array(Barion\Common\FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
-$ppr->Locale = UILocale::EN;
+$ppr->Locale = Barion\Common\UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
-$ppr->Currency = Currency::EUR;
+$ppr->Currency = Barion\Common\Currency::EUR;
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
@@ -62,7 +62,7 @@ $ppr->AddTransaction($trans);
 At this point, the complete request object looks like this:
 
 ```
-PreparePaymentRequestModel Object
+\Barion\Models\Payment\PreparePaymentRequestModel Object
 (
     [PaymentType] => Reservation
     [ReservationPeriod] => 7.00:00:00
@@ -78,7 +78,7 @@ PreparePaymentRequestModel Object
     [PayerHint] => user@example.com
     [Transactions] => Array
         (
-            [0] => PaymentTransactionModel Object
+            [0] => \Barion\Models\Payment\PaymentTransactionModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [Payee] => barionaccount@demo-merchant.shop
@@ -86,7 +86,7 @@ PreparePaymentRequestModel Object
                     [Comment] => Test transaction containing the products
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso Coffee Machine
                                     [Description] => BPC2303 coffee machine, 1-year warranty
@@ -97,7 +97,7 @@ PreparePaymentRequestModel Object
                                     [SKU] => BPC2303
                                 )
 
-                            [1] => ItemModel Object
+                            [1] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso XL Coffee Machine
                                     [Description] => BPC4000 XL professional coffee machine, 3-year warranty
@@ -150,17 +150,17 @@ $myPayment = $BC->PreparePayment($ppr);
 
 The Barion API now prepares a payment entity that can be paid by anyone.
 
-The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **PreparePaymentResponseModel** object. It should look something like this:
+The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PreparePaymentResponseModel** object. It should look something like this:
 
 ```
-PreparePaymentResponseModel Object
+\Barion\Models\Payment\PreparePaymentResponseModel Object
 (
     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
     [PaymentRequestId] => PAYMENT-01
     [Status] => Prepared
     [Transactions] => Array
         (
-            [0] => TransactionResponseModel Object
+            [0] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [TransactionId] => 2831dcca202948e1954b91b90a24ca9c
@@ -169,7 +169,7 @@ PreparePaymentResponseModel Object
                     [RelatedId] => 
                 )
 
-            [1] => TransactionResponseModel Object
+            [1] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => 
                     [TransactionId] => 811a6034dadf452db5233b8138b6dd58
@@ -227,10 +227,10 @@ To request payment details, we call the **GetPaymentState** method of the Barion
 $paymentDetails = $BC->GetPaymentState("64157032-d3dc-4296-aeda-fd4b0994c64e");
 ```
 
-The **$paymentDetails** variable holds the response received from the Barion API, which is an instance of a **PaymentStateResponseModel** object. It should look something like this:
+The **$paymentDetails** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PaymentStateResponseModel** object. It should look something like this:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
     [PaymentRequestId] => PAYMENT-01
@@ -241,9 +241,9 @@ PaymentStateResponseModel Object
     [Status] => Prepared
     [PaymentType] => Reservation
     [FundingSource] => 
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 
                     [BankCardType] => 
@@ -268,20 +268,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 2831dcca202948e1954b91b90a24ca9c
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T04:38:57.739Z
                     [Total] => 1699.9
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -292,7 +292,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => Unspecified
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso Coffee Machine
                                     [Description] => BPC2303 coffee machine, 1-year warranty
@@ -303,7 +303,7 @@ PaymentStateResponseModel Object
                                     [SKU] => BPC2303
                                 )
 
-                            [1] => ItemModel Object
+                            [1] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso XL Coffee Machine
                                     [Description] => BPC4000 XL professional coffee machine, 3-year warranty
@@ -321,20 +321,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
                 )
 
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 811a6034dadf452db5233b8138b6dd58
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T04:38:57.759Z
                     [Total] => 17
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
@@ -371,7 +371,7 @@ The payment is in **Prepared** status, which means it is still waiting to be pai
 If we wait until the user completes the payment, and send the request again, we should get a slightly different result with more information:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
     [PaymentRequestId] => PAYMENT-01
@@ -382,9 +382,9 @@ PaymentStateResponseModel Object
     [Status] => Reserved
     [PaymentType] => Reservation
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 5559
                     [BankCardType] => Visa
@@ -409,20 +409,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 2831dcca202948e1954b91b90a24ca9c
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T04:38:57.739Z
                     [Total] => 1699.9
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -433,7 +433,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso Coffee Machine
                                     [Description] => BPC2303 coffee machine, 1-year warranty
@@ -444,7 +444,7 @@ PaymentStateResponseModel Object
                                     [SKU] => BPC2303
                                 )
 
-                            [1] => ItemModel Object
+                            [1] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso XL Coffee Machine
                                     [Description] => BPC4000 XL professional coffee machine, 3-year warranty
@@ -462,20 +462,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
                 )
 
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 811a6034dadf452db5233b8138b6dd58
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T04:38:57.759Z
                     [Total] => 17
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
@@ -512,10 +512,10 @@ As you can see, the payment status is now **Reserved**, which means the customer
 At this point, the webshop has one week to finish the reservation, as it was previously indicated in the **ReservationPeriod** parameter when the payment was started.
 
 Unfortunately, one of the ordered products turn out to be out of stock and is no longer available. The customer settles with not cancelling the order, just paying only for the other one.
-The shop can now finish the reservation by constructing the appropriate **FinishReservationRequestModel** instance:
+The shop can now finish the reservation by constructing the appropriate **Barion\Models\Payment\FinishReservationRequestModel** instance:
 
 ```php
-$item1 = new ItemModel();
+$item1 = new Barion\Models\Common\ItemModel();
 $item1->Name = "BestPresso Coffee Machine";
 $item1->Description = "BPC2303 coffee machine, 1-year warranty";
 $item1->Quantity = 1;
@@ -524,7 +524,7 @@ $item1->UnitPrice = 499.95;
 $item1->ItemTotal = 499.95;
 $item1->SKU = "BPC2303";
 
-$item2 = new ItemModel();
+$item2 = new Barion\Models\Common\ItemModel();
 $item2->Name = "[PRODUCT UNAVAILABLE] BestPresso XL Coffee Machine";
 $item2->Description = "[PRODUCT UNAVAILABLE] BPC4000 XL professional coffee machine, 3-year warranty";
 $item2->Quantity = 0;
@@ -533,26 +533,26 @@ $item2->UnitPrice = 0;
 $item2->ItemTotal = 0;
 $item2->SKU = "BPC4000";
 
-$trans = new TransactionToFinishModel();
+$trans = new Barion\Models\Payment\TransactionToFinishModel();
 $trans->TransactionId = $paymentDetails->Transactions[0]->TransactionId;
 $trans->Total = 499.95;
 $trans->Comment = "Test transaction containing the products";
 $trans->AddItem($item1);
 $trans->AddItem($item2);
 
-$frrm = new FinishReservationRequestModel($paymentDetails->PaymentId);
+$frrm = new Barion\Models\Payment\FinishReservationRequestModel($paymentDetails->PaymentId);
 $frrm->AddTransaction($trans);
 ```
 
 The full request for finishing the reservation now looks like this:
 
 ```
-FinishReservationRequestModel Object
+\Barion\Models\Payment\FinishReservationRequestModel Object
 (
     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
     [Transactions] => Array
         (
-            [0] => TransactionToFinishModel Object
+            [0] => \Barion\Models\Payment\TransactionToFinishModel Object
                 (
                     [TransactionId] => 2831dcca202948e1954b91b90a24ca9c
                     [Total] => 499.95
@@ -562,7 +562,7 @@ FinishReservationRequestModel Object
 
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso Coffee Machine
                                     [Description] => BPC2303 coffee machine, 1-year warranty
@@ -573,7 +573,7 @@ FinishReservationRequestModel Object
                                     [SKU] => BPC2303
                                 )
 
-                            [1] => ItemModel Object
+                            [1] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => [PRODUCT UNAVAILABLE] BestPresso XL Coffee Machine
                                     [Description] => [PRODUCT UNAVAILABLE] BPC4000 XL professional coffee machine, 3-year warranty
@@ -597,7 +597,7 @@ FinishReservationRequestModel Object
 
 Take note of the adjusted **Total** value for the payment, and the indicated unavailability for the second product.
 
-Now the shop can send the request using the **BarionClient**:
+Now the shop can send the request using the **Barion\BarionClient**:
 
 ```php
 $finishReservationResult = $BC->FinishReservation($frrm);
@@ -606,7 +606,7 @@ $finishReservationResult = $BC->FinishReservation($frrm);
 When sending the request, the following response arrives:
 
 ```
-FinishReservationResponseModel Object
+\Barion\Models\Payment\FinishReservationResponseModel Object
 (
     [IsSuccessful] => 1
     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
@@ -614,7 +614,7 @@ FinishReservationResponseModel Object
     [Status] => Succeeded
     [Transactions] => Array
         (
-            [0] => TransactionResponseModel Object
+            [0] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [TransactionId] => 2831dcca202948e1954b91b90a24ca9c
@@ -623,7 +623,7 @@ FinishReservationResponseModel Object
                     [RelatedId] => 
                 )
 
-            [1] => TransactionResponseModel Object
+            [1] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => 
                     [TransactionId] => 811a6034dadf452db5233b8138b6dd58
@@ -632,7 +632,7 @@ FinishReservationResponseModel Object
                     [RelatedId] => 
                 )
 
-            [2] => TransactionResponseModel Object
+            [2] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => 
                     [TransactionId] => b949dc817f5a4f31bfd7d012de7dab8e
@@ -656,7 +656,7 @@ This shows that everything went okay, the request was successful. The reservatio
 If the webshop requests the payment details once more, you can see the completed state:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
     [PaymentRequestId] => PAYMENT-01
@@ -667,9 +667,9 @@ PaymentStateResponseModel Object
     [Status] => Succeeded
     [PaymentType] => Reservation
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 5559
                     [BankCardType] => Visa
@@ -694,20 +694,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 2831dcca202948e1954b91b90a24ca9c
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T04:38:57.739Z
                     [Total] => 1699.9
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -718,7 +718,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso Coffee Machine
                                     [Description] => BPC2303 coffee machine, 1-year warranty
@@ -729,7 +729,7 @@ PaymentStateResponseModel Object
                                     [SKU] => BPC2303
                                 )
 
-                            [1] => ItemModel Object
+                            [1] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => [PRODUCT UNAVAILABLE] BestPresso XL Coffee Machine
                                     [Description] => [PRODUCT UNAVAILABLE] BPC4000 XL professional coffee machine, 3-year warranty
@@ -747,20 +747,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
                 )
 
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 811a6034dadf452db5233b8138b6dd58
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T04:38:57.759Z
                     [Total] => 17
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
@@ -778,20 +778,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => d1d1c3eebab04c56b3c3b30c70f2d278
                 )
 
-            [2] => TransactionDetailModel Object
+            [2] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => b949dc817f5a4f31bfd7d012de7dab8e
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T04:53:25.596Z
                     [Total] => 1199.95
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
