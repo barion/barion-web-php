@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+namespace Barion\Models\Refund;
+
+use Barion\Models\BaseRequestModel;
+use Barion\Models\Payment\TransactionToRefundModel;
+
 class RefundRequestModel extends BaseRequestModel
 {
     public $PaymentId;

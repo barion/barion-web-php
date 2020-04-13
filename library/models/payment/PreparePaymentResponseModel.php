@@ -15,6 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
+use Barion\Helpers\iBarionModel;
+use Barion\Models\BaseResponseModel;
+
 class PreparePaymentResponseModel extends BaseResponseModel implements iBarionModel
 {
     public $PaymentId;
@@ -41,11 +47,11 @@ class PreparePaymentResponseModel extends BaseResponseModel implements iBarionMo
     {
         if (!empty($json)) {
             parent::fromJson($json);
-            $this->PaymentId = jget($json, 'PaymentId');
-            $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = jget($json, 'Status');
-            $this->QRUrl = jget($json, 'QRUrl');
-            $this->RecurrenceResult = jget($json, 'RecurrenceResult');
+            $this->PaymentId = \Barion\Helpers\jget($json, 'PaymentId');
+            $this->PaymentRequestId = \Barion\Helpers\jget($json, 'PaymentRequestId');
+            $this->Status = \Barion\Helpers\jget($json, 'Status');
+            $this->QRUrl = \Barion\Helpers\jget($json, 'QRUrl');
+            $this->RecurrenceResult = \Barion\Helpers\jget($json, 'RecurrenceResult');
             $this->Transactions = array();
 
             if (!empty($json['Transactions'])) {

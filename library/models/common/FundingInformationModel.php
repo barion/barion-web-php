@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Common;
+
+use Barion\Helpers\iBarionModel;
+
 class FundingInformationModel implements iBarionModel
 {
     public $BankCard;
@@ -30,8 +35,8 @@ class FundingInformationModel implements iBarionModel
     {
         if (!empty($json)) {
             $this->BankCard = new BankCardModel();
-            $this->BankCard->fromJson(jget($json, 'BankCard'));
-            $this->AuthorizationCode = jget($json, 'AuthorizationCode');
+            $this->BankCard->fromJson(\Barion\Helpers\jget($json, 'BankCard'));
+            $this->AuthorizationCode = \Barion\Helpers\jget($json, 'AuthorizationCode');
         }
     }
 }

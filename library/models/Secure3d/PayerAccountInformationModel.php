@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Secure3d;
+
+use Barion\Helpers\iBarionModel;
+
 class PayerAccountInformationModel implements iBarionModel
 {
     public $AccountId;
@@ -57,22 +62,22 @@ class PayerAccountInformationModel implements iBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->AccountId = jget($json, 'AccountId');
-            $this->AccountCreated = jget($json, 'AccountCreated');
-            $this->AccountCreationIndicator = jget($json, 'AccountCreationIndicator');
-            $this->AccountLastChanged = jget($json, 'AccountLastChanged');
-            $this->AccountChangeIndicator = jget($json, 'AccountChangeIndicator');
-            $this->PasswordLastChanged = jget($json, 'PasswordLastChanged');
-            $this->PasswordChangeIndicator = jget($json, 'PasswordChangeIndicator');
-            $this->PurchasesInTheLastSixMonths = jget($json, 'PurchasesInTheLastSixMonths');
-            $this->ShippingAddressAdded = jget($json, 'ShippingAddressAdded');
-            $this->ShippingAddressUsageIndicator = jget($json, 'ShippingAddressUsageIndicator');
-            $this->PaymentMethodAdded = jget($json, 'PaymentMethodAdded');
-            $this->PaymentMethodIndicator = jget($json, 'PaymentMethodIndicator');
-            $this->ProvisionAttempts = jget($json, 'ProvisionAttempts');
-            $this->TransactionalActivityPerDay = jget($json, 'TransactionalActivityPerDay');
-            $this->TransactionalActivityPerYear = jget($json, 'TransactionalActivityPerYear');
-            $this->SuspiciousActivityIndicator = jget($json, 'SuspiciousActivityIndicator');
+            $this->AccountId = \Barion\Helpers\jget($json, 'AccountId');
+            $this->AccountCreated = \Barion\Helpers\jget($json, 'AccountCreated');
+            $this->AccountCreationIndicator = \Barion\Helpers\jget($json, 'AccountCreationIndicator');
+            $this->AccountLastChanged = \Barion\Helpers\jget($json, 'AccountLastChanged');
+            $this->AccountChangeIndicator = \Barion\Helpers\jget($json, 'AccountChangeIndicator');
+            $this->PasswordLastChanged = \Barion\Helpers\jget($json, 'PasswordLastChanged');
+            $this->PasswordChangeIndicator = \Barion\Helpers\jget($json, 'PasswordChangeIndicator');
+            $this->PurchasesInTheLastSixMonths = \Barion\Helpers\jget($json, 'PurchasesInTheLastSixMonths');
+            $this->ShippingAddressAdded = \Barion\Helpers\jget($json, 'ShippingAddressAdded');
+            $this->ShippingAddressUsageIndicator = \Barion\Helpers\jget($json, 'ShippingAddressUsageIndicator');
+            $this->PaymentMethodAdded = \Barion\Helpers\jget($json, 'PaymentMethodAdded');
+            $this->PaymentMethodIndicator = \Barion\Helpers\jget($json, 'PaymentMethodIndicator');
+            $this->ProvisionAttempts = \Barion\Helpers\jget($json, 'ProvisionAttempts');
+            $this->TransactionalActivityPerDay = \Barion\Helpers\jget($json, 'TransactionalActivityPerDay');
+            $this->TransactionalActivityPerYear = \Barion\Helpers\jget($json, 'TransactionalActivityPerYear');
+            $this->SuspiciousActivityIndicator = \Barion\Helpers\jget($json, 'SuspiciousActivityIndicator');
         }
     }
 }

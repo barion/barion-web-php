@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Common;
+
+use Barion\Helpers\iBarionModel;
+
 class BankCardModel implements iBarionModel
 {
     public $MaskedPan;
@@ -33,10 +38,10 @@ class BankCardModel implements iBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->MaskedPan = jget($json, 'MaskedPan');
-            $this->BankCardType = jget($json, 'BankCardType');
-            $this->ValidThruYear = jget($json, 'ValidThruYear');
-            $this->ValidThruMonth = jget($json, 'ValidThruMonth');
+            $this->MaskedPan = \Barion\Helpers\jget($json, 'MaskedPan');
+            $this->BankCardType = \Barion\Helpers\jget($json, 'BankCardType');
+            $this->ValidThruYear = \Barion\Helpers\jget($json, 'ValidThruYear');
+            $this->ValidThruMonth = \Barion\Helpers\jget($json, 'ValidThruMonth');
         }
     }
 }

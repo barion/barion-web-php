@@ -15,6 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
+use Barion\Helpers\iBarionModel;
+use Barion\Models\BaseResponseModel;
+
 class CancelAuthorizationResponseModel extends BaseResponseModel implements iBarionModel
 {
     public $IsSuccessful;
@@ -38,10 +44,10 @@ class CancelAuthorizationResponseModel extends BaseResponseModel implements iBar
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->IsSuccessful = jget($json, 'IsSuccessful');
-            $this->PaymentId = jget($json, 'PaymentId');
-            $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = jget($json, 'Status');
+            $this->IsSuccessful = \Barion\Helpers\jget($json, 'IsSuccessful');
+            $this->PaymentId = \Barion\Helpers\jget($json, 'PaymentId');
+            $this->PaymentRequestId = \Barion\Helpers\jget($json, 'PaymentRequestId');
+            $this->Status = \Barion\Helpers\jget($json, 'Status');
 
             $this->Transactions = array();
 

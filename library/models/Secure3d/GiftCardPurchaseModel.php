@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Secure3d;
+
+use Barion\Helpers\iBarionModel;
+
 class GiftCardPurchaseModel implements iBarionModel
 {
     public $Amount;
@@ -29,8 +34,8 @@ class GiftCardPurchaseModel implements iBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->Amount = jget($json, 'Amount');
-            $this->Count = jget($json, 'Count');
+            $this->Amount = \Barion\Helpers\jget($json, 'Amount');
+            $this->Count = \Barion\Helpers\jget($json, 'Count');
         }
     }
 }

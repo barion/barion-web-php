@@ -15,6 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Common;
+
+use Barion\Helpers\iBarionModel;
+
 class ItemModel implements iBarionModel
 {
     public $Name;
@@ -39,13 +44,13 @@ class ItemModel implements iBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->Name = jget($json, 'Name');
-            $this->Description = jget($json, 'Description');
-            $this->Quantity = jget($json, 'Quantity');
-            $this->Unit = jget($json, 'Unit');
-            $this->UnitPrice = jget($json, 'UnitPrice');
-            $this->ItemTotal = jget($json, 'ItemTotal');
-            $this->SKU = jget($json, 'SKU');
+            $this->Name = \Barion\Helpers\jget($json, 'Name');
+            $this->Description = \Barion\Helpers\jget($json, 'Description');
+            $this->Quantity = \Barion\Helpers\jget($json, 'Quantity');
+            $this->Unit = \Barion\Helpers\jget($json, 'Unit');
+            $this->UnitPrice = \Barion\Helpers\jget($json, 'UnitPrice');
+            $this->ItemTotal = \Barion\Helpers\jget($json, 'ItemTotal');
+            $this->SKU = \Barion\Helpers\jget($json, 'SKU');
         }
     }
 }

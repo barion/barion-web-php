@@ -17,15 +17,32 @@
  */
 
 /*
-*  
 *  BarionClient.php
-*  PHP library for implementing REST API calls towards the Barion payment system.  
-*  
+*  PHP library for implementing REST API calls towards the Barion payment system.
 */
 
-include 'helpers' . DIRECTORY_SEPARATOR . 'loader.php';
+namespace Barion;
 
-class BarionClient
+use Barion\Common\BarionConstants;
+use Barion\Common\BarionEnvironment;
+use Barion\Common\QRCodeSize;
+use Barion\Models\BaseResponseModel;
+use Barion\Models\Payment\CancelAuthorizationRequestModel;
+use Barion\Models\Payment\CancelAuthorizationResponseModel;
+use Barion\Models\Payment\CaptureRequestModel;
+use Barion\Models\Payment\CaptureResponseModel;
+use Barion\Models\Payment\PreparePaymentRequestModel;
+use Barion\Models\Payment\PreparePaymentResponseModel;
+use Barion\Models\Payment\FinishReservationRequestModel;
+use Barion\Models\Payment\FinishReservationResponseModel;
+use Barion\Models\Refund\RefundRequestModel;
+use Barion\Models\Refund\RefundResponseModel;
+use Barion\Models\Payment\PaymentStateRequestModel;
+use Barion\Models\Payment\PaymentStateResponseModel;
+use Barion\Models\Payment\PaymentQRRequestModel;
+use Barion\Models\ApiErrorModel;
+
+class BarionClient implements BarionClientInterface
 {
     private $Environment;
 
@@ -56,14 +73,14 @@ class BarionClient
         switch ($env) {
 
             case BarionEnvironment::Test:
-                $this->BARION_API_URL = BARION_API_URL_TEST;
-                $this->BARION_WEB_URL = BARION_WEB_URL_TEST;
+                $this->BARION_API_URL = BarionConstants::BARION_API_URL_TEST;
+                $this->BARION_WEB_URL = BarionConstants::BARION_WEB_URL_TEST;
                 break;
 
             case BarionEnvironment::Prod:
             default:
-                $this->BARION_API_URL = BARION_API_URL_PROD;
-                $this->BARION_WEB_URL = BARION_WEB_URL_PROD;
+                $this->BARION_API_URL = BarionConstants::BARION_API_URL_PROD;
+                $this->BARION_WEB_URL = BarionConstants::BARION_WEB_URL_PROD;
                 break;
         }
 
@@ -71,18 +88,19 @@ class BarionClient
     }
 
     /* -------- BARION API CALL IMPLEMENTATIONS -------- */
-
-
     /**
      * Prepare a new payment
      *
-     * @param PreparePaymentRequestModel $model The request model for payment preparation
-     * @return PreparePaymentResponseModel Returns the response from the Barion API
+     * @param \Barion\Models\Payment\PreparePaymentRequestModel $model
+     *   The request model for payment preparation
+     *
+     * @return \Barion\Models\Payment\PreparePaymentResponseModel
+     *   Returns the response from the Barion API/
      */
     public function PreparePayment(PreparePaymentRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_PREPAREPAYMENT;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionConstants::API_ENDPOINT_PREPAREPAYMENT;
         $response = $this->PostToBarion($url, $model);
         $rm = new PreparePaymentResponseModel();
         if (!empty($response)) {
@@ -96,16 +114,18 @@ class BarionClient
     }
 
     /**
-     *
      * Finish an existing reservation
      *
-     * @param FinishReservationRequestModel $model The request model for the finish process
-     * @return FinishReservationResponseModel Returns the response from the Barion API
+     * @param \Barion\Models\Payment\FinishReservationRequestModel $model
+     *   The request model for the finish process
+     *
+     * @return \Barion\Models\Payment\FinishReservationResponseModel
+     *   Returns the response from the Barion API
      */
     public function FinishReservation(FinishReservationRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_FINISHRESERVATION;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionConstants::API_ENDPOINT_FINISHRESERVATION;
         $response = $this->PostToBarion($url, $model);
         $rm = new FinishReservationResponseModel();
         if (!empty($response)) {
@@ -114,18 +134,20 @@ class BarionClient
         }
         return $rm;
     }
-    
+
     /**
-     *
      * Capture the previously authorized money in a Delayed Capture payment
      *
-     * @param CaptureRequestModel $model The request model for the capture process
-     * @return CaptureResponseModel Returns the response from the Barion API
+     * @param \Barion\Models\Payment\CaptureRequestModel $model
+     *   The request model for the capture process.
+     *
+     * @return \Barion\Models\Payment\CaptureResponseModel
+     *   Returns the response from the Barion API
      */
     public function Capture(CaptureRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_CAPTURE;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionConstants::API_ENDPOINT_CAPTURE;
         $response = $this->PostToBarion($url, $model);
         $captureResponse = new CaptureResponseModel();
         if (!empty($response)) {
@@ -136,16 +158,18 @@ class BarionClient
     }
 
     /**
-     *
      * Cancel a pending authorization on a Delayed Capture payment
      *
-     * @param CancelAuthorizationRequestModel $model The request model for cancelling the authorization
-     * @return CancelAuthorizationResponseModel Returns the response from the Barion API
+     * @param \Barion\Models\Payment\CancelAuthorizationRequestModel $model
+     *   The request model for cancelling the authorization.
+     *
+     * @return \Barion\Models\Payment\CancelAuthorizationResponseModel
+     *   Returns the response from the Barion API.
      */
     public function CancelAuthorization(CancelAuthorizationRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_CANCELAUTHORIZATION;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionConstants::API_ENDPOINT_CANCELAUTHORIZATION;
         $response = $this->PostToBarion($url, $model);
         $cancelAuthResponse = new CancelAuthorizationResponseModel();
         if (!empty($response)) {
@@ -155,17 +179,19 @@ class BarionClient
         return $cancelAuthResponse;
     }
 
-
     /**
      * Refund a payment partially or totally
      *
-     * @param RefundRequestModel $model The request model for the refund process
-     * @return RefundResponseModel Returns the response from the Barion API
+     * @param \Barion\Models\Refund\RefundRequestModel $model
+     *   The request model for the refund process/
+     *
+     * @return \Barion\Models\Refund\RefundResponseModel
+     *   Returns the response from the Barion API
      */
     public function RefundPayment(RefundRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_REFUND;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionConstants::API_ENDPOINT_REFUND;
         $response = $this->PostToBarion($url, $model);
         $rm = new RefundResponseModel();
         if (!empty($response)) {
@@ -175,18 +201,20 @@ class BarionClient
         return $rm;
     }
 
-
     /**
      * Get detailed information about a given payment
      *
-     * @param string $paymentId The Id of the payment
-     * @return PaymentStateResponseModel Returns the response from the Barion API
+     * @param string $paymentId
+     *   The Id of the payment/
+     *
+     * @return \Barion\Models\Payment\PaymentStateResponseModel
+     *   Returns the response from the Barion API.
      */
     public function GetPaymentState($paymentId)
     {
         $model = new PaymentStateRequestModel($paymentId);
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_PAYMENTSTATE;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionConstants::API_ENDPOINT_PAYMENTSTATE;
         $response = $this->GetFromBarion($url, $model);
         $ps = new PaymentStateResponseModel();
         if (!empty($response)) {
@@ -203,11 +231,17 @@ class BarionClient
      * If no username and/or password was set, this method returns NULL.
      *
      * @deprecated
-     * @param string $username The username of the shop's owner
-     * @param string $password The password of the shop's owner
-     * @param string $paymentId The Id of the payment
-     * @param string $qrCodeSize The desired size of the QR image
-     * @return mixed|string Returns the response of the QR request
+     * @param string $username
+     *   The username of the shop's owner
+     * @param string $password
+     *   The password of the shop's owner
+     * @param string $paymentId
+     *   The Id of the payment
+     * @param string $qrCodeSize
+     *   The desired size of the QR image
+     *
+     * @return mixed|string
+     *   Returns the response of the QR request
      */
     public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)
     {
@@ -216,16 +250,12 @@ class BarionClient
         $model->UserName = $username;
         $model->Password = $password;
         $model->Size = $qrCodeSize;
-        $url = $this->BARION_API_URL . API_ENDPOINT_QRCODE;
+        $url = $this->BARION_API_URL . BarionConstants::API_ENDPOINT_QRCODE;
         $response = $this->GetFromBarion($url, $model);
         return $response;
     }
 
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
-
-    /*
-    *
-    */
     /**
      * Managing HTTP POST requests
      *
@@ -236,7 +266,7 @@ class BarionClient
     private function PostToBarion($url, $data)
     {
         $ch = curl_init();
-        
+
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if ($userAgent == "") {
             $cver = curl_version();
@@ -250,8 +280,8 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "User-Agent: $userAgent"));
-        
-        if(substr(phpversion(), 0, 3) < 5.6) {
+
+        if (substr(phpversion(), 0, 3) < 5.6) {
             curl_setopt($ch, CURLOPT_SSLVERSION, 6);
         }
 
@@ -279,7 +309,6 @@ class BarionClient
         return $output;
     }
 
-
     /**
      * Managing HTTP GET requests
      *
@@ -293,7 +322,7 @@ class BarionClient
 
         $getData = http_build_query($data);
         $fullUrl = $url . '?' . $getData;
-        
+
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if ($userAgent == "") {
             $cver = curl_version();
@@ -303,7 +332,7 @@ class BarionClient
         curl_setopt($ch, CURLOPT_URL, $fullUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: $userAgent"));
-        
+
         if(substr(phpversion(), 0, 3) < 5.6) {
             curl_setopt($ch, CURLOPT_SSLVERSION, 6);
         }
