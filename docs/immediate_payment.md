@@ -6,10 +6,10 @@ Let's see a basic example of using the Barion library. We are going to start an 
 
 To start an online payment, you have to create one or more **Payment Transaction** objects, add transaction **Items** to them, then group these transactions together in a **Payment** object.
 
-First, create an **ItemModel**:
+First, create an **Barion\Models\Common\ItemModel**:
 
 ```php
-$item = new ItemModel();
+$item = new Barion\Models\Common\ItemModel();
 $item->Name = "TestItem";
 $item->Description = "A test product";
 $item->Quantity = 1;
@@ -19,30 +19,30 @@ $item->ItemTotal = 1000;
 $item->SKU = "ITEM-01";
 ```
 
-Then create a **PaymentTransactionModel** and add the **Item** mentioned above to it:
+Then create a **Barion\Models\Payment\PaymentTransactionModel** and add the **Item** mentioned above to it:
 
 ```php
-$trans = new PaymentTransactionModel();
+$trans = new Barion\Models\Payment\PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "webshop@example.com";
 $trans->Total = 1000;
-$trans->Currency = Currency::HUF;
+$trans->Currency = Barion\Common\Currency::HUF;
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 ```
 
-Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactionModel** mentioned above to it:
+Finally, create a **Barion\Models\Payment\PreparePaymentRequestModel** and add the **Barion\Models\Payment\PaymentTransactionModel** mentioned above to it:
 
 ```php
-$ppr = new PreparePaymentRequestModel();
+$ppr = new Barion\Models\Payment\PreparePaymentRequestModel();
 $ppr->GuestCheckout = true;
-$ppr->PaymentType = PaymentType::Immediate;
-$ppr->FundingSources = array(FundingSourceType::All);
+$ppr->PaymentType = Barion\Common\PaymentType::Immediate;
+$ppr->FundingSources = array(Barion\Common\FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
-$ppr->Locale = UILocale::EN;
+$ppr->Locale = Barion\Common\UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
-$ppr->Currency = Currency::HUF;
+$ppr->Currency = Barion\Common\Currency::HUF;
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
@@ -51,7 +51,7 @@ $ppr->AddTransaction($trans);
 At this point, the complete request object looks like this:
 
 ```
-PreparePaymentRequestModel Object
+\Barion\Models\Payment\PreparePaymentRequestModel Object
 (
     [PaymentType] => Immediate
     [ReservationPeriod] =>
@@ -66,7 +66,7 @@ PreparePaymentRequestModel Object
     [PayerHint] => user@example.com
     [Transactions] => Array
         (
-            [0] => PaymentTransactionModel Object
+            [0] => \Barion\Models\Payment\PaymentTransactionModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [Payee] => webshop@example.com
@@ -75,7 +75,7 @@ PreparePaymentRequestModel Object
                     [Comment] => Test transaction containing the product
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => TestItem
                                     [Description] => A test product
@@ -112,17 +112,17 @@ $myPayment = $BC->PreparePayment($ppr);
 
 The Barion API now prepares a payment entity that can be paid by anyone.
 
-The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **PreparePaymentResponseModel** object. It should look something like this:
+The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PreparePaymentResponseModel** object. It should look something like this:
 
 ```
-PreparePaymentResponseModel Object
+\Barion\Models\Payment\PreparePaymentResponseModel Object
 (
     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
     [PaymentRequestId] => PAYMENT-01
     [Status] => Prepared
     [Transactions] => Array
         (
-            [0] => TransactionResponseModel Object
+            [0] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [TransactionId] => fb06f46e-7a55-4da5-9a62-992089b3dd23
@@ -130,7 +130,7 @@ PreparePaymentResponseModel Object
                     [TransactionTime] => 2015-11-12T09:24:14.074
                     [RelatedId] =>
                 )
-            [1] => TransactionResponseModel Object
+            [1] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] =>
                     [TransactionId] => 49a9c395-833a-445f-82dd-b1d12784b3ef
@@ -138,7 +138,7 @@ PreparePaymentResponseModel Object
                     [TransactionTime] => 2015-11-12T09:24:14.262
                     [RelatedId] =>
                 )
-            [2] => TransactionResponseModel Object
+            [2] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] =>
                     [TransactionId] => c91a0006-4b6b-41ed-bdbd-5cfb3d67528b
@@ -193,10 +193,10 @@ To request payment details, we call the **GetPaymentState** method of the Barion
 $paymentDetails = $BC->GetPaymentState("64157032-d3dc-4296-aeda-fd4b0994c64e");
 ```
 
-The **$paymentDetails** variable holds the response received from the Barion API, which is an instance of a **PaymentStateResponseModel** object. It should look something like this:
+The **$paymentDetails** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PaymentStateResponseModel** object. It should look something like this:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
     [PaymentRequestId] => PAYMENT-01
@@ -218,19 +218,19 @@ PaymentStateResponseModel Object
     [Currency] => HUF
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => fb06f46e-7a55-4da5-9a62-992089b3dd23
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2015-11-12T09:47:12.189
                     [Total] => 1000
                     [Currency] => HUF
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] =>
                             [Email] =>
                         )
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
                             [Email] => webshop@example.com
@@ -240,7 +240,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => Unspecified
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => TestItem
                                     [Description] => A test product
@@ -255,19 +255,19 @@ PaymentStateResponseModel Object
                     [POSId] => 04ed8c89-c9bd-4c17-92f6-a0964587bbff
                     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
                 )
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 49a9c395-833a-445f-82dd-b1d12784b3ef
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 50
                     [Currency] => HUF
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
                             [Email] => webshop@example.com
                         )
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] =>
                             [Email] =>
@@ -282,19 +282,19 @@ PaymentStateResponseModel Object
                     [POSId] => 04ed8c89-c9bd-4c17-92f6-a0964587bbff
                     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
                 )
-            [2] => TransactionDetailModel Object
+            [2] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => c91a0006-4b6b-41ed-bdbd-5cfb3d67528b
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 10
                     [Currency] => HUF
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
                             [Email] => webshop@example.com
                         )
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] =>
                             [Email] =>
@@ -322,7 +322,7 @@ The payment is in **Prepared** status, which means it is still waiting to be pai
 If we wait until the user completes the payment, and send the request again, we should get a slightly different result with more information:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
     [PaymentRequestId] => PAYMENT-01
@@ -331,9 +331,9 @@ PaymentStateResponseModel Object
     [Status] => Succeeded
     [PaymentType] => Immediate
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\\BankCardModel Object
                 (
                     [MaskedPan] => 1234
                     [BankCardType] => MasterCard
@@ -356,19 +356,19 @@ PaymentStateResponseModel Object
     [Currency] => HUF
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => fb06f46e-7a55-4da5-9a62-992089b3dd23
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2015-11-12T09:47:12.189
                     [Total] => 1000
                     [Currency] => HUF
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => John Doe
                             [Email] => user@example.com
                         )
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
                             [Email] => webshop@example.com
@@ -378,7 +378,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => TestItem
                                     [Description] => A test product
@@ -393,19 +393,19 @@ PaymentStateResponseModel Object
                     [POSId] => 04ed8c89-c9bd-4c17-92f6-a0964587bbff
                     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
                 )
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 49a9c395-833a-445f-82dd-b1d12784b3ef
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 50
                     [Currency] => HUF
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
                             [Email] => webshop@example.com
                         )
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] =>
                             [Email] =>
@@ -420,19 +420,19 @@ PaymentStateResponseModel Object
                     [POSId] => 04ed8c89-c9bd-4c17-92f6-a0964587bbff
                     [PaymentId] => 64157032-d3dc-4296-aeda-fd4b0994c64e
                 )
-            [2] => TransactionDetailModel Object
+            [2] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => c91a0006-4b6b-41ed-bdbd-5cfb3d67528b
                     [POSTransactionId] =>
                     [TransactionTime] => 2015-11-12T09:47:12.205
                     [Total] => 10
                     [Currency] => HUF
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => Example Webshop Technologies Ltd.
                             [Email] => webshop@example.com
                         )
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] =>
                             [Email] =>

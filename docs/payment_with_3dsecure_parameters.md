@@ -9,10 +9,10 @@ The purpose of these parameters is to help the Barion API and the webshop cooper
 
 The process is identical to any other simple payment scenario, only the parameter count changed.
 
-There is one or more **ItemModel** describing the product, as usual:
+There is one or more **Barion\Models\Common\ItemModel** describing the product, as usual:
 
 ```php
-$item = new ItemModel();
+$item = new Barion\Models\Common\ItemModel();
 $item->Name = "TestItem";
 $item->Description = "A test item for payment"; 
 $item->Quantity = 1;
@@ -25,7 +25,7 @@ $item->SKU = "ITEM-01";
 These items are then added to a transaction:
 
 ```php
-$trans = new PaymentTransactionModel();
+$trans = new Barion\Models\Payment\PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = $myEmailAddress;
 $trans->Total = 75;
@@ -36,7 +36,7 @@ $trans->AddItem($item);
 And here come the additional parameters. First, the shipping and billing addresses:
 
 ```php
-$shippingAddress = new ShippingAddressModel();
+$shippingAddress = new Barion\Models\Secure3d\ShippingAddressModel();
 $shippingAddress->Country = "DE";
 $shippingAddress->Region = null;
 $shippingAddress->City = "Berlin";
@@ -46,7 +46,7 @@ $shippingAddress->Street2 = "1. ebene";
 $shippingAddress->Street3 = "";
 $shippingAddress->FullName = "Thomas Testing";
 
-$billingAddress = new BillingAddressModel();
+$billingAddress = new Barion\Models\Secure3d\BillingAddressModel();
 $billingAddress->Country = "DE";
 $billingAddress->Region = null;
 $billingAddress->City = "Berlin";
@@ -58,55 +58,55 @@ $billingAddress->Street3 = "";
 
 **NOTE:** the older version of the library used the shipping address as one simple string. This method will <u>NO LONGER WORK</u>, the address structure must fully comply with the API documentation. Please review any request assembling in your integration where you are handling a shipping address.
 
-The webshop should supply as much information about the account of the customer as it can. This is done in the **PayerAccountInformationModel**.
+The webshop should supply as much information about the account of the customer as it can. This is done in the **Barion\Models\Secure3d\PayerAccountInformationModel**.
 
 ```php
-$payerAccountInfo = new PayerAccountInformationModel();
+$payerAccountInfo = new Barion\Models\Secure3d\PayerAccountInformationModel();
 $payerAccountInfo->AccountId = "4444888888885559";
 $payerAccountInfo->AccountCreated = $now;
-$payerAccountInfo->AccountCreationIndicator = AccountCreationIndicator::CreatedDuringThisTransaction;
+$payerAccountInfo->AccountCreationIndicator = Barion\Common\Secure3d\AccountCreationIndicator::CreatedDuringThisTransaction;
 $payerAccountInfo->AccountLastChanged = $now;
-$payerAccountInfo->AccountChangeIndicator = AccountChangeIndicator::ChangedDuringThisTransaction;
+$payerAccountInfo->AccountChangeIndicator = Barion\Common\Secure3d\AccountChangeIndicator::ChangedDuringThisTransaction;
 $payerAccountInfo->PasswordLastChanged = $now;
-$payerAccountInfo->PasswordChangeIndicator = PasswordChangeIndicator::NoChange;
+$payerAccountInfo->PasswordChangeIndicator = Barion\Common\Secure3d\PasswordChangeIndicator::NoChange;
 $payerAccountInfo->PurchasesInTheLastSixMonths = 6;
 $payerAccountInfo->ShippingAddressAdded = $now;
-$payerAccountInfo->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::ThisTransaction;
+$payerAccountInfo->ShippingAddressUsageIndicator = Barion\Common\Secure3d\ShippingAddressUsageIndicator::ThisTransaction;
 $payerAccountInfo->PaymentMethodAdded = $now;
-$payerAccountInfo->PaymentMethodIndicator = PaymentMethodIndicator::ThisTransaction;
+$payerAccountInfo->PaymentMethodIndicator = Barion\Common\Secure3d\PaymentMethodIndicator::ThisTransaction;
 $payerAccountInfo->ProvisionAttempts = 1;
 $payerAccountInfo->TransactionalActivityPerDay = 1;
 $payerAccountInfo->TransactionalActivityPerYear = 100;
-$payerAccountInfo->SuspiciousActivityIndicator = SuspiciousActivityIndicator::NoSuspiciousActivityObserved;
+$payerAccountInfo->SuspiciousActivityIndicator = Barion\Common\Secure3d\SuspiciousActivityIndicator::NoSuspiciousActivityObserved;
 ```
 
 Similarly, all known information about the purchase itself shall be supplied in the **PurchaseInformationModel**:
 
 ```php
-$purchaseInfo = new PurchaseInformationModel();
-$purchaseInfo->DeliveryTimeframe = DeliveryTimeFrameType::OvernightShipping;
+$purchaseInfo = new Barion\Models\Secure3d\PurchaseInformationModel();
+$purchaseInfo->DeliveryTimeframe = Barion\Common\Secure3d\DeliveryTimeFrameType::OvernightShipping;
 $purchaseInfo->DeliveryEmailAddress = "user@example.com";
 $purchaseInfo->PreOrderDate = "2019-08-01";
-$purchaseInfo->AvailabilityIndicator = AvailabilityIndicator::MerchandiseAvailable;
-$purchaseInfo->ReOrderIndicator = ReOrderIndicator::FirstTimeOrdered;
+$purchaseInfo->AvailabilityIndicator = Barion\Common\Secure3d\AvailabilityIndicator::MerchandiseAvailable;
+$purchaseInfo->ReOrderIndicator = Barion\Common\Secure3d\ReOrderIndicator::FirstTimeOrdered;
 $purchaseInfo->RecurringExpiry = "2099-12-31 23:59:59";
 $purchaseInfo->RecurringFrequency = "0";
-$purchaseInfo->ShippingAddressIndicator = ShippingAddressIndicator::ShipToCardholdersBillingAddress;
+$purchaseInfo->ShippingAddressIndicator = Barion\Common\Secure3d\ShippingAddressIndicator::ShipToCardholdersBillingAddress;
 $purchaseInfo->GiftCardPurchase = null;
-$purchaseInfo->PurchaseType = PurchaseType::GoodsAndServicePurchase;
+$purchaseInfo->PurchaseType = Barion\Common\Secure3d\PurchaseType::GoodsAndServicePurchase;
 ```
 
-Lastly, the final **PreparePaymentRequestModel** can be constructed using the transactions and the extra parameters above, among with known phone numbers and credit card holder name of the customer.
+Lastly, the final **Barion\Models\Payment\PreparePaymentRequestModel** can be constructed using the transactions and the extra parameters above, among with known phone numbers and credit card holder name of the customer.
 
 ```php
-$psr = new PreparePaymentRequestModel();
+$psr = new Barion\Models\Payment\PreparePaymentRequestModel();
 $psr->GuestCheckout = true;
-$psr->PaymentType = PaymentType::Immediate;
-$psr->FundingSources = array(FundingSourceType::All);
+$psr->PaymentType = Barion\Common\PaymentType::Immediate;
+$psr->FundingSources = array(Barion\Common\FundingSourceType::All);
 $psr->PaymentRequestId = "TESTPAY-01";
 $psr->PayerHint = "user@example.com";
-$psr->Locale = UILocale::EN;
-$psr->Currency = Currency::EUR;
+$psr->Locale = Barion\Common\UILocale::EN;
+$psr->Currency = Barion\Common\Currency::EUR;
 $psr->OrderNumber = "ORDER-0001";
 $psr->AddTransaction($trans);
 
@@ -123,7 +123,7 @@ $psr->PurchaseInformation = $purchaseInfo;
 The complete payment request object looks like this:
 
 ```
-PreparePaymentRequestModel Object
+\Barion\Models\Payment\PreparePaymentRequestModel Object
 (
     [PaymentType] => Immediate
     [ReservationPeriod] => 
@@ -139,7 +139,7 @@ PreparePaymentRequestModel Object
     [PayerHint] => user@example.com
     [Transactions] => Array
         (
-            [0] => PaymentTransactionModel Object
+            [0] => \Barion\Models\Payment\PaymentTransactionModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [Payee] => barionaccount@demo-merchant.shop
@@ -147,7 +147,7 @@ PreparePaymentRequestModel Object
                     [Comment] => Test Transaction
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => TestItem
                                     [Description] => A test item for payment
@@ -170,7 +170,7 @@ PreparePaymentRequestModel Object
 
     [Locale] => en-US
     [OrderNumber] => ORDER-0001
-    [ShippingAddress] => ShippingAddressModel Object
+    [ShippingAddress] => \Barion\Models\Secure3d\ShippingAddressModel Object
         (
             [Country] => DE
             [Region] => 
@@ -182,7 +182,7 @@ PreparePaymentRequestModel Object
             [FullName] => Thomas Testing
         )
 
-    [BillingAddress] => BillingAddressModel Object
+    [BillingAddress] => \Barion\Models\Secure3d\BillingAddressModel Object
         (
             [Country] => DE
             [Region] => 
@@ -202,7 +202,7 @@ PreparePaymentRequestModel Object
     [PayerPhoneNumber] => 36301122334
     [PayerWorkPhoneNumber] => 36301122334
     [PayerHomePhoneNumber] => 36301122334
-    [PayerAccountInformation] => PayerAccountInformationModel Object
+    [PayerAccountInformation] => \Barion\Models\Secure3d\PayerAccountInformationModel Object
         (
             [AccountId] => 4690011905085639
             [AccountCreated] => 
@@ -222,7 +222,7 @@ PreparePaymentRequestModel Object
             [SuspiciousActivityIndicator] => NoSuspiciousActivityObserved
         )
 
-    [PurchaseInformation] => PurchaseInformationModel Object
+    [PurchaseInformation] => \Barion\Models\Secure3d\PurchaseInformationModel Object
         (
             [DeliveryTimeframe] => OvernightShipping
             [DeliveryEmailAddress] => 

@@ -5,7 +5,7 @@ In this example a payment is refunded to the customer.
 Consider a previously completed, successful payment:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [PaymentRequestId] => PAYMENT-01
@@ -16,9 +16,9 @@ PaymentStateResponseModel Object
     [Status] => Succeeded
     [PaymentType] => DelayedCapture
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 5559
                     [BankCardType] => Visa
@@ -43,20 +43,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T05:07:57.755Z
                     [Total] => 9.99
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -67,7 +67,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -85,20 +85,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
 
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 0d5645a581654b8b940ddcefff41ce73
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T05:17:55.565Z
                     [Total] => 0.1
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
@@ -137,32 +137,32 @@ The webshop can easily manage this with a simple API call.
 
 ### 1. Creating the request object
 
-First, construct the **TransactionToRefundModel** accordingly:
+First, construct the **Barion\Models\Payment\TransactionToRefundModel** accordingly:
 
 ```php
-$trans = new TransactionToRefundModel();
+$trans = new Barion\Models\Payment\TransactionToRefundModel();
 $trans->TransactionId = "277edf17c7ce468a83f538102b4109be";
 $trans->POSTransactionId = "TRANS-01";
 $trans->AmountToRefund = 9.99;
 $trans->Comment = "Refund of ORDER-0001 upon customer complaint";
 ```
 
-Then, create a **RefundRequestModel** and add the transaction to it:
+Then, create a **Barion\Models\Refund\RefundRequestModel** and add the transaction to it:
 
 ```php
-$rr = new RefundRequestModel($paymentId);
+$rr = new Barion\Models\Refund\RefundRequestModel($paymentId);
 $rr->AddTransaction($trans);
 ```
 
 At this point, the complete refund request object looks like this:
 
 ```
-RefundRequestModel Object
+\Barion\Models\Refund\RefundRequestModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [TransactionsToRefund] => Array
         (
-            [0] => TransactionToRefundModel Object
+            [0] => \Barion\Models\Payment\TransactionToRefundModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [POSTransactionId] => TRANS-01
@@ -191,12 +191,12 @@ The Barion API now refunds the payment.
 The response in the **refundResult** variable should look something like this:
 
 ```
-RefundResponseModel Object
+\Barion\Models\Refund\RefundResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [RefundedTransactions] => Array
         (
-            [0] => RefundedTransactionModel Object
+            [0] => \Barion\Models\Refund\RefundedTransactionModel Object
                 (
                     [TransactionId] => a173eb5e96fd4bb38488968b6ca264e2
                     [Total] => 9.99
@@ -220,7 +220,7 @@ As you can see, the **RefundedTransactions** array contains the refund transacti
 If we now request the payment details again, we can see that the structure changed slightly:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [PaymentRequestId] => PAYMENT-01
@@ -231,9 +231,9 @@ PaymentStateResponseModel Object
     [Status] => Succeeded
     [PaymentType] => DelayedCapture
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 5559
                     [BankCardType] => Visa
@@ -258,20 +258,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T05:07:57.755Z
                     [Total] => 9.99
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -282,7 +282,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -300,20 +300,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
 
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 0d5645a581654b8b940ddcefff41ce73
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T05:17:55.565Z
                     [Total] => 0.1
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
@@ -331,20 +331,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
 
-            [2] => TransactionDetailModel Object
+            [2] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => a173eb5e96fd4bb38488968b6ca264e2
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T05:32:44.568Z
                     [Total] => 9.99
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com

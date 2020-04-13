@@ -6,10 +6,10 @@ In this example we are going to start a delayed capture payment, where the amoun
 
 To start an online payment, you have to create one or more **Payment Transaction** objects, add transaction **Items** to them, then group these transactions together in a **Payment** object.
 
-First, create an **ItemModel** instance:
+First, create an **Barion\Models\Common\ItemModel** instance:
 
 ```php
-$item = new ItemModel();
+$item = new Barion\Models\Common\ItemModel();
 $item->Name = "J.K. Rowling - Harry Potter and the chamber of secrets";
 $item->Description = "Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.";
 $item->Quantity = 1;
@@ -19,31 +19,31 @@ $item->ItemTotal = 9.99;
 $item->SKU = "HPbk2";
 ```
 
-Then create a **PaymentTransactionModel** and add the two **ItemModel** instances mentioned above to it:
+Then create a **Barion\Models\Payment\PaymentTransactionModel** and add the two **Barion\Models\Common\ItemModel** instances mentioned above to it:
 
 ```php
-$trans = new PaymentTransactionModel();
+$trans = new Barion\Models\Payment\PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "barionaccount@demo-merchant.shop";
 $trans->Total = 9.99;
-$trans->Currency = Currency::EUR;
+$trans->Currency = Barion\Common\Currency::EUR;
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 ```
 
-Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactionModel** mentioned above to it:
+Finally, create a **Barion\Models\Payment\PreparePaymentRequestModel** and add the **Barion\Models\Payment\PaymentTransactionModel** mentioned above to it:
 
 ```php
-$ppr = new PreparePaymentRequestModel();
+$ppr = new Barion\Models\Payment\PreparePaymentRequestModel();
 $ppr->GuestCheckout = true;
-$ppr->PaymentType = PaymentType::DelayedCapture;
+$ppr->PaymentType = Barion\Common\PaymentType::DelayedCapture;
 $ppr->DelayedCapturePeriod = "1.00:00:00";
-$ppr->FundingSources = array(FundingSourceType::All);
+$ppr->FundingSources = array(Barion\Common\FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
-$ppr->Locale = UILocale::EN;
+$ppr->Locale = Barion\Common\UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
-$ppr->Currency = Currency::EUR;
+$ppr->Currency = Barion\Common\Currency::EUR;
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
@@ -52,7 +52,7 @@ $ppr->AddTransaction($trans);
 At this point, the complete request object looks like this:
 
 ```
-PreparePaymentRequestModel Object
+\Barion\Models\Payment\PreparePaymentRequestModel Object
 (
     [PaymentType] => DelayedCapture
     [ReservationPeriod] => 
@@ -68,7 +68,7 @@ PreparePaymentRequestModel Object
     [PayerHint] => user@example.com
     [Transactions] => Array
         (
-            [0] => PaymentTransactionModel Object
+            [0] => \Barion\Models\Payment\PaymentTransactionModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [Payee] => barionaccount@demo-merchant.shop
@@ -76,7 +76,7 @@ PreparePaymentRequestModel Object
                     [Comment] => Test transaction containing the product
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -129,17 +129,17 @@ $myPayment = $BC->PreparePayment($ppr);
 
 The Barion API now prepares a payment entity that can be paid by anyone.
 
-The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **PreparePaymentResponseModel** object. It should look something like this:
+The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PreparePaymentResponseModel** object. It should look something like this:
 
 ```
-PreparePaymentResponseModel Object
+\Barion\Models\Payment\PreparePaymentResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [PaymentRequestId] => PAYMENT-01
     [Status] => Prepared
     [Transactions] => Array
         (
-            [0] => TransactionResponseModel Object
+            [0] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
@@ -197,10 +197,10 @@ To request payment details, we call the **GetPaymentState** method of the Barion
 $paymentDetails = $BC->GetPaymentState("64157032-d3dc-4296-aeda-fd4b0994c64e");
 ```
 
-The **$paymentDetails** variable holds the response received from the Barion API, which is an instance of a **PaymentStateResponseModel** object. It should look something like this:
+The **$paymentDetails** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PaymentStateResponseModel** object. It should look something like this:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [PaymentRequestId] => PAYMENT-01
@@ -211,9 +211,9 @@ PaymentStateResponseModel Object
     [Status] => Prepared
     [PaymentType] => DelayedCapture
     [FundingSource] => 
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 
                     [BankCardType] => 
@@ -238,20 +238,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T05:07:57.755Z
                     [Total] => 9.99
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -262,7 +262,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => Unspecified
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -293,12 +293,12 @@ PaymentStateResponseModel Object
 
     [RequestSuccessful] => 1
 )
-FinishReservationRequestModel Object
+\Barion\Models\Payment\FinishReservationRequestModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [Transactions] => Array
         (
-            [0] => TransactionToFinishModel Object
+            [0] => \Barion\Models\Payment\TransactionToFinishModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [Total] => 499.95
@@ -308,7 +308,7 @@ FinishReservationRequestModel Object
 
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => BestPresso Coffee Machine
                                     [Description] => BPC2303 coffee machine, 1-year warranty
@@ -319,7 +319,7 @@ FinishReservationRequestModel Object
                                     [SKU] => BPC2303
                                 )
 
-                            [1] => ItemModel Object
+                            [1] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => [PRODUCT UNAVAILABLE] BestPresso XL Coffee Machine
                                     [Description] => [PRODUCT UNAVAILABLE] BPC4000 XL professional coffee machine, 3-year warranty
@@ -345,7 +345,7 @@ The payment is in **Prepared** status, which means it is still waiting to be pai
 If we wait until the user completes the payment, and send the request again, we should get a slightly different result with more information:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [PaymentRequestId] => PAYMENT-01
@@ -356,9 +356,9 @@ PaymentStateResponseModel Object
     [Status] => Authorized
     [PaymentType] => DelayedCapture
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 5559
                     [BankCardType] => Visa
@@ -383,20 +383,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T05:07:57.755Z
                     [Total] => 9.99
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -407,7 +407,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -443,10 +443,10 @@ PaymentStateResponseModel Object
 As you can see, the payment status is now **Authorized**, which means the customer has paid the amount and it is blocked on the bank card.
 At this point, the webshop has one day to capture the amount, as it was previously indicated in the **DelayedCapturePeriod** parameter when the payment was started.
 
-The shop can capture the amount by constructing the appropriate **CaptureRequestModel** instance:
+The shop can capture the amount by constructing the appropriate **Barion\Models\Payment\CaptureRequestModel** instance:
 
 ```php
-$item = new ItemModel();
+$item = new Barion\Models\Common\ItemModel();
 $item->Name = "J.K. Rowling - Harry Potter and the chamber of secrets";
 $item->Description = "Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.";
 $item->Quantity = 1;
@@ -455,25 +455,25 @@ $item->UnitPrice = 9.99;
 $item->ItemTotal = 9.99;
 $item->SKU = "HPbk2";
 
-$trans = new TransactionToCaptureModel();
+$trans = new Barion\Models\Payment\TransactionToCaptureModel();
 $trans->TransactionId = $paymentDetails->Transactions[0]->TransactionId;
 $trans->Total = 9.99;
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 
-$crm = new CaptureRequestModel($paymentDetails->PaymentId);
+$crm = new Barion\Models\Payment\CaptureRequestModel($paymentDetails->PaymentId);
 $crm->AddTransaction($trans);
 ```
 
 The full request for capturing the amount looks like this:
 
 ```
-CaptureRequestModel Object
+\Barion\Models\Payment\CaptureRequestModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [Transactions] => Array
         (
-            [0] => TransactionToCaptureModel Object
+            [0] => \Barion\Models\Payment\TransactionToCaptureModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [Total] => 9.99
@@ -483,7 +483,7 @@ CaptureRequestModel Object
 
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -513,7 +513,7 @@ $captureResult = $BC->Capture($crm);
 When sending the request, the following response arrives:
 
 ```
-CaptureResponseModel Object
+\Barion\Models\Payment\CaptureResponseModel Object
 (
     [IsSuccessful] => 1
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
@@ -521,7 +521,7 @@ CaptureResponseModel Object
     [Status] => Succeeded
     [Transactions] => Array
         (
-            [0] => TransactionResponseModel Object
+            [0] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => TRANS-01
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
@@ -530,7 +530,7 @@ CaptureResponseModel Object
                     [RelatedId] => 
                 )
 
-            [1] => TransactionResponseModel Object
+            [1] => \Barion\Models\Payment\TransactionResponseModel Object
                 (
                     [POSTransactionId] => 
                     [TransactionId] => 0d5645a581654b8b940ddcefff41ce73
@@ -554,7 +554,7 @@ This shows that everything went okay, the request was successful. The amount has
 If the webshop requests the payment details once more, you can see the completed state:
 
 ```
-PaymentStateResponseModel Object
+\Barion\Models\Payment\PaymentStateResponseModel Object
 (
     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
     [PaymentRequestId] => PAYMENT-01
@@ -565,9 +565,9 @@ PaymentStateResponseModel Object
     [Status] => Succeeded
     [PaymentType] => DelayedCapture
     [FundingSource] => BankCard
-    [FundingInformation] => FundingInformationModel Object
+    [FundingInformation] => \Barion\Models\Common\FundingInformationModel Object
         (
-            [BankCard] => BankCardModel Object
+            [BankCard] => \Barion\Models\Common\BankCardModel Object
                 (
                     [MaskedPan] => 5559
                     [BankCardType] => Visa
@@ -592,20 +592,20 @@ PaymentStateResponseModel Object
     [Currency] => EUR
     [Transactions] => Array
         (
-            [0] => TransactionDetailModel Object
+            [0] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 277edf17c7ce468a83f538102b4109be
                     [POSTransactionId] => TRANS-01
                     [TransactionTime] => 2019-08-12T05:07:57.755Z
                     [Total] => 9.99
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => user@example.com
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
@@ -616,7 +616,7 @@ PaymentStateResponseModel Object
                     [TransactionType] => CardPayment
                     [Items] => Array
                         (
-                            [0] => ItemModel Object
+                            [0] => \Barion\Models\Common\ItemModel Object
                                 (
                                     [Name] => J.K. Rowling - Harry Potter and the chamber of secrets
                                     [Description] => Second part of best-selling author J.K. Rowling's magnificient wizard tale about young Harry Potter's adventures at Hogwarts.
@@ -634,20 +634,20 @@ PaymentStateResponseModel Object
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
 
-            [1] => TransactionDetailModel Object
+            [1] => \Barion\Models\Payment\TransactionDetailModel Object
                 (
                     [TransactionId] => 0d5645a581654b8b940ddcefff41ce73
                     [POSTransactionId] => 
                     [TransactionTime] => 2019-08-12T05:17:55.565Z
                     [Total] => 0.1
                     [Currency] => EUR
-                    [Payer] => UserModel Object
+                    [Payer] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
-                    [Payee] => UserModel Object
+                    [Payee] => \Barion\Models\Common\UserModel Object
                         (
                             [Name] => 
                             [Email] => 
