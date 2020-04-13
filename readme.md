@@ -46,7 +46,7 @@ Copy the contents of the **barion** library into the desired folder. Be sure to 
 Include the **BarionClient** class in your PHP script:
 
 ```php
-require_once 'library/BarionClient.php';
+use Barion\BarionClient;
 ```
 
 Then instantiate a Barion client. To achieve this, you must supply three parameters.
@@ -67,16 +67,16 @@ The environment to connect to. This can be the test system, or the production en
 
 ```php
 // Test environment
-$environment = BarionEnvironment::Test;
+$environment = Barion\Common\BarionEnvironment::Test;
 
 // Production environment
-$environment = BarionEnvironment::Prod;
+$environment = Barion\Common\BarionEnvironment::Prod;
 ```
 
-With these parameters you can create an instance of the **BarionClient** class:
+With these parameters you can create an instance of the **Barion\BarionClient** class:
 
 ```php
-$BC = new BarionClient($myPosKey, $apiVersion, $environment);
+$BC = new Barion\BarionClient($myPosKey, $apiVersion, $environment);
 ```
 
 If you're having problems with the SSL connection then you can set the fourth parameter to true: `$useBundledRootCerts`
@@ -92,10 +92,10 @@ Using the library, managing a payment process consists of two steps:
 
 To start an online payment, you have to create one or more **Payment Transaction** objects, add transaction **Items** to them, then group these transactions together in a **Payment** object.
 
-First, create an **ItemModel**:
+First, create an **Barion\Models\Common\ItemModel**:
 
 ```php
-$item = new ItemModel();
+$item = new Barion\Models\Common\ItemModel();
 $item->Name = "TestItem";
 $item->Description = "A test product";
 $item->Quantity = 1;
@@ -105,30 +105,30 @@ $item->ItemTotal = 1000;
 $item->SKU = "ITEM-01";
 ```
 
-Then create a **PaymentTransactionModel** and add the **Item** mentioned above to it:
+Then create a **Barion\Models\Payment\PaymentTransactionModel** and add the **Item** mentioned above to it:
 
 ```php
-$trans = new PaymentTransactionModel();
+$trans = new Barion\Models\Payment\PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "webshop@example.com";
 $trans->Total = 1000;
-$trans->Currency = Currency::HUF;
+$trans->Currency = Barion\Common\Currency::HUF;
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 ```
 
-Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactionModel** mentioned above to it:
+Finally, create a **Barion\Models\Payment\PreparePaymentRequestModel** and add the **Barion\Models\Payment\PaymentTransactionModel** mentioned above to it:
 
 ```php
-$ppr = new PreparePaymentRequestModel();
+$ppr = new Barion\Models\Payment\PreparePaymentRequestModel();
 $ppr->GuestCheckout = true;
-$ppr->PaymentType = PaymentType::Immediate;
-$ppr->FundingSources = array(FundingSourceType::All);
+$ppr->PaymentType = Barion\Common\PaymentType::Immediate;
+$ppr->FundingSources = array(Barion\Common\FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
-$ppr->Locale = UILocale::EN;
+$ppr->Locale = Barion\Common\UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
-$ppr->Currency = Currency::HUF;
+$ppr->Currency = Barion\Common\Currency::HUF;
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
@@ -146,7 +146,7 @@ $myPayment = $BC->PreparePayment($ppr);
 
 The Barion API now prepares a payment entity that can be paid by anyone.
 
-The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **PreparePaymentResponseModel** object.
+The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **Barion\Models\Payment\PreparePaymentRequestModel** object.
 
 ### 1.3. Redirecting the user to the Barion Smart Gateway
 
