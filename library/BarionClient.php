@@ -154,7 +154,25 @@ class BarionClient
         }
         return $cancelAuthResponse;
     }
-
+    
+    /**
+     * Complete a previously 3DSecure-authenticated payment
+     *
+     * @param Complete3DSPaymentRequestModel $model The request model for completing the authenticated payment
+     * @return Complete3DSPaymentResponseModel Returns the response from the Barion API
+     */
+    public function Complete3DSPayment(Complete3DSPaymentRequestModel $model)
+    {
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_3DS_COMPLETE;
+        $response = $this->PostToBarion($url, $model);
+        $rm = new Complete3DSPaymentResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $rm->fromJson($json);
+        }
+        return $rm;
+    }
 
     /**
      * Refund a payment partially or totally
