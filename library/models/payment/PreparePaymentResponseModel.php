@@ -24,6 +24,8 @@ class PreparePaymentResponseModel extends BaseResponseModel implements iBarionMo
     public $QRUrl;
     public $RecurrenceResult;
     public $PaymentRedirectUrl;
+    public $ThreeDSAuthClientData;
+    public $TraceId;
 
     function __construct()
     {
@@ -34,6 +36,8 @@ class PreparePaymentResponseModel extends BaseResponseModel implements iBarionMo
         $this->QRUrl = "";
         $this->RecurrenceResult = "";
         $this->PaymentRedirectUrl = "";
+        $this->ThreeDSAuthClientData = "";
+        $this->TraceId = "";
         $this->Transactions = array();
     }
 
@@ -46,6 +50,8 @@ class PreparePaymentResponseModel extends BaseResponseModel implements iBarionMo
             $this->Status = jget($json, 'Status');
             $this->QRUrl = jget($json, 'QRUrl');
             $this->RecurrenceResult = jget($json, 'RecurrenceResult');
+            $this->ThreeDSAuthClientData = jget($json, 'ThreeDSAuthClientData');
+            $this->TraceId = jget($json, 'TraceId');
             $this->Transactions = array();
 
             if (!empty($json['Transactions'])) {
