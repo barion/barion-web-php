@@ -30,5 +30,6 @@ DEFINE("API_ENDPOINT_REFUND", "/Payment/Refund");
 DEFINE("API_ENDPOINT_FINISHRESERVATION", "/Payment/FinishReservation");
 DEFINE("API_ENDPOINT_CAPTURE", "/Payment/Capture");
 DEFINE("API_ENDPOINT_CANCELAUTHORIZATION", "/Payment/CancelAuthorization");
+DEFINE("API_ENDPOINT_3DS_COMPLETE", "/Payment/Complete");
 
 DEFINE("PAYMENT_URL", "/Pay");

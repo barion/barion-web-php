@@ -41,6 +41,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
     public $FraudRiskScore;
     public $RedirectUrl;
     public $CallbackUrl;
+    public $TraceId;
 
     function __construct()
     {
@@ -69,6 +70,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
         $this->FraudRiskScore = 0;
         $this->RedirectUrl = "";
         $this->CallbackUrl = "";
+        $this->TraceId = "";
     }
 
     public function fromJson($json)
@@ -102,6 +104,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->FraudRiskScore = jget($json, 'FraudRiskScore');
             $this->RedirectUrl = jget($json, 'RedirectUrl');
             $this->CallbackUrl = jget($json, 'CallbackUrl');
+            $this->TraceId = jget($json, 'TraceId');
 
             $this->Transactions = array();
 

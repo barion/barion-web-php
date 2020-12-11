@@ -43,8 +43,9 @@ class PreparePaymentRequestModel extends BaseRequestModel
     public $PurchaseInformation;
     public $RecurrenceType;
     public $ChallengePreference;
+    public $TraceId;
 
-    function __construct($requestId = null, $type = PaymentType::Immediate, $guestCheckoutAllowed = true, $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = "hu-HU", $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, $callbackUrl = null, $currency = Currency::HUF)
+    function __construct($requestId = null, $type = PaymentType::Immediate, $guestCheckoutAllowed = true, $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = "hu-HU", $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, $callbackUrl = null, $currency = Currency::HUF, $traceId = "")
     {
         $this->PaymentRequestId = $requestId;
         $this->PaymentType = $type;
@@ -57,6 +58,7 @@ class PreparePaymentRequestModel extends BaseRequestModel
         $this->RedirectUrl = $redirectUrl;
         $this->CallbackUrl = $callbackUrl;
         $this->Currency = $currency;
+        $this->TraceId = $traceId;
     }
 
     public function AddTransaction(PaymentTransactionModel $transaction)
