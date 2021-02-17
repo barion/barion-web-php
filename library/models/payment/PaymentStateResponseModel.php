@@ -107,7 +107,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->RedirectUrl = jget($json, 'RedirectUrl');
             $this->CallbackUrl = jget($json, 'CallbackUrl');
             $this->TraceId = jget($json, 'TraceId');
-            $this->RecurrenceType = jget($json, 'TraceId');
+            $this->RecurrenceType = jget($json, 'RecurrenceType');
 
             $this->Transactions = array();
 
