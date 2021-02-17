@@ -1,4 +1,11 @@
 # Changelog
+
+### [v1.4.4](https://github.com/barion/barion-web-php/releases/tag/v1.4.4) 2021-01-17
+- RecurrenceType is fixed in GetPaymentState response
+
+### [v1.4.3](https://github.com/barion/barion-web-php/releases/tag/v1.4.3) 2020-12-11
+- 3DS v2 token payment information added to the models
+
 ### [v1.4.2](https://github.com/barion/barion-web-php/releases/tag/v1.4.2) 2019-08-15
 - ADD: added RecurrenceType and ChallengePreference 3DS properties
 
