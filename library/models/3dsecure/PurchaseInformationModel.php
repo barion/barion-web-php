@@ -27,6 +27,7 @@ class PurchaseInformationModel implements iBarionModel
     public $ShippingAddressIndicator;
     public $GiftCardPurchase;
     public $PurchaseType;
+    public $PurchaseDate;
 
     function __construct()
     {
@@ -40,6 +41,7 @@ class PurchaseInformationModel implements iBarionModel
         $this->ShippingAddressIndicator = "";
         $this->GiftCardPurchase = "";
         $this->PurchaseType = "";
+        $this->PurchaseDate = "";
     }
 
     public function fromJson($json)
@@ -55,6 +57,7 @@ class PurchaseInformationModel implements iBarionModel
             $this->ShippingAddressIndicator = jget($json, 'ShippingAddressIndicator');
             $this->GiftCardPurchase = jget($json, 'GiftCardPurchase');
             $this->PurchaseType = jget($json, 'PurchaseType');
+            $this->PurchaseDate = jget($json, 'PurchaseDate');
         }
     }
 }

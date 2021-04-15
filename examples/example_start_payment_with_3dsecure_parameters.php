@@ -91,6 +91,7 @@ $purchaseInfo->RecurringFrequency = "0";
 $purchaseInfo->ShippingAddressIndicator = ShippingAddressIndicator::ShipToCardholdersBillingAddress;
 $purchaseInfo->GiftCardPurchase = null;
 $purchaseInfo->PurchaseType = PurchaseType::GoodsAndServicePurchase;
+$purchaseInfo->PurchaseDate = "2021-05-01 10:00:00";
 
 // create the request model
 $psr = new PreparePaymentRequestModel();
