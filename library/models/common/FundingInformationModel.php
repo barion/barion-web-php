@@ -19,11 +19,13 @@ class FundingInformationModel implements iBarionModel
 {
     public $BankCard;
     public $AuthorizationCode;
+    public $ProcessResult;
 
     function __construct()
     {
         $this->BankCard = new BankCardModel();
         $this->AuthorizationCode = "";
+        $this->ProcessResult = "";
     }
 
     public function fromJson($json)
@@ -32,6 +34,7 @@ class FundingInformationModel implements iBarionModel
             $this->BankCard = new BankCardModel();
             $this->BankCard->fromJson(jget($json, 'BankCard'));
             $this->AuthorizationCode = jget($json, 'AuthorizationCode');
+            $this->ProcessResult = jget($json, 'ProcessResult');
         }
     }
 }

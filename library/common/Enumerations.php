@@ -18,6 +18,7 @@ abstract class FundingSourceType
     const All = "All";
     const Balance = "Balance";
     const Bankcard = "Bankcard";
+    const BankTransfer = "BankTransfer";
 }
 
 abstract class PaymentStatus
@@ -97,6 +98,7 @@ abstract class CardType
     const Electron = "Electron";
     const AmericanExpress = "AmericanExpress";
 }
+
 
 // --------------------
 // 3D Secure properties

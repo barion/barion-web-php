@@ -23,6 +23,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
     public $POSId;
     public $POSName;
     public $POSOwnerEmail;
+    public $POSOwnerCountry;
     public $Status;
     public $PaymentType;
     public $FundingSource;
@@ -33,6 +34,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
     public $ValidUntil;
     public $CompletedAt;
     public $ReservedUntil;
+    public $DelayedCaptureUntil;
     public $Total;
     public $Currency;
     public $Transactions;
@@ -53,6 +55,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
         $this->POSId = "";
         $this->POSName = "";
         $this->POSOwnerEmail = "";
+        $this->POSOwnerCountry = "";
         $this->Status = "";
         $this->PaymentType = "";
         $this->FundingSource = "";
@@ -63,6 +66,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
         $this->ValidUntil = "";
         $this->CompletedAt = "";
         $this->ReservedUntil = "";
+        $this->DelayedCaptureUntil = "";
         $this->Total = 0;
         $this->Currency = "";
         $this->Transactions = array();
@@ -86,6 +90,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->POSId = jget($json, 'POSId');
             $this->POSName = jget($json, 'POSName');
             $this->POSOwnerEmail = jget($json, 'POSOwnerEmail');
+            $this->POSOwnerCountry = jget($json, 'POSOwnerCountry');
             $this->Status = jget($json, 'Status');
             $this->PaymentType = jget($json, 'PaymentType');
             $this->FundingSource = jget($json, 'FundingSource');
@@ -99,6 +104,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->ValidUntil = jget($json, 'ValidUntil');
             $this->CompletedAt = jget($json, 'CompletedAt');
             $this->ReservedUntil = jget($json, 'ReservedUntil');
+            $this->DelayedCaptureUntil = jget($json, 'DelayedCaptureUntil');
             $this->Total = jget($json, 'Total');
             $this->Currency = jget($json, 'Currency');
             $this->RecurrenceResult = jget($json, 'RecurrenceResult');
