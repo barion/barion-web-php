@@ -40,7 +40,7 @@ class Complete3DSPaymentResponseModel extends BaseResponseModel implements iBari
 
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = jget($json, 'Status');
+            $this->Status = jget($json, 'PaymentStatus');
             $this->IsSuccessful = jget($json, 'IsSuccessful');
             $this->TraceId = jget($json, 'TraceId');
         }
