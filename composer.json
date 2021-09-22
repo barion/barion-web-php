@@ -1,0 +1,8 @@
+{
+    "name": "barion/barion-web-php",
+    "description": "PHP libary for Barion Smart Gateway API integration",
+    "require": {
+        "php": ">=7.3",
+        "ext-curl": "*"
+    }
+}
