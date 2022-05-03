@@ -24,6 +24,7 @@ class ApiErrorModel
     public $HappenedAt;
     public $AuthData;
     public $EndPoint;
+    public $PaymentId;
 
     function __construct()
     {
@@ -34,6 +35,7 @@ class ApiErrorModel
         $this->HappenedAt = "";
         $this->AuthData = "";
         $this->EndPoint = "";
+        $this->PaymentId = "";
     }
 
     public function fromJson($json)
@@ -46,6 +48,7 @@ class ApiErrorModel
             $this->HappenedAt = $json['HappenedAt'];
             $this->AuthData = $json['AuthData'];
             $this->EndPoint = $json['EndPoint'];
+            $this->PaymentId = $json['PaymentId'];
         }
     }
 }
