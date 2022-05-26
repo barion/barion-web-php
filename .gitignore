@@ -1,2 +1,5 @@
-﻿/_ReSharper.Caches
+﻿## OS X
+.DS_Store
+
+/_ReSharper.Caches
 /.vs
