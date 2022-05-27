@@ -20,7 +20,6 @@ class ApiErrorModel
     public $ErrorCode;
     public $Title;
     public $Description;
-    public $ErrorCode;
     public $HappenedAt;
     public $AuthData;
     public $EndPoint;
@@ -31,7 +30,6 @@ class ApiErrorModel
         $this->ErrorCode = "";
         $this->Title = "";
         $this->Description = "";
-        $this->ErrorCode = "";
         $this->HappenedAt = "";
         $this->AuthData = "";
         $this->EndPoint = "";
@@ -44,7 +42,6 @@ class ApiErrorModel
             $this->ErrorCode = $json['ErrorCode'];
             $this->Title = $json['Title'];
             $this->Description = $json['Description'];
-            $this->ErrorCode = $json['ErrorCode'];
             $this->HappenedAt = $json['HappenedAt'];
             $this->AuthData = $json['AuthData'];
             $this->EndPoint = $json['EndPoint'];
