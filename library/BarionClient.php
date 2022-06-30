@@ -157,7 +157,7 @@ class BarionClient
 
 
     /**
-     * Prepare a new payment
+     * Prepare a new google payment
      *
      * @param PrepareGooglePayPaymentRequestModel $model The request model for payment preparation
      * @return PreparePaymentWithGoogleTokenResponseModel Returns the response from the Barion API
@@ -168,6 +168,25 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v3/Payment/StartPaymentWithGoogleToken";
         $response = $this->PostToBarion($url, $model);
         $rm = new PreparePaymentWithGoogleTokenResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $rm->fromJson($json);
+        }
+        return $rm;
+    }
+
+    /**
+     * Prepare a new apple payment
+     *
+     * @param PrepareApplePaymentRequestModel $model The request model for payment preparation
+     * @return PreparePaymentWithAppleTokenResponseModel Returns the response from the Barion API
+     */
+    public function PreparePaymentWithAppleToken(PrepareApplePaymentRequestModel $model)
+    {
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v2/ApplePay/StartPaymentWithAppleToken";
+        $response = $this->PostToBarion($url, $model);
+        $rm = new PreparePaymentWithAppleTokenResponseModel();
         if (!empty($response)) {
             $json = json_decode($response, true);
             $rm->fromJson($json);
