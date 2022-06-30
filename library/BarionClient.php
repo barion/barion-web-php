@@ -176,6 +176,25 @@ class BarionClient
     }
     
     /**
+     * ApplePay Validate Session
+     *
+     * @param ApplePayValidateSessionRequestModel $model 
+     * @return ApplePayValidateSessionResponseModel Returns the response from the Barion API
+     */
+    public function ApplePayValidateSession(ApplePayValidateSessionRequestModel $model)
+    {
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v2/ApplePay/ValidateSession";
+        $response = $this->PostToBarion($url, $model);
+        $rm = new ApplePayValidateSessionResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $rm->fromJson($json);
+        }
+        return $rm;
+    }
+    
+    /**
      * Complete a previously 3DSecure-authenticated payment
      *
      * @param Complete3DSPaymentRequestModel $model The request model for completing the authenticated payment
