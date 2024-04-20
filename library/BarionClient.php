@@ -239,6 +239,27 @@ class BarionClient
         return $response;
     }
 
+   /**
+     * Transfer the specified amount to a bank account
+     *
+     * @param string $model The BankTransferRequestModel to be passed
+     * @return BankTransferResponseModel Returns the response from the Barion API
+     */
+    public function BankTransfer(BankTransferRequestModel $model)
+    {
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_BANKTRANSFER;
+        $response = $this->PostToBarion($url, $model);
+
+        $ps = new BankTransferResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $ps->fromJson($json);
+        }
+        return $ps;
+    }
+
+
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
 
     /*
