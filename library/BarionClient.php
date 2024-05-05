@@ -18,10 +18,14 @@
  
 namespace Barion;
 
-require __DIR__ . '/../vendor/autoload.php';
+if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+} else {
+    require_once 'autoload.php';
+}
 
 /*
-*  PHP library for implementing REST API calls towards the Barion payment system.  
+* PHP library for implementing REST API calls towards the Barion payment system.  
 */
 
 /* -------- IMPORTED CLASSES -------- */
