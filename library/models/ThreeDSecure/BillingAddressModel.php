@@ -20,14 +20,58 @@ namespace Barion\Models\ThreeDSecure;
 
 use Barion\Helpers\JSON;
  
+/**
+ * Model representing a billing address used during a 3D-Secure card payment process.
+ */
 class BillingAddressModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The 2-character code (ISO-3166-2 format) of the country of the address.
+     * 
+     * @var ?string
+     */  
     public ?string $Country;
+
+    /** 
+     * The 2-character code (ISO-3166-2 format) of the region of the address, if applicable.
+     * 
+     * @var ?string
+     */  
     public ?string $Region;
+
+    /** 
+     * The city part of the address.
+     * 
+     * @var ?string
+     */ 
     public ?string $City;
+
+    /** 
+     * The zip/postal code of the address.
+     * 
+     * @var ?string
+     */ 
     public ?string $Zip;
+
+    /** 
+     * First line of the whole street address.
+     * 
+     * @var ?string
+     */ 
     public ?string $Street;
+
+    /** 
+     * Second line of the whole street address, if applicable.
+     * 
+     * @var ?string
+     */ 
     public ?string $Street2;
+
+    /** 
+     * Third line of the whole street address, if applicable.
+     * 
+     * @var ?string
+     */ 
     public ?string $Street3;
 
     function __construct()

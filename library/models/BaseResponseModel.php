@@ -24,11 +24,21 @@ use Barion\Models\Error\ApiErrorModel;
 
 class BaseResponseModel
 {
-    /** @var array<object> */
+    /** 
+     * Array of API error models.
+     * 
+     * @var array<object> 
+     */
     public array $Errors;
 
+    /** 
+     * Flag indicating that the request itself was successful.
+     * IMPORTANT: This only means that the Barion API communication took place without errors. It does not inform the caller about the result of an intended action.     * 
+     * 
+     * @var bool
+     */    
     public bool $RequestSuccessful;
-
+    
     function __construct()
     {
         $this->Errors = array();

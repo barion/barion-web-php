@@ -28,18 +28,86 @@ use Barion\Enumerations\ThreeDSecure\{
     ShippingAddressIndicator
 };
 
+/**
+ * Model containing information about the purchase during a 3D-Secure card payment process.
+ */
 class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * Indicator about the delivery speed of the purchase.
+     * 
+     * @var DeliveryTimeframeType
+     */ 
     public DeliveryTimeframeType $DeliveryTimeframe;
+
+    /** 
+     * The e-mail address attached to the delivery, if applicable.
+     * 
+     * @var ?string
+     */ 
     public ?string $DeliveryEmailAddress;
+
+    /**     
+     * ISO-8601 format timestamp when pre-ordered goods will be available, if applicable.
+     * 
+     * @var ?string
+     */ 
     public ?string $PreOrderDate;
+
+    /** 
+     * Indicator about the availability of a pre-ordered product, if applicable.
+     * 
+     * @var AvailabilityIndicator
+     */
     public AvailabilityIndicator $AvailabilityIndicator;
+
+    /** 
+     * Indicator describing if this purchase is a re-order of a previous purchase.
+     * 
+     * @var ReOrderIndicator
+     */
     public ReOrderIndicator $ReOrderIndicator;
+
+    /**     
+     * ISO-8601 format timestamp of the last moment when this purchase can be used a source for a recurring/token payment.
+     * 
+     * @var ?string
+     */ 
     public ?string $RecurringExpiry;
-    public ?string $RecurringFrequency;
+
+    /**     
+     * The minimum number of days between subsequent payments. Only applicable if this is a "recurring payment" scenario.
+     * 
+     * @var ?int
+     */ 
+    public ?int $RecurringFrequency;
+
+    /** 
+     * Indicator describing the method of shipping.
+     * 
+     * @var ShippingAddressIndicator
+     */
     public ShippingAddressIndicator $ShippingAddressIndicator;
+
+    /** 
+     * Model describing the details of a gift card purchase, if applicable.
+     * 
+     * @var ?object
+     */
     public ?object $GiftCardPurchase;
+
+    /** 
+     * Indicator describing the type of purchase regarding the nature of goods or services being sold.
+     * 
+     * @var PurchaseType
+     */
     public PurchaseType $PurchaseType;
+
+    /**     
+     * ISO-8601 format timestamp of the purchase.
+     * 
+     * @var ?string
+     */ 
     public ?string $PurchaseDate;
 
     function __construct()
@@ -66,7 +134,7 @@ class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
             $this->AvailabilityIndicator = AvailabilityIndicator::from(JSON::getString($json, 'AvailabilityIndicator') ?? '');
             $this->ReOrderIndicator = ReOrderIndicator::from(JSON::getString($json, 'ReOrderIndicator') ?? '');
             $this->RecurringExpiry = JSON::getString($json, 'RecurringExpiry');
-            $this->RecurringFrequency = JSON::getString($json, 'RecurringFrequency');
+            $this->RecurringFrequency = JSON::getInt($json, 'RecurringFrequency');
             $this->ShippingAddressIndicator = ShippingAddressIndicator::from(JSON::getString($json, 'ShippingAddressIndicator') ?? '');
             $this->GiftCardPurchase = JSON::getObject($json, 'GiftCardPurchase');
             $this->PurchaseType = PurchaseType::from(JSON::getString($json, 'PurchaseType') ?? '');

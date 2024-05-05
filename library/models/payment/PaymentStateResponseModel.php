@@ -31,41 +31,205 @@ use Barion\Enumerations\ThreeDSecure\{
     RecurrenceType
 };
 
+/**
+ * Model containing detailed information about a payment on the Barion Smart Gateway.
+ */
 class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentId;
+
+    /** 
+     * The internal identifier of the payment, specified by the shop.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentRequestId;
+    
+    /** 
+     * The order number of the payment, specified by the shop.
+     * 
+     * @var ?string
+     */
     public ?string $OrderNumber;
+
+    /** 
+     * The Barion identifier of the shop that started the payment.
+     * 
+     * @var ?string
+     */
     public ?string $POSId;
+
+    /** 
+     * The name of the shop that started the payment.
+     * 
+     * @var ?string
+     */
     public ?string $POSName;
+
+    /** 
+     * The e-mail address of the owner wallet of the shop that started the payment.
+     * 
+     * @var ?string
+     */
     public ?string $POSOwnerEmail;
+
+    /** 
+     * The country of the owner wallet of the shop that started the payment.
+     * 
+     * @var ?string
+     */
     public ?string $POSOwnerCountry;
+
+    /** 
+     * The current status of the payment.
+     * 
+     * @var PaymentStatus
+     */
     public PaymentStatus $Status;
+
+    /** 
+     * The type of the payment.
+     * 
+     * @var PaymentType
+     */
     public PaymentType $PaymentType;
+
+    /** 
+     * The funding source used to complete the payment, if applicable.
+     * 
+     * @var ?string
+     */
     public ?string $FundingSource;
+
+    /** 
+     * Detailed information about the funding source used to attempt to complete the payment, if applicable.
+     * 
+     * @var object
+     */
     public object $FundingInformation;
     
-    /** @var array<\Barion\Enumerations\FundingSourceType> */
+    /** 
+     * List of funding source types allowed to complete the payment.
+     * 
+     * @var array<\Barion\Enumerations\FundingSourceType> 
+    */
     public ?array $AllowedFundingSources;
     
+    /** 
+     * Flag indicating if guest checkout is allowed for the payment.
+     * 
+     * @var ?bool
+     */
     public ?bool $GuestCheckout;
+
+    /** 
+     * ISO-8601 format timestamp of when the payment was created.
+     * 
+     * @var ?string
+     */
     public ?string $CreatedAt;
+
+    /** 
+     * ISO-8601 format timestamp while the payment can be completed.
+     * 
+     * @var ?string
+     */
     public ?string $ValidUntil;
+
+    /** 
+     * ISO-8601 format timestamp of when the payment was completed.
+     * 
+     * @var ?string
+     */
     public ?string $CompletedAt;
+
+    /** 
+     * ISO-8601 format timestamp while a started reservation payment can be finished.
+     * 
+     * @var ?string
+     */
     public ?string $ReservedUntil;
+
+    /** 
+     * ISO-8601 format timestamp while an authorized delayed capture payment can be captured.
+     * 
+     * @var ?string
+     */
     public ?string $DelayedCaptureUntil;
+
+    /** 
+     * Total amount of the payment.
+     * 
+     * @var ?float
+     */
     public ?float $Total;
+
+    /** 
+     * The currency of the payment.
+     * 
+     * @var Currency
+     */
     public Currency $Currency;
     
-    /** @var array<object> */
+    /** 
+     * Array of payment transactions attached to the payment.
+     * 
+     * @var array<object> 
+    */
     public array $Transactions;
     
+    /** 
+     * The result of a recurring payment action, if applicable.
+     * 
+     * @var RecurrenceResult
+     */
     public RecurrenceResult $RecurrenceResult;
+
+    /** 
+     * The locale of the Barion Smart Gateway for the payment.
+     * 
+     * @var UILocale
+     */
     public UILocale $SuggestedLocale;
+
+    /** 
+     * The fraud risk score connected to the payment, if applicable.
+     * 
+     * @var ?float
+     */
     public ?float $FraudRiskScore;
+
+    /** 
+     * The URL where the customer is redirected after completing or rejecting the payment.
+     * 
+     * @var ?string
+     */
     public ?string $RedirectUrl;
+
+    /** 
+     * The URL where the Barion system will send a callback request whenever the payment state is changed.
+     * 
+     * @var ?string
+     */
     public ?string $CallbackUrl;
+
+    /** 
+     * The recurrence type of the payment, if applicable.
+     * 
+     * @var RecurrenceType
+     */
     public RecurrenceType $RecurrenceType;
+
+    /** 
+     * The trace id of the 3D-Secure payment flow.
+     * 
+     * @var ?string
+     */
     public ?string $TraceId;
 
     function __construct()

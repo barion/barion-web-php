@@ -20,9 +20,23 @@ namespace Barion\Models\Common;
 
 use Barion\Helpers\JSON;
 
+/**
+ * Model containing information about a user partaking in a Barion Smart Gateway payment.
+ */
 class UserModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The name of the user.
+     * 
+     * @var ?string
+     */  
     public ?string $Name;
+
+    /** 
+     * The e-mail address of the user.
+     * 
+     * @var ?string
+     */  
     public ?string $Email;
 
     function __construct()

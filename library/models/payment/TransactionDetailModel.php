@@ -31,24 +31,107 @@ use Barion\Enumerations\{
     TransactionStatus
 };
 
+/**
+ * Model containing detailed information about a payment transaction in a Barion API request.
+ */
 class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The Barion identifier of the transaction.
+     * 
+     * @var ?string
+     */       
     public ?string $TransactionId;
+
+    /** 
+     * The internal identifier of the transaction, specified by the shop.
+     * 
+     * @var ?string
+     */   
     public ?string $POSTransactionId;
+
+    /** 
+     * ISO-8601 format timestamp of the transaction.
+     * 
+     * @var ?string
+     */       
     public ?string $TransactionTime;
+
+    /** 
+     * The total amount of the transaction.
+     * 
+     * @var ?float
+     */       
     public ?float $Total;
+
+     /** 
+     * The currency of the transaction
+     * 
+     * @var Currency
+     */    
     public Currency $Currency;
+
+    /** 
+     * Information about the payer of the transaction.
+     * 
+     * @var object
+     */ 
     public object $Payer;
+
+    /** 
+     * Information about the payee of the transaction.
+     * 
+     * @var object
+     */ 
     public object $Payee;
+
+    /** 
+     * Optional comment of the transaction.
+     * 
+     * @var ?string
+     */ 
     public ?string $Comment;
+
+    /** 
+     * Current status of the transaction.
+     * 
+     * @var TransactionStatus
+     */ 
     public TransactionStatus $Status;
+
+    /** 
+     * The type of the transaction.
+     * 
+     * @var TransactionType
+     */ 
     public TransactionType $TransactionType;
     
-    /** @var array<object> */
+    /** 
+     * Items included in the transaction.
+     * 
+     * @var array<object> 
+    */
     public array $Items;
-    
+
+    /** 
+     * Barion identifier of a transaction this one is related to.
+     * 
+     * @var ?string
+     */     
     public ?string $RelatedId;
+
+    /** 
+     * Barion identifier of the shop that started the transaction.
+     * 
+     * @var ?string
+     */ 
     public ?string $POSId;
+
+    /** 
+     * Barion identifier of the payment related to the transaction.
+     * 
+     * @var ?string
+     */ 
     public ?string $PaymentId;
 
     function __construct()

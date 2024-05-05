@@ -30,40 +30,200 @@ use Barion\Enumerations\ThreeDSecure\{
     ChallengePreference
 };
 
+/**
+ * Model used to start a new payment on the Barion Smart Gateway.
+ */
 class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The type of the payment.
+     * 
+     * @var PaymentType
+     */
     public PaymentType $PaymentType;
+
+    /** 
+     * Timespan of the period the payment should be reserved for.
+     * Applicable if PaymentType = Reservation
+     * 
+     * @var ?string
+     */
     public ?string $ReservationPeriod;
+
+    /** 
+     * Timespan of the period the payment should be available for capturing after authorization.
+     * Applicable if PaymentType = DelayedCapture
+     * 
+     * @var ?string
+     */
     public ?string $DelayedCapturePeriod;
+
+    /** 
+     * Timespan of the period the payment can be completed on the Barion Smart Gateway.
+     * 
+     * @var string
+     */
     public string $PaymentWindow;
+
+    /** 
+     * Flag indicating if guest checkout is available for the payment.
+     * 
+     * @var bool
+     */
     public bool $GuestCheckout;
     
-    /** @var array<\Barion\Enumerations\FundingSourceType> */
+    /** 
+     * Array of funding source types allowed to complete the payment.
+     * 
+     * @var array<FundingSourceType> 
+     */
     public array $FundingSources;
     
+    /** 
+     * Internal identifier of the payment, specified by the shop.
+     * 
+     * @var string
+     */
     public string $PaymentRequestId;
+
+    /** 
+     * Hint of a payer e-mail address the Barion Smart Gateway should pre-fill for the user.
+     * 
+     * @var ?string
+     */
     public ?string $PayerHint;
     
-    /** @var array<object> */
+    /** 
+     * Array of payment transactions included in the payment.
+     * 
+     * @var array<object> 
+    */
     public array $Transactions;
     
+    /** 
+     * Locale of the Barion Smart Gateway for the payment.
+     * 
+     * @var UILocale
+     */
     public UILocale $Locale;
+
+    /** 
+     * The order number of the payment, specified by the shop.
+     * 
+     * @var ?string
+     */
     public ?string $OrderNumber;
+
+    /** 
+     * Shipping address data connected to a 3D-Secure card payment.
+     * 
+     * @var ?object
+     */
     public ?object $ShippingAddress;
+
+    /** 
+     * Billing address data connected to a 3D-Secure card payment.
+     * 
+     * @var ?object
+     */
     public ?object $BillingAddress;
+
+    /** 
+     * Flag indicating if this payment is the starting point of a recurring/token payment flow.
+     * 
+     * @var bool
+     */
     public bool $InitiateRecurrence;
+
+    /** 
+     * The recurrence identifier (token) of the recurring payment, if applicable.
+     * 
+     * @var ?string
+     */
     public ?string $RecurrenceId;
+
+    /** 
+     * The URL where the customer is redirected after completing or rejecting the payment.
+     * 
+     * @var ?string
+     */
     public ?string $RedirectUrl;
+
+    /** 
+     * The URL where the Barion system will send a callback request whenever the payment state is changed.
+     * 
+     * @var ?string
+     */
     public ?string $CallbackUrl;
+
+    /** 
+     * The currency of the payment.
+     * 
+     * @var Currency
+     */
     public Currency $Currency;
+
+    /** 
+     * Information about the card holder name in case of a 3D-Secure card payment process.
+     * 
+     * @var ?string
+     */
     public ?string $CardHolderNameHint;
+
+    /** 
+     * Information about the payer phone number in case of a 3D-Secure card payment process.
+     * 
+     * @var ?string
+     */
     public ?string $PayerPhoneNumber;
+
+    /** 
+     * Payer work phone number in case of a 3D-Secure card payment process.
+     * 
+     * @var ?string
+     */
     public ?string $PayerWorkPhoneNumber;
+
+    /** 
+     * Payer home phone number in case of a 3D-Secure card payment process.
+     * 
+     * @var ?string
+     */
     public ?string $PayerHomePhoneNumber;
+
+    /** 
+     * Payer account information applicable in case of a 3D-Secure card payment process.
+     * 
+     * @var ?object
+     */
     public ?object $PayerAccountInformation;
+
+    /** 
+     * Purchase information applicable in case of a 3D-Secure card payment process.
+     * 
+     * @var ?object
+     */
     public ?object $PurchaseInformation;
+
+    /** 
+     * Type of recurrence in case of a recurring/token payment scenario.
+     * 
+     * @var RecurrenceType
+     */
     public RecurrenceType $RecurrenceType;
+
+    /** 
+     * Challenge preference indicator for a 3D-Secure card payment process.
+     * 
+     * @var ChallengePreference
+     */
     public ChallengePreference $ChallengePreference;
+
+    /** 
+     * The trace id of the 3D-Secure payment flow.
+     * 
+     * @var ?string
+     */
     public ?string $TraceId;
 
     /** @param array<\Barion\Enumerations\FundingSourceType> $allowedFundingSources */

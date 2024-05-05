@@ -14,19 +14,18 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * @param $json
- * @param $propertyName
- * @return null
  */
 
 namespace Barion\Helpers;
 
 class StringExtension {
-    
-    /** 
-        @param ?string $string
-        @return bool
-    */
+        
+    /**
+     * Helper function to decide if a given string value is null or empty.
+     *
+     * @param ?string $string
+     * @return bool
+     */
     public static function isNullOrEmpty($string) : bool
     {
         return ($string === null || trim($string) === '');

@@ -18,11 +18,37 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model describing a transaction that is being refunded.
+ */
 class TransactionToRefundModel
 {
+    /** 
+     * The Barion identifier of the transaction.
+     * 
+     * @var string
+     */ 
     public string $TransactionId;
+
+    /** 
+     * The internal identifier of the transaction, specified by the shop.
+     * 
+     * @var string
+     */ 
     public string $POSTransactionId;
+    
+    /** 
+     * The amount to refund from the transaction.
+     * 
+     * @var float
+     */ 
     public float $AmountToRefund;
+    
+    /** 
+     * Optional comment of the refund transaction.
+     * 
+     * @var ?string
+     */ 
     public ?string $Comment;
 
     function __construct(string $transactionId, string $posTransactionId, float $amountToRefund, string $comment = null)

@@ -24,14 +24,44 @@ use Barion\Enumerations\{
     PaymentStatus
 };
 
+/**
+ * Model containing the response data after requesting the finishing of a previously started reservation payment on the Barion Smart Gateway.
+ */
 class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * Flag indicating that the cancellation was successful.
+     * 
+     * @var ?bool
+     */
     public ?bool $IsSuccessful;
+
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentId;
+
+    /** 
+     * The internal identifier of the payment, specified by the shop.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentRequestId;
+
+    /** 
+     * The status of the payment
+     * 
+     * @var PaymentStatus
+     */
     public PaymentStatus $Status;
     
-    /** @var array<object> */
+    /**
+     * Array of reservation payment transactions that were finished.
+     * 
+     *  @var array<object> 
+    */
     public array $Transactions;
 
     function __construct()

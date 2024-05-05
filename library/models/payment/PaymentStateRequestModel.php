@@ -18,8 +18,16 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model used to request detailed information about a payment on the Barion Smart Gateway.
+ */
 class PaymentStateRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var string
+     */
     public string $PaymentId;
 
     function __construct(string $paymentId)

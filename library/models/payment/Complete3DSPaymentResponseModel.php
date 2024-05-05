@@ -24,12 +24,44 @@ use Barion\Enumerations\{
     PaymentStatus
 };
 
+/**
+ * Model containing the response data after completing a previously off-site authenticated 3D-Secure card payment.
+ */
 class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * Flag indicating that the cancellation was successful.
+     * 
+     * @var ?bool
+     */
     public ?bool $IsSuccessful;
+
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentId;
+
+    /** 
+     * The internal identifier of the payment, specified by the shop.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentRequestId;
+
+    /** 
+     * The status of the payment
+     * 
+     * @var PaymentStatus
+     */
     public PaymentStatus $Status;
+
+    /** 
+     * The trace id of the 3D-Secure payment flow.
+     * 
+     * @var ?string
+     */
     public ?string $TraceId;
 
     function __construct()

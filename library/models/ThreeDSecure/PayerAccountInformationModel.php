@@ -29,23 +29,121 @@ use Barion\Enumerations\ThreeDSecure\{
     SuspiciousActivityIndicator
 };
 
+/**
+ * Model containing information about the payer during a 3D-Secure card payment process.
+ */
 class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The account number of the payer, if applicable.
+     * 
+     * @var ?string
+     */  
     public ?string $AccountId;
+    
+    /** 
+     * ISO-8601 format timestamp of the creation of the payer account.
+     * 
+     * @var ?string
+     */  
     public ?string $AccountCreated;
+
+    /** 
+     * Indicator describing the time since the payer account has been created.
+     * 
+     * @var AccountCreationIndicator
+     */  
     public AccountCreationIndicator $AccountCreationIndicator;
+    
+    /** 
+     * ISO-8601 format timestamp of the last change of the payer account.
+     * 
+     * @var ?string
+     */  
     public ?string $AccountLastChanged;
+
+    /** 
+     * Indicator describing the time since the payer account has been changed.
+     * 
+     * @var AccountChangeIndicator
+     */  
     public AccountChangeIndicator $AccountChangeIndicator;
+    
+    /** 
+     * ISO-8601 format timestamp of the last password change of the payer account.
+     * 
+     * @var ?string
+     */  
     public ?string $PasswordLastChanged;
+    
+    /** 
+     * Indicator describing the time since the last password change regarding the payer account.
+     * 
+     * @var PasswordChangeIndicator
+     */  
     public PasswordChangeIndicator $PasswordChangeIndicator;
-    public ?string $PurchasesInTheLastSixMonths;
+    
+    /** 
+     * Number of successful purchases during the last six months made by the payer account.
+     * 
+     * @var ?int
+     */  
+    public ?int $PurchasesInTheLastSixMonths;
+    
+    /** 
+     * ISO-8601 format timestamp when a shipping address was last added to the payer account.
+     * 
+     * @var ?string
+     */ 
     public ?string $ShippingAddressAdded;
+    
+    /** 
+     * Indicator describing how long ago was the shipping address added to the payer account.
+     * 
+     * @var ShippingAddressUsageIndicator
+     */  
     public ShippingAddressUsageIndicator $ShippingAddressUsageIndicator;
+    
+    /** 
+     * ISO-8601 format timestamp when a payment method was last added to the payer account.
+     * 
+     * @var ?string
+     */ 
     public ?string $PaymentMethodAdded;
+    
+    /** 
+     * Indicator describing how long ago was the payment method added to the payer account.
+     * 
+     * @var PaymentMethodIndicator
+     */ 
     public PaymentMethodIndicator $PaymentMethodIndicator;
-    public ?string $ProvisionAttempts;
-    public ?string $TransactionalActivityPerDay;
-    public ?string $TransactionalActivityPerYear;
+    
+    /** 
+     * Number of successfully added payment methods (e.g. bank cards) the payer account during the last 24 hours.
+     * 
+     * @var ?int
+     */
+    public ?int $ProvisionAttempts;
+    
+    /** 
+     * Number of successful transactions made by the payer account in the last 24 hours.
+     * 
+     * @var ?int
+     */
+    public ?int $TransactionalActivityPerDay;
+    
+    /** 
+     * Number of successful transactions made by the payer account in the last 365 days.
+     * 
+     * @var ?int
+     */
+    public ?int $TransactionalActivityPerYear;
+    
+    /** 
+     * Indicator about any suspicious activity regarding the payer account.
+     * 
+     * @var SuspiciousActivityIndicator
+     */  
     public SuspiciousActivityIndicator $SuspiciousActivityIndicator;
 
     function __construct()
@@ -78,14 +176,14 @@ class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
             $this->AccountChangeIndicator = AccountChangeIndicator::from(JSON::getString($json, 'AccountChangeIndicator') ?? '');
             $this->PasswordLastChanged = JSON::getString($json, 'PasswordLastChanged');
             $this->PasswordChangeIndicator = PasswordChangeIndicator::from(JSON::getString($json, 'PasswordChangeIndicator') ?? '');
-            $this->PurchasesInTheLastSixMonths = JSON::getString($json, 'PurchasesInTheLastSixMonths');
+            $this->PurchasesInTheLastSixMonths = JSON::getInt($json, 'PurchasesInTheLastSixMonths');
             $this->ShippingAddressAdded = JSON::getString($json, 'ShippingAddressAdded');
             $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::from(JSON::getString($json, 'ShippingAddressUsageIndicator') ?? '');
             $this->PaymentMethodAdded = JSON::getString($json, 'PaymentMethodAdded');
             $this->PaymentMethodIndicator = PaymentMethodIndicator::from(JSON::getString($json, 'PaymentMethodIndicator') ?? '');
-            $this->ProvisionAttempts = JSON::getString($json, 'ProvisionAttempts');
-            $this->TransactionalActivityPerDay = JSON::getString($json, 'TransactionalActivityPerDay');
-            $this->TransactionalActivityPerYear = JSON::getString($json, 'TransactionalActivityPerYear');
+            $this->ProvisionAttempts = JSON::getInt($json, 'ProvisionAttempts');
+            $this->TransactionalActivityPerDay = JSON::getInt($json, 'TransactionalActivityPerDay');
+            $this->TransactionalActivityPerYear = JSON::getInt($json, 'TransactionalActivityPerYear');
             $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::from(JSON::getString($json, 'SuspiciousActivityIndicator') ?? '');
         }
     }

@@ -24,12 +24,44 @@ use Barion\Enumerations\{
     TransactionStatus
 };
 
-class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
-
+/**
+ * Model containing information that was refunded via the Barion system.
+ */
+class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel 
+{
+    /** 
+     * The Barion identifier of the refunded transaction.
+     * 
+     * @var ?string
+     */
     public ?string $TransactionId;
+
+    /** 
+     * The total amount of the refunded transaction.
+     * 
+     * @var ?float
+     */
     public ?float $Total;
+
+    /** 
+     * The internal identifier of the refunded transaction, specified by the shop when starting the payment.
+     * 
+     * @var ?string
+     */
     public ?string $POSTransactionId;
+
+    /** 
+     * The comment for the refund.
+     * 
+     * @var ?string
+     */
     public ?string $Comment;
+
+    /** 
+     * The status of the refunded transaction.
+     * 
+     * @var TransactionStatus
+     */
     public TransactionStatus $Status;
 
     function __construct()
@@ -40,7 +72,6 @@ class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
         $this->Comment = null;
         $this->Status = TransactionStatus::Unknown;
     }
-
 
     public function fromJson(array $json) : void
     {

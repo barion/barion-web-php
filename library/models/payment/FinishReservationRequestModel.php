@@ -18,11 +18,23 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model used to request the finish of a previously started reservation payment on the Barion Smart Gateway.
+ */
 class FinishReservationRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var string
+     */
     public string $PaymentId;
     
-    /** @var array<object> */
+    /** 
+     * Array of started reservation payment transactions that are to be finished.
+     * 
+     * @var array<object>
+    */
     public array $Transactions;
 
     function __construct(string $paymentId)
@@ -31,6 +43,12 @@ class FinishReservationRequestModel extends \Barion\Models\BaseRequestModel
         $this->Transactions = array();
     }
 
+    /**
+     * Add a single transaction to the finish reservation request.
+     *
+     * @param TransactionToFinishModel $transaction Model describing the transaction to be finished.
+     * @return void
+     */
     public function AddTransaction(TransactionToFinishModel $transaction) : void
     {
         if ($this->Transactions == null) {

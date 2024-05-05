@@ -14,9 +14,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * @param $json
- * @param $propertyName
- * @return null
  */
 
 namespace Barion\Helpers;
@@ -24,9 +21,9 @@ namespace Barion\Helpers;
 class JSON {
 
     /**
-     * Gets the value of the specified property from the json
+     * Gets the value of the specified property from the JSON as a string.
      *
-     * @param mixed $json The json
+     * @param mixed $json The JSON
      * @param string $propertyName
      * @return ?string The value of the property as string
      */ 
@@ -46,9 +43,9 @@ class JSON {
     }
     
     /**
-     * Gets the value of the specified property from the json
+     * Gets the value of the specified property from the JSON as an integer number.
      *
-     * @param mixed $json The json
+     * @param mixed $json The JSON
      * @param string $propertyName
      * @return ?int The value of the property as int
      */ 
@@ -65,14 +62,13 @@ class JSON {
         }
         
         return intval($value);
-        //return isset($json[$propertyName]) ? (int)$json[$propertyName] : null;
     }
     
     
     /**
-     * Gets the value of the specified property from the json
+     * Gets the value of the specified property from the JSON as a floating point number.
      *
-     * @param mixed $json The json
+     * @param mixed $json The JSON
      * @param string $propertyName
      * @return ?float The value of the property as float
      */ 
@@ -89,13 +85,12 @@ class JSON {
         }
         
         return floatval($value);
-        //return isset($json[$propertyName]) ? (float)$json[$propertyName] : null;
     }
     
     /**
-     * Gets the value of the specified property from the json
+     * Gets the value of the specified property from the JSON as a boolean.
      *
-     * @param mixed $json The json
+     * @param mixed $json The JSON
      * @param string $propertyName
      * @return ?bool The value of the property as bool
      */ 
@@ -112,13 +107,12 @@ class JSON {
         }
         
         return (bool)$value;
-        //return isset($json[$propertyName]) ? (bool)$json[$propertyName] : null;
     }        
     
     /**
-     * Gets the value of the specified property from the json
+     * Gets the value of the specified property from the JSON as an associative array.
      *
-     * @param mixed $json The json
+     * @param mixed $json The JSON
      * @param string $propertyName
      * @return ?array<mixed> The value of the property as an array
      */ 
@@ -135,13 +129,12 @@ class JSON {
         }
         
         return null;
-        //return isset($json[$propertyName]) ? (array)$json[$propertyName] : null;
     }
     
     /**
-     * Gets the value of the specified property from the json
+     * Gets the value of the specified property from the JSON as a standard PHP object.
      *
-     * @param mixed $json The json
+     * @param mixed $json The JSON
      * @param string $propertyName
      * @return ?object The value of the property as object
      */ 
@@ -158,7 +151,6 @@ class JSON {
         }
         
         return null;
-        //return isset($json[$propertyName]) ? (object)$json[$propertyName] : null;
     }    
 
 }

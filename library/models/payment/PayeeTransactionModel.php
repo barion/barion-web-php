@@ -18,11 +18,37 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model describing a payee transaction attached to a payment transaction.
+ */
 class PayeeTransactionModel
 {
+    /** 
+     * The internal identifier of the payee transaction.
+     * 
+     * @var string
+     */
     public string $POSTransactionId;
+    
+    /** 
+     * The e-mail address of the Barion wallet of the payee.
+     * 
+     * @var string
+     */
     public string $Payee;
+
+    /** 
+     * The total amount of the payee transaction
+     * 
+     * @var float
+     */
     public float $Total;
+
+    /** 
+     * Optional comment for the payee transaction.
+     * 
+     * @var ?string
+     */
     public ?string $Comment;
 
     function __construct()

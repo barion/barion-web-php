@@ -20,13 +20,23 @@ namespace Barion\Models\Refund;
 
 use Barion\Helpers\JSON;
 
+/**
+ * Model containing the response data after a refund request sent to the Barion API.
+ */
 class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
-{
-    
-    
+{    
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentId;    
     
-    /** @var array<object> */
+    /** 
+     * Array of transactions that were refunded during the request.
+     * 
+     * @var array<object> 
+     */
     public array $RefundedTransactions;
 
     function __construct()

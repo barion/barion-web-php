@@ -18,11 +18,23 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model used to request to capture the amount of a previously authorized payment in a delayed capture scenario.
+ */
 class CaptureRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var string
+     */
     public string $PaymentId;
     
-    /** @var array<object> */
+    /** 
+     * Array of previously authorized payment transactions that are to be captured.
+     * 
+     * @var array<object>
+    */
     public array $Transactions;
 
     function __construct(string $paymentId)
@@ -30,7 +42,13 @@ class CaptureRequestModel extends \Barion\Models\BaseRequestModel
         $this->PaymentId = $paymentId;
         $this->Transactions = array();
     }
-
+    
+    /**
+     * Add a single transaction to the capture request.
+     *
+     * @param TransactionToCaptureModel $transaction Model describing the transaction to be captured.
+     * @return void
+     */
     public function AddTransaction(TransactionToCaptureModel $transaction) : void
     {
         if ($this->Transactions == null) {

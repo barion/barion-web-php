@@ -18,11 +18,27 @@
 
 namespace Barion\Models\Refund;
 
+use Barion\Models\Payment\{
+    TransactionToRefundModel
+};
+
+/**
+ * Model used to request the refund of a previously completed payment transaction.
+ */
 class RefundRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var string
+     */
     public string $PaymentId;
     
-    /** @var array<object> */
+    /** 
+     * Array of transactions in the payment that are to be refunded.
+     * 
+     * @var array<object> 
+     */
     public array $TransactionsToRefund;
 
     function __construct(string $paymentId)
@@ -30,8 +46,14 @@ class RefundRequestModel extends \Barion\Models\BaseRequestModel
         $this->PaymentId = $paymentId;
         $this->TransactionsToRefund = array();
     }
-
-    public function AddTransaction(\Barion\Models\Payment\TransactionToRefundModel $transaction) : void
+    
+    /**
+     * Add a single transaction to the refund request.
+     *
+     * @param TransactionToRefundModel $transaction Model describing the transaction to be refunded.
+     * @return void
+     */
+    public function AddTransaction(TransactionToRefundModel $transaction) : void
     {
         array_push($this->TransactionsToRefund, $transaction);
     }
@@ -41,7 +63,7 @@ class RefundRequestModel extends \Barion\Models\BaseRequestModel
     {
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
-                if ($transaction instanceof \Barion\Models\Payment\TransactionToRefundModel) {
+                if ($transaction instanceof TransactionToRefundModel) {
                     $this->AddTransaction($transaction);
                 }
             }

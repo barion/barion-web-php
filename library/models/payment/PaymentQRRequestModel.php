@@ -20,11 +20,38 @@ namespace Barion\Models\Payment;
 
 use Barion\Enumerations\QRCodeSize;
 
+/**
+ * @deprecated
+ * Model used to request a QR code image for the Barion Smart Gateway URL of a payment.
+ */
 class PaymentQRRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The Barion user name (e-mail address) of the caller.
+     * 
+     * @var string
+     */
     public string $UserName;
+
+    /** 
+     * The Barion password of the caller.
+     * 
+     * @var string
+     */
     public string $Password;
+
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var string
+     */
     public string $PaymentId;
+
+    /** 
+     * Size of the requested QR code image.
+     * 
+     * @var QRCodeSize
+     */
     public QRCodeSize $Size;
 
     function __construct(string $userName, string $password, string $paymentId, QRCodeSize $size = QRCodeSize::Normal)

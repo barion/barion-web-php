@@ -16,16 +16,17 @@
  * limitations under the License.
  */
 
-/**
- * Mother of all requests. For now with every request, the  credentials have to be sent as well.
- * This will be changed to oAuth in the near future.
- */
- 
 namespace Barion\Models;
- 
+
+/**
+ * Base model of all requests sent towards the Barion API.
+ */
 class BaseRequestModel
 {
-    // for poskey authentication
+    /** 
+     * The secret key of the shop that is calling the Barion API, used for authentication.
+     * 
+     * @var string
+     */   
     public string $POSKey;
-
 }

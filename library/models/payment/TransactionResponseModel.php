@@ -24,12 +24,44 @@ use Barion\Enumerations\{
     TransactionStatus
 };
 
+/**
+ *  Model containing detailed information about a payment transaction in a Barion API response.
+ */
 class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The internal identifier of the transaction, specified by the shop.
+     * 
+     * @var ?string
+     */   
     public ?string $POSTransactionId;
+
+    /** 
+     * The Barion identifier of the transaction.
+     * 
+     * @var ?string
+     */    
     public ?string $TransactionId;
+
+    /** 
+     * Current status of the transaction.
+     * 
+     * @var TransactionStatus
+     */ 
     public TransactionStatus $Status;
+
+    /** 
+     * ISO-8601 format timestamp of the transaction.
+     * 
+     * @var ?string
+     */  
     public ?string $TransactionTime;
+
+    /** 
+     * Barion identifier of a transaction this one is related to.
+     * 
+     * @var ?string
+     */     
     public ?string $RelatedId;
 
     function __construct()

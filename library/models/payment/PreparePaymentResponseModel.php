@@ -25,19 +25,72 @@ use Barion\Enumerations\{
     RecurrenceResult
 };
 
+/**
+ * Model containing the response data after starting a new payment on the Barion Smart Gateway.
+ */
 class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentId;
+
+    /** 
+     * The internal identifier of the payment, specified by the shop.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentRequestId;
+
+    /** 
+     * The status of the payment.
+     * 
+     * @var PaymentStatus
+     */
     public PaymentStatus $Status;
     
-    /** @var array<object> */
+    /** 
+     * Array of payment transactions included in the payment.
+     * 
+     * @var array<object> 
+    */
     public array $Transactions;
-    
+
+    /** 
+     * URL for a QR code image containing the Barion Smart Gateway address for the payment.
+     * 
+     * @var ?string
+     */
     public ?string $QRUrl;
+
+    /** 
+     * The result of a recurring payment action, if applicable.
+     * 
+     * @var RecurrenceResult
+     */
     public RecurrenceResult $RecurrenceResult;
+
+    /** 
+     * The Barion Smart Gateway URL the customer should be redirected to, so they can complete the payment.
+     * 
+     * @var ?string
+     */
     public ?string $PaymentRedirectUrl;
+
+    /** 
+     * 3D-Secure authentication data, applicable if off-site authentication is required.
+     * 
+     * @var ?string
+     */
     public ?string $ThreeDSAuthClientData;
+
+    /** 
+     * The trace id of the 3D-Secure payment flow.
+     * 
+     * @var ?string
+     */    
     public ?string $TraceId;
 
     function __construct()

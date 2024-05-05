@@ -20,14 +20,58 @@ namespace Barion\Models\Error;
 
 use Barion\Helpers\JSON;
 
+/**
+ * Model containing error response data received from the Barion API.
+ */
 class ApiErrorModel
 {
+    /** 
+     * The title of the error message.
+     * 
+     * @var ?string
+     */  
     public ?string $Title;
+
+    /** 
+     * An alphanumeric code of the error.
+     * 
+     * @var ?string
+     */  
     public ?string $ErrorCode;
+
+    /** 
+     * The detailed description of the error, if applicable.
+     * 
+     * @var ?string
+     */  
     public ?string $Description;
+
+    /** 
+     * The timestamp when the error occured.
+     * 
+     * @var ?string
+     */  
     public ?string $HappenedAt;
+
+    /** 
+     * Details about the authentication data available during the request where the error occured.
+     * 
+     * @var ?string
+     */  
     public ?string $AuthData;
+
+    /** 
+     * The API endpoint on which the error occured.
+     * 
+     * @var ?string
+     */  
     public ?string $EndPoint;
+
+    /** 
+     * The Barion payment identifier related to the error, if applicable.
+     * 
+     * @var ?string
+     */  
     public ?string $PaymentId;
 
     function __construct()

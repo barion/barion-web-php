@@ -20,10 +20,30 @@ namespace Barion\Models\Common;
 
 use Barion\Helpers\JSON;
 
+/**
+ * Model containing information about the funding source that was used to attempt to complete a payment on the Barion Smart Gateway.
+ */
 class FundingInformationModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The object containing bank card details.
+     * 
+     * @var object
+     */  
     public object $BankCard;
+
+    /** 
+     * The authorization code received from the bank system during the card payment.
+     * 
+     * @var ?string
+     */  
     public ?string $AuthorizationCode;
+
+    /** 
+     * The process result received from the bank system during the card payment.
+     * 
+     * @var ?string
+     */  
     public ?string $ProcessResult;
 
     function __construct()

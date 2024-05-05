@@ -18,17 +18,48 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\Common\{
+    ItemModel
+};
+
+/**
+ * Model describing a transaction that is being captured in a delayed capture scenario.
+ */
 class TransactionToCaptureModel
 {
+    /** 
+     * The Barion identifier of the transaction.
+     * 
+     * @var string
+     */  
     public string $TransactionId;
+
+    /** 
+     * The total amount to capture in the transaction.
+     * 
+     * @var float
+     */
     public float $Total;
     
-    /** @var array<object> */
+    /** 
+     * Payee transactions attached to the transaction.
+     * 
+     * @var array<object> 
+     */
     public array $PayeeTransactions;
     
-     /** @var array<object> */
+     /**
+      * Items included in the transaction.
+      *
+      * @var array<object> 
+      */
     public array $Items;
     
+    /** 
+     * Optional comment of the transaction.
+     * 
+     * @var ?string
+     */ 
     public ?string $Comment;
 
     function __construct()
@@ -39,8 +70,14 @@ class TransactionToCaptureModel
         $this->Comment = null;
         $this->Items = array();
     }
-
-    public function AddItem(\Barion\Models\Common\ItemModel $item) : void
+    
+    /**
+     * Add a single item to the transaction.
+     *
+     * @param ItemModel $item
+     * @return void
+     */
+    public function AddItem(ItemModel $item) : void
     {
         array_push($this->Items, $item);
     }
@@ -49,12 +86,18 @@ class TransactionToCaptureModel
     public function AddItems(array $items) : void
     {
         foreach ($items as $item) {
-            if ($item instanceof \Barion\Models\Common\ItemModel) {
+            if ($item instanceof ItemModel) {
                 $this->AddItem($item);
             }
         }
     }
-    
+
+    /**
+     * Add a single payee transaction to the transaction.
+     *
+     * @param PayeeTransactionToFinishModel $model Model describing the payee transaction to be captured.
+     * @return void
+     */    
     public function AddPayeeTransaction(PayeeTransactionToFinishModel $model) : void
     {
         array_push($this->PayeeTransactions, $model);

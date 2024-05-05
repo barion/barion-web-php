@@ -18,8 +18,16 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model used to completed a previously off-site authenticated 3D-Secure card payment.
+ */
 class Complete3DSPaymentRequestModel extends \Barion\Models\BaseRequestModel
 {
+    /** 
+     * The Barion identifier of the payment.
+     * 
+     * @var string
+     */
     public string $PaymentId;
 
     function __construct(string $paymentId)

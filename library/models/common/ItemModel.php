@@ -20,14 +20,59 @@ namespace Barion\Models\Common;
 
 use Barion\Helpers\JSON;
 
+/**
+ * Model representing an item included in a payment transaction.
+ */
 class ItemModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The name of the item.
+     * 
+     * @var ?string
+     */  
     public ?string $Name;
+
+    /** 
+     * The decription of the item.
+     * 
+     * @var ?string
+     */  
     public ?string $Description;
+    
+    /** 
+     * The quantity purchased during the transaction.
+     * 
+     * @var ?float
+     */  
     public ?float $Quantity;
+    
+    /** 
+     * The unit name, if applicable.
+     * Example: piece, month, kilograms, etc.
+     * 
+     * @var ?string
+     */  
     public ?string $Unit;
+    
+    /** 
+     * Price of one unit of the item.
+     * 
+     * @var ?float
+     */  
     public ?float $UnitPrice;
+    
+    /** 
+     * The total amount paid for the item.
+     * 
+     * @var ?float
+     */  
     public ?float $ItemTotal;
+    
+    /** 
+     * Storage Keeping Unit, an internal identifier specified by the shop.
+     * 
+     * @var ?string
+     */  
     public ?string $SKU;
 
     function __construct()

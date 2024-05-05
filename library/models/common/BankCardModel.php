@@ -20,11 +20,38 @@ namespace Barion\Models\Common;
 
 use Barion\Helpers\JSON;
 
+/**
+ * Model representing a bank card that was used to complete a payment on the Barion Smart Gateway.
+ */
 class BankCardModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The last 4 digits of the bank card number.
+     * 
+     * @var ?string
+     */   
     public ?string $MaskedPan;
+    
+    /** 
+     * The type of the card, containing the name of the issuer network.
+     * Example: Visa, Mastercard, etc.
+     * 
+     * @var ?string
+     */   
     public ?string $BankCardType;
+    
+    /** 
+     * The expiration year of the card in a 2-digit representation.
+     * 
+     * @var ?string
+     */   
     public ?string $ValidThruYear;
+    
+    /** 
+     * The expiration month of the card in a 2-digit representation.
+     * 
+     * @var ?string
+     */   
     public ?string $ValidThruMonth;
 
     function __construct()

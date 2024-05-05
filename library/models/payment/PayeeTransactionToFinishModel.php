@@ -18,10 +18,30 @@
 
 namespace Barion\Models\Payment;
 
+/**
+ * Model describing a payee transaction attached to a reservation payment transaction that is being finished.
+ */
 class PayeeTransactionToFinishModel
 {
+    /** 
+     * The Barion identifier of the payee transaction.
+     * 
+     * @var string
+     */
     public string $TransactionId;
+
+    /** 
+     * The total finishing amount of the payee transaction.
+     * 
+     * @var float
+     */
     public float $Total;
+
+    /** 
+     * Optional comment for the finished payee transaction.
+     * 
+     * @var ?string
+     */
     public ?string $Comment;
 
     function __construct()

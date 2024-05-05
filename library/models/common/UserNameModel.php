@@ -21,11 +21,37 @@ namespace Barion\Models\Common;
 use Barion\Helpers\JSON;
 use Barion\Helpers\StringExtension;
 
+/**
+ * Model containing information about the name of a user partaking in a Barion Smart Gateway payment.
+ */
 class UserNameModel implements \Barion\Interfaces\IBarionModel
 {
+    /** 
+     * The Barion login name of the user.
+     * 
+     * @var ?string
+     */  
     public ?string $LoginName;
+
+    /** 
+     * The first name of the user. Applicable only for individuals.
+     * 
+     * @var ?string
+     */  
     public ?string $FirstName;
+
+    /** 
+     * The last name of the user. Applicable only for individuals.
+     * 
+     * @var ?string
+     */  
     public ?string $LastName;
+
+    /** 
+     * The full organization name of the user. Applicable only for organizations.
+     * 
+     * @var ?string
+     */  
     public ?string $OrganizationName;
 
     function __construct()

@@ -22,17 +22,51 @@ use Barion\Models\Common\{
     ItemModel
 };
 
+/**
+ * Model containing details about a payment transaction attached to a Barion Smart Gateway payment.
+ */
 class PaymentTransactionModel
 {
+    /** 
+     * The internal identifier of the transaction, specified by the shop.
+     * 
+     * @var string
+     */
     public string $POSTransactionId;
+
+    /** 
+     * The e-mail address of the recipient of the payment amount.
+     * 
+     * @var string
+     */
     public string $Payee;
+
+    /** 
+     * The total amount of the payment.
+     * 
+     * @var float
+     */
     public float $Total;
+
+    /** 
+     * Optional comment of the payment transaction.
+     * 
+     * @var ?string
+     */
     public ?string $Comment;
     
-    /** @var array<object> */
+    /** 
+     * Array of items included in the transaction.
+     * 
+     * @var array<object> 
+     */
     public array $Items;
     
-    /** @var array<object> */
+    /** 
+     * Array of payee transactions attached to the transaction.
+     * 
+     * @var array<object> 
+     */
     public array $PayeeTransactions;
 
     function __construct()
@@ -44,7 +78,13 @@ class PaymentTransactionModel
         $this->Items = array();
         $this->PayeeTransactions = array();
     }
-    
+        
+    /**
+     * Add a single item to the payment transaction.
+     *
+     * @param ItemModel $item
+     * @return void
+     */
     public function AddItem(ItemModel $item) : void
     {
         array_push($this->Items, $item);
@@ -60,6 +100,12 @@ class PaymentTransactionModel
         }
     }
 
+    /**
+     * Attach a single payee transaction to the payment transaction.
+     *
+     * @param PayeeTransactionModel $model
+     * @return void
+     */
     public function AddPayeeTransaction(PayeeTransactionModel $model) : void
     {
         array_push($this->PayeeTransactions, $model);
