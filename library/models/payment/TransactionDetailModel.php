@@ -18,18 +18,24 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Enumerations\{
+    Currency,
+    TransactionType,
+    TransactionStatus
+};
+
 class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
 {
     public string $TransactionId;
     public ?string $POSTransactionId;
     public string $TransactionTime;
     public float $Total;
-    public string $Currency;
+    public Currency $Currency;
     public object $Payer;
     public object $Payee;
     public ?string $Comment;
-    public string $Status;
-    public string $TransactionType;
+    public TransactionStatus $Status;
+    public TransactionType $TransactionType;
     public array $Items;
     public ?string $RelatedId;
     public ?string $POSId;
@@ -41,12 +47,12 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
         $this->POSTransactionId = null;
         $this->TransactionTime = "";
         $this->Total = 0.0;
-        $this->Currency = "";
+        $this->Currency = Currency::HUF;
         $this->Payer = new \Barion\Models\Common\UserModel();
         $this->Payee = new \Barion\Models\Common\UserModel();
         $this->Comment = null;
-        $this->Status = "";
-        $this->TransactionType = "";
+        $this->Status = TransactionStatus::Unknown;
+        $this->TransactionType = TransactionType::Unspecified;
         $this->Items = array();
         $this->RelatedId = null;
         $this->POSId = null;
@@ -60,7 +66,7 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
             $this->POSTransactionId = $json['POSTransactionId'];
             $this->TransactionTime = $json['TransactionTime'];
             $this->Total = $json['Total'];
-            $this->Currency = $json['Currency'];
+            $this->Currency = Currency::from($json['Currency']);
 
             $this->Payer = new \Barion\Models\Common\UserModel();
             $this->Payer->fromJson($json['Payer']);
@@ -69,8 +75,8 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
             $this->Payee->fromJson($json['Payee']);
 
             $this->Comment = $json['Comment'];
-            $this->Status = $json['Status'];
-            $this->TransactionType = $json['TransactionType'];
+            $this->Status = TransactionStatus::from($json['Status']);
+            $this->TransactionType = TransactionType::from($json['TransactionType']);
 
             $this->Items = array();
 

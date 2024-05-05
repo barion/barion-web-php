@@ -19,6 +19,15 @@
 namespace Barion\Models\Payment;
 
 use function Barion\Helpers\jget;
+use Barion\Enumerations\{
+    PaymentType,
+    PaymentStatus,
+    Currency,
+    RecurrenceResult
+};
+use Barion\Enumerations\ThreeDSecure\{
+    RecurrenceType
+};
 
 class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
@@ -29,8 +38,8 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
     public string $POSName;
     public string $POSOwnerEmail;
     public string $POSOwnerCountry;
-    public string $Status;
-    public string $PaymentType;
+    public PaymentStatus $Status;
+    public PaymentType $PaymentType;
     public ?string $FundingSource;
     public object $FundingInformation;
     public array $AllowedFundingSources;
@@ -41,14 +50,14 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
     public ?string $ReservedUntil;
     public ?string $DelayedCaptureUntil;
     public float $Total;
-    public string $Currency;
+    public Currency $Currency;
     public array $Transactions;
-    public ?string $RecurrenceResult;
+    public RecurrenceResult $RecurrenceResult;
     public string $SuggestedLocale;
     public ?float $FraudRiskScore;
     public ?string $RedirectUrl;
     public ?string $CallbackUrl;
-    public ?string $RecurrenceType;
+    public RecurrenceType $RecurrenceType;
     public ?string $TraceId;
 
     function __construct()
@@ -61,8 +70,8 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
         $this->POSName = "";
         $this->POSOwnerEmail = "";
         $this->POSOwnerCountry = "";
-        $this->Status = "";
-        $this->PaymentType = "";
+        $this->Status = PaymentStatus::Prepared;
+        $this->PaymentType = PaymentType::Immediate;
         $this->FundingSource = null;
         $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
         $this->AllowedFundingSources = array();
@@ -73,15 +82,15 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
         $this->ReservedUntil = null;
         $this->DelayedCaptureUntil = null;
         $this->Total = 0.0;
-        $this->Currency = "";
+        $this->Currency = Currency::HUF;
         $this->Transactions = array();
-        $this->RecurrenceResult = "";
+        $this->RecurrenceResult = RecurrenceResult::None;
         $this->SuggestedLocale ="";
         $this->FraudRiskScore = 0.0;
         $this->RedirectUrl = null;
         $this->CallbackUrl = null;
         $this->TraceId = null;
-        $this->RecurrenceType = null;
+        $this->RecurrenceType = RecurrenceType::Unspecified;
     }
 
     public function fromJson($json)
@@ -96,8 +105,8 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->POSName = jget($json, 'POSName');
             $this->POSOwnerEmail = jget($json, 'POSOwnerEmail');
             $this->POSOwnerCountry = jget($json, 'POSOwnerCountry');
-            $this->Status = jget($json, 'Status');
-            $this->PaymentType = jget($json, 'PaymentType');
+            $this->Status = PaymentStatus::from(jget($json, 'Status'));
+            $this->PaymentType = PaymentType::from(jget($json, 'PaymentType'));
             $this->FundingSource = jget($json, 'FundingSource');
             if(!empty($json['FundingInformation'])) {
                 $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
@@ -111,14 +120,14 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->ReservedUntil = jget($json, 'ReservedUntil');
             $this->DelayedCaptureUntil = jget($json, 'DelayedCaptureUntil');
             $this->Total = jget($json, 'Total');
-            $this->Currency = jget($json, 'Currency');
-            $this->RecurrenceResult = jget($json, 'RecurrenceResult');
+            $this->Currency = Currency::from(jget($json, 'Currency'));
+            $this->RecurrenceResult = RecurrenceResult::from(jget($json, 'RecurrenceResult') ?? 'None');
             $this->SuggestedLocale = jget($json, 'SuggestedLocale');
             $this->FraudRiskScore = jget($json, 'FraudRiskScore');
             $this->RedirectUrl = jget($json, 'RedirectUrl');
             $this->CallbackUrl = jget($json, 'CallbackUrl');
             $this->TraceId = jget($json, 'TraceId');
-            $this->RecurrenceType = jget($json, 'RecurrenceType');
+            $this->RecurrenceType = RecurrenceType::from(jget($json, 'RecurrenceType') ?? '');
 
             $this->Transactions = array();
 

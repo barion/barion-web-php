@@ -19,15 +19,19 @@
 namespace Barion\Models\Payment;
 
 use function Barion\Helpers\jget;
+use Barion\Enumerations\{
+    PaymentStatus,
+    RecurrenceResult
+};
 
 class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
     public string $PaymentId;
     public string $PaymentRequestId;
-    public string $Status;
+    public PaymentStatus $Status;
     public array $Transactions;
     public string $QRUrl;
-    public string $RecurrenceResult;
+    public RecurrenceResult $RecurrenceResult;
     public string $PaymentRedirectUrl;
     public ?string $ThreeDSAuthClientData;
     public ?string $TraceId;
@@ -37,9 +41,9 @@ class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel imple
         parent::__construct();
         $this->PaymentId = "";
         $this->PaymentRequestId = "";
-        $this->Status = "";
+        $this->Status = PaymentStatus::Prepared;
         $this->QRUrl = "";
-        $this->RecurrenceResult = "";
+        $this->RecurrenceResult = RecurrenceResult::None;
         $this->PaymentRedirectUrl = "";
         $this->ThreeDSAuthClientData = null;
         $this->TraceId = null;
@@ -52,9 +56,9 @@ class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel imple
             parent::fromJson($json);
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = jget($json, 'Status');
+            $this->Status = PaymentStatus::from(jget($json, 'Status'));
             $this->QRUrl = jget($json, 'QRUrl');
-            $this->RecurrenceResult = jget($json, 'RecurrenceResult');
+            $this->RecurrenceResult = RecurrenceResult::from(jget($json, 'RecurrenceResult') ?? "None");
             $this->ThreeDSAuthClientData = jget($json, 'ThreeDSAuthClientData');
             $this->TraceId = jget($json, 'TraceId');
             $this->Transactions = array();

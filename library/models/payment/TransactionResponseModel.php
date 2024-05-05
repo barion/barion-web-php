@@ -18,11 +18,15 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Enumerations\{
+    TransactionStatus
+};
+
 class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
 {
     public string $POSTransactionId;
     public string $TransactionId;
-    public string $Status;
+    public TransactionStatus $Status;
     public string $TransactionTime;
     public ?string $RelatedId;
 
@@ -30,7 +34,7 @@ class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
     {
         $this->POSTransactionId = "";
         $this->TransactionId = "";
-        $this->Status = "";
+        $this->Status = TransactionStatus::Unknown;
         $this->TransactionTime = "";
         $this->RelatedId = null;
     }
@@ -39,7 +43,7 @@ class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
     {
         if (!empty($json)) {
             $this->POSTransactionId = $json['POSTransactionId'];
-            $this->Status = $json['Status'];
+            $this->Status = TransactionStatus::from($json['Status']);
             $this->TransactionId = $json['TransactionId'];
             $this->TransactionTime = $json['TransactionTime'];
             $this->RelatedId = $json['RelatedId'];

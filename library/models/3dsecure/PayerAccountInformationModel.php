@@ -19,44 +19,52 @@
 namespace Barion\Models\ThreeDSecure;
 
 use function Barion\Helpers\jget;
+use Barion\Enumerations\ThreeDSecure\{
+    AccountChangeIndicator,
+    AccountCreationIndicator,
+    PasswordChangeIndicator,
+    PaymentMethodIndicator,
+    ShippingAddressUsageIndicator,
+    SuspiciousActivityIndicator
+};
 
 class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
 {
     public ?string $AccountId;
     public ?string $AccountCreated;
-    public ?string $AccountCreationIndicator;
+    public AccountCreationIndicator $AccountCreationIndicator;
     public ?string $AccountLastChanged;
-    public ?string $AccountChangeIndicator;
+    public AccountChangeIndicator $AccountChangeIndicator;
     public ?string $PasswordLastChanged;
-    public ?string $PasswordChangeIndicator;
+    public PasswordChangeIndicator $PasswordChangeIndicator;
     public ?string $PurchasesInTheLastSixMonths;
     public ?string $ShippingAddressAdded;
-    public ?string $ShippingAddressUsageIndicator;
+    public ShippingAddressUsageIndicator $ShippingAddressUsageIndicator;
     public ?string $PaymentMethodAdded;
-    public ?string $PaymentMethodIndicator;
+    public PaymentMethodIndicator $PaymentMethodIndicator;
     public ?string $ProvisionAttempts;
     public ?string $TransactionalActivityPerDay;
     public ?string $TransactionalActivityPerYear;
-    public ?string $SuspiciousActivityIndicator;
+    public SuspiciousActivityIndicator $SuspiciousActivityIndicator;
 
     function __construct()
     {
         $this->AccountId = null;
         $this->AccountCreated = null;
-        $this->AccountCreationIndicator = null;
+        $this->AccountCreationIndicator = AccountCreationIndicator::Unspecified;
         $this->AccountLastChanged = null;
-        $this->AccountChangeIndicator = null;
+        $this->AccountChangeIndicator = AccountChangeIndicator::Unspecified;
         $this->PasswordLastChanged = null;
-        $this->PasswordChangeIndicator = null;
+        $this->PasswordChangeIndicator = PasswordChangeIndicator::Unspecified;
         $this->PurchasesInTheLastSixMonths = null;
         $this->ShippingAddressAdded = null;
-        $this->ShippingAddressUsageIndicator = null;
+        $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::Unspecified;
         $this->PaymentMethodAdded = null;
-        $this->PaymentMethodIndicator = null;
+        $this->PaymentMethodIndicator = PaymentMethodIndicator::Unspecified;
         $this->ProvisionAttempts = null;
         $this->TransactionalActivityPerDay = null;
         $this->TransactionalActivityPerYear = null;
-        $this->SuspiciousActivityIndicator = null;
+        $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::Unspecified;
     }
 
     public function fromJson($json)
@@ -64,20 +72,20 @@ class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
         if (!empty($json)) {
             $this->AccountId = jget($json, 'AccountId');
             $this->AccountCreated = jget($json, 'AccountCreated');
-            $this->AccountCreationIndicator = jget($json, 'AccountCreationIndicator');
+            $this->AccountCreationIndicator = AccountCreationIndicator::from(jget($json, 'AccountCreationIndicator'));
             $this->AccountLastChanged = jget($json, 'AccountLastChanged');
-            $this->AccountChangeIndicator = jget($json, 'AccountChangeIndicator');
+            $this->AccountChangeIndicator = AccountChangeIndicator::from(jget($json, 'AccountChangeIndicator'));
             $this->PasswordLastChanged = jget($json, 'PasswordLastChanged');
-            $this->PasswordChangeIndicator = jget($json, 'PasswordChangeIndicator');
+            $this->PasswordChangeIndicator = PasswordChangeIndicator::from(jget($json, 'PasswordChangeIndicator'));
             $this->PurchasesInTheLastSixMonths = jget($json, 'PurchasesInTheLastSixMonths');
             $this->ShippingAddressAdded = jget($json, 'ShippingAddressAdded');
-            $this->ShippingAddressUsageIndicator = jget($json, 'ShippingAddressUsageIndicator');
+            $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::from(jget($json, 'ShippingAddressUsageIndicator'));
             $this->PaymentMethodAdded = jget($json, 'PaymentMethodAdded');
-            $this->PaymentMethodIndicator = jget($json, 'PaymentMethodIndicator');
+            $this->PaymentMethodIndicator = PaymentMethodIndicator::from(jget($json, 'PaymentMethodIndicator'));
             $this->ProvisionAttempts = jget($json, 'ProvisionAttempts');
             $this->TransactionalActivityPerDay = jget($json, 'TransactionalActivityPerDay');
             $this->TransactionalActivityPerYear = jget($json, 'TransactionalActivityPerYear');
-            $this->SuspiciousActivityIndicator = jget($json, 'SuspiciousActivityIndicator');
+            $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::from(jget($json, 'SuspiciousActivityIndicator'));
         }
     }
 }

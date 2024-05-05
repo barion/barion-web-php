@@ -19,13 +19,16 @@
 namespace Barion\Models\Payment;
 
 use function Barion\Helpers\jget;
+use Barion\Enumerations\{
+    PaymentStatus
+};
 
 class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
     public bool $IsSuccessful;
     public string $PaymentId;
     public string $PaymentRequestId;
-    public string $Status;
+    public PaymentStatus $Status;
     public array $Transactions;
 
     function __construct()
@@ -34,7 +37,7 @@ class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel im
         $this->IsSuccessful = false;
         $this->PaymentId = "";
         $this->PaymentRequestId = "";
-        $this->Status = "";
+        $this->PaymentStatus = PaymentStatus::Prepared;
         $this->Transactions = array();
     }
 
@@ -46,7 +49,7 @@ class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel im
             $this->IsSuccessful = jget($json, 'IsSuccessful');
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = jget($json, 'Status');
+            $this->Status = PaymentStatus::from(jget($json, 'Status'));
 
             $this->Transactions = array();
 

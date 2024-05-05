@@ -19,49 +19,56 @@
 namespace Barion\Models\ThreeDSecure;
 
 use function Barion\Helpers\jget;
+use Barion\Enumerations\ThreeDSecure\{
+    AvailabilityIndicator,
+    DeliveryTimeframeType,
+    PurchaseType,
+    ReOrderIndicator,
+    ShippingAddressIndicator
+};
 
 class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
 {
-    public ?string $DeliveryTimeframe;
+    public DeliveryTimeframeType $DeliveryTimeframe;
     public ?string $DeliveryEmailAddress;
     public ?string $PreOrderDate;
-    public ?string $AvailabilityIndicator;
-    public ?string $ReOrderIndicator;
+    public AvailabilityIndicator $AvailabilityIndicator;
+    public ReOrderIndicator $ReOrderIndicator;
     public ?string $RecurringExpiry;
     public ?string $RecurringFrequency;
-    public ?string $ShippingAddressIndicator;
-    public ?string $GiftCardPurchase;
-    public ?string $PurchaseType;
+    public ShippingAddressIndicator $ShippingAddressIndicator;
+    public ?object $GiftCardPurchase;
+    public PurchaseType $PurchaseType;
     public ?string $PurchaseDate;
 
     function __construct()
     {
-        $this->DeliveryTimeframe = null;
+        $this->DeliveryTimeframe = DeliveryTimeframeType::Unspecified;
         $this->DeliveryEmailAddress = null;
         $this->PreOrderDate = null;
-        $this->AvailabilityIndicator = null;
-        $this->ReOrderIndicator = null;
+        $this->AvailabilityIndicator = AvailabilityIndicator::Unspecified;
+        $this->ReOrderIndicator = ReOrderIndicator::Unspecified;
         $this->RecurringExpiry = null;
         $this->RecurringFrequency = null;
-        $this->ShippingAddressIndicator = null;
+        $this->ShippingAddressIndicator = ShippingAddressIndicator::Unspecified;
         $this->GiftCardPurchase = null;
-        $this->PurchaseType = null;
+        $this->PurchaseType = PurchaseType::Unspecified;
         $this->PurchaseDate = null;
     }
 
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->DeliveryTimeframe = jget($json, 'DeliveryTimeframe');
+            $this->DeliveryTimeframe = DeliveryTimeframeType::from(jget($json, 'DeliveryTimeframe'));
             $this->DeliveryEmailAddress = jget($json, 'DeliveryEmailAddress');
             $this->PreOrderDate = jget($json, 'PreOrderDate');
-            $this->AvailabilityIndicator = jget($json, 'AvailabilityIndicator');
-            $this->ReOrderIndicator = jget($json, 'ReOrderIndicator');
+            $this->AvailabilityIndicator = AvailabilityIndicator::from(jget($json, 'AvailabilityIndicator'));
+            $this->ReOrderIndicator = ReOrderIndicator::from(jget($json, 'ReOrderIndicator'));
             $this->RecurringExpiry = jget($json, 'RecurringExpiry');
             $this->RecurringFrequency = jget($json, 'RecurringFrequency');
-            $this->ShippingAddressIndicator = jget($json, 'ShippingAddressIndicator');
+            $this->ShippingAddressIndicator = ShippingAddressIndicator::from(jget($json, 'ShippingAddressIndicator'));
             $this->GiftCardPurchase = jget($json, 'GiftCardPurchase');
-            $this->PurchaseType = jget($json, 'PurchaseType');
+            $this->PurchaseType = PurchaseType::from(jget($json, 'PurchaseType'));
             $this->PurchaseDate = jget($json, 'PurchaseDate');
         }
     }

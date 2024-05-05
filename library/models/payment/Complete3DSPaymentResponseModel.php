@@ -19,13 +19,16 @@
 namespace Barion\Models\Payment;
 
 use function Barion\Helpers\jget;
+use Barion\Enumerations\{
+    PaymentStatus
+};
 
 class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
     public bool $IsSuccessful;
     public string $PaymentId;
     public string $PaymentRequestId;
-    public string $Status;
+    public PaymentStatus $Status;
     public string $TraceId;
 
     function __construct()
@@ -33,7 +36,7 @@ class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel i
         parent::__construct();
         $this->PaymentId = "";
         $this->PaymentRequestId = "";
-        $this->Status = "";
+        $this->Status = PaymentStatus::Prepared;
         $this->IsSuccessful = false;
         $this->TraceId = "";
     }
@@ -45,7 +48,7 @@ class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel i
 
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = jget($json, 'PaymentStatus');
+            $this->Status = PaymentStatus::from(jget($json, 'PaymentStatus'));
             $this->IsSuccessful = jget($json, 'IsSuccessful');
             $this->TraceId = jget($json, 'TraceId');
         }

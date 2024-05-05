@@ -18,13 +18,17 @@
 
 namespace Barion\Models\Refund;
 
+use Barion\Enumerations\{
+    TransactionStatus
+};
+
 class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
 
     public string $TransactionId;
     public float $Total;
     public ?string $POSTransactionId;
     public ?string $Comment;
-    public ?string $Status;
+    public TransactionStatus $Status;
 
     function __construct()
     {
@@ -32,7 +36,7 @@ class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
         $this->Total = 0.0;
         $this->POSTransactionId = null;
         $this->Comment = null;
-        $this->Status = null;
+        $this->Status = TransactionStatus::Unknown;
     }
 
 
@@ -43,7 +47,7 @@ class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
             $this->Total = $json['Total'];
             $this->POSTransactionId = $json['POSTransactionId'];
             $this->Comment = $json['Comment'];
-            $this->Status = $json['Status'];
+            $this->Status = TransactionStatus::from($json['Status']);
         }
     }
 }
