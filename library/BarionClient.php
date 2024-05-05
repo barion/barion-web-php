@@ -295,6 +295,7 @@ class BarionClient
     private function PostToBarion($url, $data)
     {
         $ch = curl_init();
+        $posKey = $this->POSKey;
         
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if ($userAgent == "") {
@@ -308,7 +309,11 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POST, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "User-Agent: $userAgent"));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "Content-Type: application/json", 
+            "User-Agent: $userAgent",
+            "x-pos-key: $posKey"
+        ]);
         
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
@@ -344,6 +349,7 @@ class BarionClient
     private function GetFromBarion($url, $data)
     {
         $ch = curl_init();
+        $posKey = $this->POSKey;
 
         $getData = http_build_query($data);
         $fullUrl = $url . '?' . $getData;
@@ -356,7 +362,10 @@ class BarionClient
 
         curl_setopt($ch, CURLOPT_URL, $fullUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("User-Agent: $userAgent"));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            "User-Agent: $userAgent",
+            "x-pos-key: $posKey"
+        ]);
 
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'ssl', 'cacert.pem')));
