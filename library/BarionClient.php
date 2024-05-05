@@ -21,24 +21,18 @@ namespace Barion;
 require __DIR__ . '/../vendor/autoload.php';
 
 /*
-*  
-*  BarionClient.php
 *  PHP library for implementing REST API calls towards the Barion payment system.  
-*  
 */
 
 /* -------- IMPORTED CLASSES -------- */
 
-use Barion\Constants;
 use Barion\Enumerations\{
     BarionEnvironment,
     QRCodeSize
 };
 use Barion\Models\{
-    BaseRequestModel,
     BaseResponseModel
 };
-use Barion\Models\Common;
 use Barion\Models\Error\{
     ApiErrorModel
 };
@@ -61,7 +55,6 @@ use Barion\Models\Refund\{
     RefundRequestModel,
     RefundResponseModel
 };
-use Barion\Models\ThreeDSecure;
 
 /* -------- CONSTANTS -------- */
 
@@ -246,7 +239,6 @@ class BarionClient
         }
         return $rm;
     }
-
 
     /**
      * Get detailed information about a given payment
