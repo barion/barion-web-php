@@ -100,10 +100,10 @@ class TransactionToCaptureModel
     /**
      * Add a single payee transaction to the transaction.
      *
-     * @param PayeeTransactionToFinishModel $model Model describing the payee transaction to be captured.
+     * @param PayeeTransactionToCaptureModel $model Model describing the payee transaction to be captured.
      * @return void
      */    
-    public function AddPayeeTransaction(PayeeTransactionToFinishModel $model) : void
+    public function AddPayeeTransaction(PayeeTransactionToCaptureModel $model) : void
     {
         array_push($this->PayeeTransactions, $model);
     }
@@ -117,7 +117,7 @@ class TransactionToCaptureModel
     public function AddPayeeTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {
-            if ($transaction instanceof PayeeTransactionToFinishModel) {
+            if ($transaction instanceof PayeeTransactionToCaptureModel) {
                 $this->AddPayeeTransaction($transaction);
             }
         }
