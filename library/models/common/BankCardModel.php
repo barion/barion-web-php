@@ -53,7 +53,7 @@ class BankCardModel implements \Barion\Interfaces\IBarionModel
      * @var ?string
      */   
     public ?string $ValidThruMonth;
-
+    
     function __construct()
     {
         $this->MaskedPan = "";
