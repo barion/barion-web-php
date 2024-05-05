@@ -12,6 +12,7 @@ enum UILocale : string
     case FR = "fr-FR";
     case CZ = "cs-CZ";
     case GR = "el-GR";
+    case ES = "es-ES";
 }
 
 ?>
