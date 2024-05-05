@@ -15,10 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+ 
+namespace Barion\Models;
+
 class BaseResponseModel
 {
-    public $Errors;
-    public $RequestSuccessful;
+    public array $Errors;
+    public bool $RequestSuccessful;
 
     function __construct()
     {
@@ -36,12 +39,12 @@ class BaseResponseModel
 
             if (array_key_exists('Errors', $json)) {
                 foreach ($json['Errors'] as $error) {
-                    $apiError = new ApiErrorModel();
+                    $apiError = new Barion\Models\Error\ApiErrorModel();
                     $apiError->fromJson($error);
                     array_push($this->Errors, $apiError);
                 }
             } else {
-                $internalError = new ApiErrorModel();
+                $internalError = new Barion\Models\Error\ApiErrorModel();
                 $internalError->ErrorCode = "500";
                 if (array_key_exists('ExceptionMessage', $json)) {
                     $internalError->Title = $json['ExceptionMessage'];
