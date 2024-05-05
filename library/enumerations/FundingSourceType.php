@@ -24,6 +24,8 @@ enum FundingSourceType : string
     case Balance = "Balance";
     case Bankcard = "Bankcard";
     case BankTransfer = "BankTransfer";
+    case ApplePay = "ApplePay";
+    case GooglePay = "GooglePay";
 }
 
 ?>
