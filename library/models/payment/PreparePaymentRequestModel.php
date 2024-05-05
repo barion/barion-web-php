@@ -37,10 +37,16 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
     public ?string $DelayedCapturePeriod;
     public string $PaymentWindow;
     public bool $GuestCheckout;
+    
+    /** @var array<\Barion\Enumerations\FundingSourceType> */
     public array $FundingSources;
+    
     public string $PaymentRequestId;
     public ?string $PayerHint;
+    
+    /** @var array<object> */
     public array $Transactions;
+    
     public UILocale $Locale;
     public ?string $OrderNumber;
     public ?object $ShippingAddress;
@@ -60,6 +66,7 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
     public ChallengePreference $ChallengePreference;
     public ?string $TraceId;
 
+    /** @param array<\Barion\Enumerations\FundingSourceType> $allowedFundingSources */
     function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate, bool $guestCheckoutAllowed = true, 
                             array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU, 
                             bool $initiateRecurrence = false, string $recurrenceId = null, string $redirectUrl = null, 
@@ -85,6 +92,7 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
         array_push($this->Transactions, $transaction);
     }
 
+    /** @param array<object> $transactions */
     public function AddTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {

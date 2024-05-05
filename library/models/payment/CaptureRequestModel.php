@@ -21,6 +21,8 @@ namespace Barion\Models\Payment;
 class CaptureRequestModel extends \Barion\Models\BaseRequestModel
 {
     public string $PaymentId;
+    
+    /** @var array<object> */
     public array $Transactions;
 
     function __construct(string $paymentId)
@@ -37,6 +39,7 @@ class CaptureRequestModel extends \Barion\Models\BaseRequestModel
         array_push($this->Transactions, $transaction);
     }
 
+    /** @param array<object> $transactions */
     public function AddTransactions(array $transactions) : void
     {
         if (!empty($transactions)) {

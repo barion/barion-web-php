@@ -22,8 +22,13 @@ class TransactionToCaptureModel
 {
     public string $TransactionId;
     public float $Total;
+    
+    /** @var array<object> */
     public array $PayeeTransactions;
+    
+     /** @var array<object> */
     public array $Items;
+    
     public ?string $Comment;
 
     function __construct()
@@ -40,6 +45,7 @@ class TransactionToCaptureModel
         array_push($this->Items, $item);
     }
 
+    /** @param array<object> $items */
     public function AddItems(array $items) : void
     {
         foreach ($items as $item) {
@@ -54,6 +60,7 @@ class TransactionToCaptureModel
         array_push($this->PayeeTransactions, $model);
     }
 
+    /** @param array<object> $transactions */
     public function AddPayeeTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {

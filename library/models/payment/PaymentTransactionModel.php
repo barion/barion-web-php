@@ -28,7 +28,11 @@ class PaymentTransactionModel
     public string $Payee;
     public float $Total;
     public ?string $Comment;
+    
+    /** @var array<object> */
     public array $Items;
+    
+    /** @var array<object> */
     public array $PayeeTransactions;
 
     function __construct()
@@ -40,12 +44,13 @@ class PaymentTransactionModel
         $this->Items = array();
         $this->PayeeTransactions = array();
     }
-
+    
     public function AddItem(ItemModel $item) : void
     {
         array_push($this->Items, $item);
     }
 
+    /** @param array<object> $items */
     public function AddItems(array $items) : void
     {
         foreach ($items as $item) {
@@ -60,6 +65,7 @@ class PaymentTransactionModel
         array_push($this->PayeeTransactions, $model);
     }
 
+    /** @param array<object> $transactions */
     public function AddPayeeTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {

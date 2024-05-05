@@ -43,7 +43,10 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
     public ?string $Comment;
     public TransactionStatus $Status;
     public TransactionType $TransactionType;
+    
+    /** @var array<object> */
     public array $Items;
+    
     public ?string $RelatedId;
     public ?string $POSId;
     public ?string $PaymentId;
@@ -76,10 +79,10 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
             $this->Currency = Currency::from(JSON::getString($json, 'Currency'));
 
             $this->Payer = new UserModel();
-            $this->Payer->fromJson(JSON::getString($json, 'Payer'));
+            $this->Payer->fromJson(JSON::getArray($json, 'Payer'));
 
             $this->Payee = new UserModel();
-            $this->Payee->fromJson(JSON::getString($json, 'Payee'));
+            $this->Payee->fromJson(JSON::getArray($json, 'Payee'));
 
             $this->Comment = JSON::getString($json, 'Comment');
             $this->Status = TransactionStatus::from(JSON::getString($json, 'Status'));

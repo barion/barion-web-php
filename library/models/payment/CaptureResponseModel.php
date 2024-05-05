@@ -30,6 +30,8 @@ class CaptureResponseModel extends \Barion\Models\BaseResponseModel implements \
     public ?string $PaymentId;
     public ?string $PaymentRequestId;
     public PaymentStatus $Status;
+    
+    /** @var array<object> */
     public array $Transactions;
 
     function __construct()
@@ -53,11 +55,13 @@ class CaptureResponseModel extends \Barion\Models\BaseResponseModel implements \
             $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
 
             $this->Transactions = array();
+            
+            $transactions = JSON::getArray($json, 'Transactions');
 
-            if (!empty($json['Transactions'])) {
-                foreach ($json['Transactions'] as $key => $value) {
+            if (!empty($transactions)) {
+                foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionResponseModel();
-                    $tr->fromJson($value);
+                    $tr->fromJson($transaction);
                     array_push($this->Transactions, $tr);
                 }
             }

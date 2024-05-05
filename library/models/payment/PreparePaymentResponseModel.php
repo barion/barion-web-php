@@ -30,7 +30,10 @@ class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel imple
     public ?string $PaymentId;
     public ?string $PaymentRequestId;
     public PaymentStatus $Status;
+    
+    /** @var array<object> */
     public array $Transactions;
+    
     public ?string $QRUrl;
     public RecurrenceResult $RecurrenceResult;
     public ?string $PaymentRedirectUrl;
@@ -63,11 +66,13 @@ class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel imple
             $this->ThreeDSAuthClientData = JSON::getString($json, 'ThreeDSAuthClientData');
             $this->TraceId = JSON::getString($json, 'TraceId');
             $this->Transactions = array();
+            
+            $transactions = JSON::getArray($json, 'Transactions');
 
-            if (!empty($json['Transactions'])) {
-                foreach ($json['Transactions'] as $key => $value) {
+            if (!empty($transactions)) {
+                foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionResponseModel();
-                    $tr->fromJson($value);
+                    $tr->fromJson($transaction);
                     array_push($this->Transactions, $tr);
                 }
             }

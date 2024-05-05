@@ -22,7 +22,11 @@ use Barion\Helpers\JSON;
 
 class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public ?string $PaymentId;
+    
+    
+    public ?string $PaymentId;    
+    
+    /** @var array<object> */
     public array $RefundedTransactions;
 
     function __construct()

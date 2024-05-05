@@ -24,7 +24,7 @@ use Barion\Models\Error\ApiErrorModel;
 
 class BaseResponseModel
 {
-    /* @var array<object> */
+    /** @var array<object> */
     public array $Errors;
 
     public bool $RequestSuccessful;
@@ -35,6 +35,7 @@ class BaseResponseModel
         $this->RequestSuccessful = false;
     }
 
+    /** @param array<object> $json */
     public function fromJson(array $json) : void
     {
         if (!empty($json)) {

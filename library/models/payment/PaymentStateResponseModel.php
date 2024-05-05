@@ -44,7 +44,10 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
     public PaymentType $PaymentType;
     public ?string $FundingSource;
     public object $FundingInformation;
+    
+    /** @var array<\Barion\Enumerations\FundingSourceType> */
     public ?array $AllowedFundingSources;
+    
     public ?bool $GuestCheckout;
     public ?string $CreatedAt;
     public ?string $ValidUntil;
@@ -53,7 +56,10 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
     public ?string $DelayedCaptureUntil;
     public ?float $Total;
     public Currency $Currency;
+    
+    /** @var array<object> */
     public array $Transactions;
+    
     public RecurrenceResult $RecurrenceResult;
     public UILocale $SuggestedLocale;
     public ?float $FraudRiskScore;
@@ -110,10 +116,13 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
             $this->PaymentType = PaymentType::from(JSON::getString($json, 'PaymentType') ?? '');
             $this->FundingSource = JSON::getString($json, 'FundingSource');
-            if(!empty($json['FundingInformation'])) {
+            
+            $fundingInformation = JSON::getArray($json, 'FundingInformation');
+            if(!empty($fundingInformation)) {
                 $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
-                $this->FundingInformation->fromJson(JSON::getString($json, 'FundingInformation'));
+                $this->FundingInformation->fromJson($fundingInformation);
             }
+            
             $this->AllowedFundingSources = JSON::getArray($json, 'AllowedFundingSources');
             $this->GuestCheckout = JSON::getBool($json, 'GuestCheckout');
             $this->CreatedAt = JSON::getString($json, 'CreatedAt');
@@ -132,11 +141,13 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->RecurrenceType = RecurrenceType::from(JSON::getString($json, 'RecurrenceType') ?? '');
 
             $this->Transactions = array();
+            
+            $transactions = JSON::getArray($json, 'Transactions');
 
-            if (!empty($json['Transactions'])) {
-                foreach ($json['Transactions'] as $key => $value) {
+            if (!empty($transactions)) {
+                foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionDetailModel();
-                    $tr->fromJson($value);
+                    $tr->fromJson($transaction);
                     array_push($this->Transactions, $tr);
                 }
             }

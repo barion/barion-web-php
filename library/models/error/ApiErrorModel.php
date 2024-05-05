@@ -41,6 +41,7 @@ class ApiErrorModel
         $this->PaymentId = null;
     }
 
+    /** @param array<object> $json */
     public function fromJson(array $json) : void
     {
         if (!empty($json)) {

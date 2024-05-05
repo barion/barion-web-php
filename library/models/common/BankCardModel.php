@@ -35,6 +35,7 @@ class BankCardModel implements \Barion\Interfaces\IBarionModel
         $this->ValidThruMonth = "";
     }
 
+    /** @param array<object> $json */
     public function fromJson(array $json) : void
     {
         if (!empty($json)) {
