@@ -15,13 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class CaptureResponseModel extends BaseResponseModel implements iBarionModel
+
+namespace Barion\Models\Payment;
+
+use function Barion\Helpers\jget;
+
+class CaptureResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $IsSuccessful;
-    public $PaymentId;
-    public $PaymentRequestId;
-    public $Status;
-    public $Transactions;
+    public bool $IsSuccessful;
+    public string $PaymentId;
+    public string $PaymentRequestId;
+    public string $Status;
+    public array $Transactions;
 
     function __construct()
     {

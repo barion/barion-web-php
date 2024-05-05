@@ -15,59 +15,52 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
 class PaymentTransactionModel
 {
-    public $POSTransactionId;
-    public $Payee;
-    public $Total;
-    public $Comment;
-    public $Items;
-    public $PayeeTransactions;
+    public string $POSTransactionId;
+    public string $Payee;
+    public float $Total;
+    public ?string $Comment;
+    public array $Items;
+    public array $PayeeTransactions;
 
     function __construct()
     {
         $this->POSTransactionId = "";
         $this->Payee = "";
-        $this->Total = 0;
-        $this->Comment = "";
+        $this->Total = 0.0;
+        $this->Comment = null;
         $this->Items = array();
         $this->PayeeTransactions = array();
     }
 
-    public function AddItem(ItemModel $item)
+    public function AddItem(\Barion\Models\Common\ItemModel $item)
     {
-        if ($this->Items == null) {
-            $this->Items = array();
-        }
         array_push($this->Items, $item);
     }
 
     public function AddItems($items)
     {
-        if (!empty($items)) {
-            foreach ($items as $item) {
-                if ($item instanceof ItemModel) {
-                    $this->AddItem($item);
-                }
+        foreach ($items as $item) {
+            if ($item instanceof \Barion\Models\Common\ItemModel) {
+                $this->AddItem($item);
             }
         }
     }
 
     public function AddPayeeTransaction(PayeeTransactionModel $model)
     {
-        if ($this->PayeeTransactions == null) {
-            $this->PayeeTransactions = array();
-        }
         array_push($this->PayeeTransactions, $model);
     }
 
     public function AddPayeeTransactions($transactions)
     {
-        if (!empty($transactions)) {
-            foreach ($transactions as $transaction) {
-                if ($transaction instanceof PayeeTransactionModel) {
-                    $this->AddPayeeTransaction($transaction);
-                }
+        foreach ($transactions as $transaction) {
+            if ($transaction instanceof PayeeTransactionModel) {
+                $this->AddPayeeTransaction($transaction);
             }
         }
     }

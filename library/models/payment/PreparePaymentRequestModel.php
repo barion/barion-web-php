@@ -15,37 +15,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PreparePaymentRequestModel extends BaseRequestModel
-{
-    public $PaymentType;
-    public $ReservationPeriod;
-    public $DelayedCapturePeriod;
-    public $PaymentWindow;
-    public $GuestCheckout;
-    public $FundingSources;
-    public $PaymentRequestId;
-    public $PayerHint;
-    public $Transactions;
-    public $Locale;
-    public $OrderNumber;
-    public $ShippingAddress;
-    public $BillingAddress;
-    public $InitiateRecurrence;
-    public $RecurrenceId;
-    public $RedirectUrl;
-    public $CallbackUrl;
-    public $Currency;
-    public $CardHolderNameHint;
-    public $PayerPhoneNumber;
-    public $PayerWorkPhoneNumber;
-    public $PayerHomePhoneNumber;
-    public $PayerAccountInformation;
-    public $PurchaseInformation;
-    public $RecurrenceType;
-    public $ChallengePreference;
-    public $TraceId;
 
-    function __construct($requestId = null, $type = PaymentType::Immediate, $guestCheckoutAllowed = true, $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = "hu-HU", $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, $callbackUrl = null, $currency = Currency::HUF, $traceId = "")
+namespace Barion\Models\Payment;
+
+use Barion\Enumerations\{
+    PaymentType,
+    FundingSourceType,
+    Currency
+};
+
+class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
+{
+    public string $PaymentType;
+    public ?string $ReservationPeriod;
+    public ?string $DelayedCapturePeriod;
+    public string $PaymentWindow;
+    public bool $GuestCheckout;
+    public array $FundingSources;
+    public string $PaymentRequestId;
+    public ?string $PayerHint;
+    public array $Transactions;
+    public string $Locale;
+    public ?string $OrderNumber;
+    public ?object $ShippingAddress;
+    public ?object $BillingAddress;
+    public bool $InitiateRecurrence;
+    public ?string $RecurrenceId;
+    public ?string $RedirectUrl;
+    public ?string $CallbackUrl;
+    public string $Currency;
+    public ?string $CardHolderNameHint;
+    public ?string $PayerPhoneNumber;
+    public ?string $PayerWorkPhoneNumber;
+    public ?string $PayerHomePhoneNumber;
+    public ?object $PayerAccountInformation;
+    public ?object $PurchaseInformation;
+    public ?string $RecurrenceType;
+    public ?string $ChallengePreference;
+    public ?string $TraceId;
+
+    function __construct($requestId = "", $type = PaymentType::Immediate, $guestCheckoutAllowed = true, 
+                            $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = "hu-HU", 
+                            $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, 
+                            $callbackUrl = null, $currency = Currency::HUF, $traceId = null)
     {
         $this->PaymentRequestId = $requestId;
         $this->PaymentType = $type;
@@ -58,24 +70,20 @@ class PreparePaymentRequestModel extends BaseRequestModel
         $this->RedirectUrl = $redirectUrl;
         $this->CallbackUrl = $callbackUrl;
         $this->Currency = $currency;
+        $this->Transactions = array();
         $this->TraceId = $traceId;
     }
 
     public function AddTransaction(PaymentTransactionModel $transaction)
     {
-        if ($this->Transactions == null) {
-            $this->Transactions = array();
-        }
         array_push($this->Transactions, $transaction);
     }
 
     public function AddTransactions($transactions)
     {
-        if (!empty($transactions)) {
-            foreach ($transactions as $transaction) {
-                if ($transaction instanceof PaymentTransactionModel) {
-                    $this->AddTransaction($transaction);
-                }
+        foreach ($transactions as $transaction) {
+            if ($transaction instanceof PaymentTransactionModel) {
+                $this->AddTransaction($transaction);
             }
         }
     }

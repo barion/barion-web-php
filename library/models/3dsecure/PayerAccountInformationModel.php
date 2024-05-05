@@ -15,43 +15,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PayerAccountInformationModel implements iBarionModel
+
+namespace Barion\Models\ThreeDSecure;
+
+use function Barion\Helpers\jget;
+
+class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
 {
-    public $AccountId;
-    public $AccountCreated;
-    public $AccountCreationIndicator;
-    public $AccountLastChanged;
-    public $AccountChangeIndicator;
-    public $PasswordLastChanged;
-    public $PasswordChangeIndicator;
-    public $PurchasesInTheLastSixMonths;
-    public $ShippingAddressAdded;
-    public $ShippingAddressUsageIndicator;
-    public $PaymentMethodAdded;
-    public $PaymentMethodIndicator;
-    public $ProvisionAttempts;
-    public $TransactionalActivityPerDay;
-    public $TransactionalActivityPerYear;
-    public $SuspiciousActivityIndicator;
+    public ?string $AccountId;
+    public ?string $AccountCreated;
+    public ?string $AccountCreationIndicator;
+    public ?string $AccountLastChanged;
+    public ?string $AccountChangeIndicator;
+    public ?string $PasswordLastChanged;
+    public ?string $PasswordChangeIndicator;
+    public ?string $PurchasesInTheLastSixMonths;
+    public ?string $ShippingAddressAdded;
+    public ?string $ShippingAddressUsageIndicator;
+    public ?string $PaymentMethodAdded;
+    public ?string $PaymentMethodIndicator;
+    public ?string $ProvisionAttempts;
+    public ?string $TransactionalActivityPerDay;
+    public ?string $TransactionalActivityPerYear;
+    public ?string $SuspiciousActivityIndicator;
 
     function __construct()
     {
-        $this->AccountId = "";
-        $this->AccountCreated = "";
-        $this->AccountCreationIndicator = "";
-        $this->AccountLastChanged = "";
-        $this->AccountChangeIndicator = "";
-        $this->PasswordLastChanged = "";
-        $this->PasswordChangeIndicator = "";
-        $this->PurchasesInTheLastSixMonths = "";
-        $this->ShippingAddressAdded = "";
-        $this->ShippingAddressUsageIndicator = "";
-        $this->PaymentMethodAdded = "";
-        $this->PaymentMethodIndicator = "";
-        $this->ProvisionAttempts = "";
-        $this->TransactionalActivityPerDay = "";
-        $this->TransactionalActivityPerYear = "";
-        $this->SuspiciousActivityIndicator = "";
+        $this->AccountId = null;
+        $this->AccountCreated = null;
+        $this->AccountCreationIndicator = null;
+        $this->AccountLastChanged = null;
+        $this->AccountChangeIndicator = null;
+        $this->PasswordLastChanged = null;
+        $this->PasswordChangeIndicator = null;
+        $this->PurchasesInTheLastSixMonths = null;
+        $this->ShippingAddressAdded = null;
+        $this->ShippingAddressUsageIndicator = null;
+        $this->PaymentMethodAdded = null;
+        $this->PaymentMethodIndicator = null;
+        $this->ProvisionAttempts = null;
+        $this->TransactionalActivityPerDay = null;
+        $this->TransactionalActivityPerYear = null;
+        $this->SuspiciousActivityIndicator = null;
     }
 
     public function fromJson($json)

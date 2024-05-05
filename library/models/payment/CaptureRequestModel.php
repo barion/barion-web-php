@@ -15,10 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class CaptureRequestModel extends BaseRequestModel
+
+namespace Barion\Models\Payment;
+
+class CaptureRequestModel extends \Barion\Models\BaseRequestModel
 {
-    public $PaymentId;
-    public $Transactions;
+    public string $PaymentId;
+    public array $Transactions;
 
     function __construct($paymentId)
     {

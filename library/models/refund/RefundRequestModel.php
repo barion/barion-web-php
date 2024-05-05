@@ -15,21 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RefundRequestModel extends BaseRequestModel
+
+namespace Barion\Models\Refund;
+
+class RefundRequestModel extends \Barion\Models\BaseRequestModel
 {
-    public $PaymentId;
-    public $TransactionsToRefund;
+    public string $PaymentId;
+    public array $TransactionsToRefund;
 
     function __construct($paymentId)
     {
         $this->PaymentId = $paymentId;
+        $this->TransactionsToRefund = array();
     }
 
-    public function AddTransaction(TransactionToRefundModel $transaction)
+    public function AddTransaction(\Barion\Models\Payment\TransactionToRefundModel $transaction)
     {
-        if ($this->TransactionsToRefund == null) {
-            $this->TransactionsToRefund = array();
-        }
         array_push($this->TransactionsToRefund, $transaction);
     }
 
@@ -37,7 +38,7 @@ class RefundRequestModel extends BaseRequestModel
     {
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {
-                if ($transaction instanceof TransactionToRefundModel) {
+                if ($transaction instanceof \Barion\Models\Payment\TransactionToRefundModel) {
                     $this->AddTransaction($transaction);
                 }
             }

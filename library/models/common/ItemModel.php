@@ -15,25 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class ItemModel implements iBarionModel
+
+namespace Barion\Models\Common;
+
+use function Barion\Helpers\jget;
+
+class ItemModel implements \Barion\Interfaces\IBarionModel
 {
-    public $Name;
-    public $Description;
-    public $Quantity;
-    public $Unit;
-    public $UnitPrice;
-    public $ItemTotal;
-    public $SKU;
+    public string $Name;
+    public ?string $Description;
+    public ?float $Quantity;
+    public ?string $Unit;
+    public ?float $UnitPrice;
+    public ?float $ItemTotal;
+    public ?string $SKU;
 
     function __construct()
     {
         $this->Name = "";
-        $this->Description = "";
-        $this->Quantity = 0;
-        $this->Unit = "";
-        $this->UnitPrice = 0;
-        $this->ItemTotal = 0;
-        $this->SKU = "";
+        $this->Description = null;
+        $this->Quantity = null;
+        $this->Unit = null;
+        $this->UnitPrice = null;
+        $this->ItemTotal = null;
+        $this->SKU = null;
     }
 
     public function fromJson($json)

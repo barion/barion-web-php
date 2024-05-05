@@ -15,22 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class UserModel implements iBarionModel
+
+namespace Barion\Models\Common;
+
+class UserModel implements \Barion\Interfaces\IBarionModel
 {
-    public $Name;
-    public $Email;
+    public ?string $Name;
+    public ?string $Email;
 
     function __construct()
     {
-        $this->Name = "";
-        $this->Email = "";
+        $this->Name = null;
+        $this->Email = null;
     }
 
     function fromJson($json)
     {
         if (!empty($json)) {
             $this->Email = $json['Email'];
-
             $name = new UserNameModel();
             $name->fromJson($json['Name']);
         }

@@ -15,68 +15,73 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PaymentStateResponseModel extends BaseResponseModel implements iBarionModel
+
+namespace Barion\Models\Payment;
+
+use function Barion\Helpers\jget;
+
+class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $PaymentId;
-    public $PaymentRequestId;
-    public $OrderNumber;
-    public $POSId;
-    public $POSName;
-    public $POSOwnerEmail;
-    public $POSOwnerCountry;
-    public $Status;
-    public $PaymentType;
-    public $FundingSource;
-    public $FundingInformation;
-    public $AllowedFundingSources;
-    public $GuestCheckout;
-    public $CreatedAt;
-    public $ValidUntil;
-    public $CompletedAt;
-    public $ReservedUntil;
-    public $DelayedCaptureUntil;
-    public $Total;
-    public $Currency;
-    public $Transactions;
-    public $RecurrenceResult;
-    public $SuggestedLocale;
-    public $FraudRiskScore;
-    public $RedirectUrl;
-    public $CallbackUrl;
-    public $RecurrenceType;
-    public $TraceId;
+    public string $PaymentId;
+    public string $PaymentRequestId;
+    public ?string $OrderNumber;
+    public string $POSId;
+    public string $POSName;
+    public string $POSOwnerEmail;
+    public string $POSOwnerCountry;
+    public string $Status;
+    public string $PaymentType;
+    public ?string $FundingSource;
+    public object $FundingInformation;
+    public array $AllowedFundingSources;
+    public bool $GuestCheckout;
+    public string $CreatedAt;
+    public ?string $ValidUntil;
+    public ?string $CompletedAt;
+    public ?string $ReservedUntil;
+    public ?string $DelayedCaptureUntil;
+    public float $Total;
+    public string $Currency;
+    public array $Transactions;
+    public ?string $RecurrenceResult;
+    public string $SuggestedLocale;
+    public ?float $FraudRiskScore;
+    public ?string $RedirectUrl;
+    public ?string $CallbackUrl;
+    public ?string $RecurrenceType;
+    public ?string $TraceId;
 
     function __construct()
     {
         parent::__construct();
         $this->PaymentId = "";
         $this->PaymentRequestId = "";
-        $this->OrderNumber = "";
+        $this->OrderNumber = null;
         $this->POSId = "";
         $this->POSName = "";
         $this->POSOwnerEmail = "";
         $this->POSOwnerCountry = "";
         $this->Status = "";
         $this->PaymentType = "";
-        $this->FundingSource = "";
-        $this->FundingInformation = new FundingInformationModel();
-        $this->AllowedFundingSources = "";
-        $this->GuestCheckout = "";
+        $this->FundingSource = null;
+        $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
+        $this->AllowedFundingSources = array();
+        $this->GuestCheckout = false;
         $this->CreatedAt = "";
-        $this->ValidUntil = "";
-        $this->CompletedAt = "";
-        $this->ReservedUntil = "";
-        $this->DelayedCaptureUntil = "";
-        $this->Total = 0;
+        $this->ValidUntil = null;
+        $this->CompletedAt = null;
+        $this->ReservedUntil = null;
+        $this->DelayedCaptureUntil = null;
+        $this->Total = 0.0;
         $this->Currency = "";
         $this->Transactions = array();
         $this->RecurrenceResult = "";
         $this->SuggestedLocale ="";
-        $this->FraudRiskScore = 0;
-        $this->RedirectUrl = "";
-        $this->CallbackUrl = "";
-        $this->TraceId = "";
-        $this->RecurrenceType = "";
+        $this->FraudRiskScore = 0.0;
+        $this->RedirectUrl = null;
+        $this->CallbackUrl = null;
+        $this->TraceId = null;
+        $this->RecurrenceType = null;
     }
 
     public function fromJson($json)
@@ -95,7 +100,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements iBarionMode
             $this->PaymentType = jget($json, 'PaymentType');
             $this->FundingSource = jget($json, 'FundingSource');
             if(!empty($json['FundingInformation'])) {
-                $this->FundingInformation = new FundingInformationModel();
+                $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
                 $this->FundingInformation->fromJson(jget($json, 'FundingInformation'));
             }
             $this->AllowedFundingSources = jget($json, 'AllowedFundingSources');

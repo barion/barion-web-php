@@ -15,12 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PaymentQRRequestModel extends BaseRequestModel
+
+namespace Barion\Models\Payment;
+
+class PaymentQRRequestModel extends \Barion\Models\BaseRequestModel
 {
-    public $UserName;
-    public $Password;
-    public $PaymentId;
-    public $Size;
+    public string $UserName;
+    public string $Password;
+    public string $PaymentId;
+    public string $Size;
 
     function __construct($userName, $password, $paymentId)
     {

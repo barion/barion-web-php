@@ -15,25 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BillingAddressModel implements iBarionModel
+ 
+namespace Barion\Models\ThreeDSecure;
+
+use function Barion\Helpers\jget;
+ 
+class BillingAddressModel implements \Barion\Interfaces\IBarionModel
 {
-    public $Country;
-    public $Region;
-    public $City;
-    public $Zip;
-    public $Street;
-    public $Street2;
-    public $Street3;
+    public ?string $Country;
+    public ?string $Region;
+    public ?string $City;
+    public ?string $Zip;
+    public ?string $Street;
+    public ?string $Street2;
+    public ?string $Street3;
 
     function __construct()
     {
-        $this->Country = "";
-        $this->Region = "";
-        $this->City = "";
-        $this->Zip = "";
-        $this->Street = "";
-        $this->Street2 = "";
-        $this->Street3 = "";
+        $this->Country = null;
+        $this->Region = null;
+        $this->City = null;
+        $this->Zip = null;
+        $this->Street = null;
+        $this->Street2 = null;
+        $this->Street3 = null;
     }
 
     public function fromJson($json)

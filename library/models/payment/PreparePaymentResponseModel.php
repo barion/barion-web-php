@@ -15,17 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PreparePaymentResponseModel extends BaseResponseModel implements iBarionModel
+
+namespace Barion\Models\Payment;
+
+use function Barion\Helpers\jget;
+
+class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $PaymentId;
-    public $PaymentRequestId;
-    public $Status;
-    public $Transactions;
-    public $QRUrl;
-    public $RecurrenceResult;
-    public $PaymentRedirectUrl;
-    public $ThreeDSAuthClientData;
-    public $TraceId;
+    public string $PaymentId;
+    public string $PaymentRequestId;
+    public string $Status;
+    public array $Transactions;
+    public string $QRUrl;
+    public string $RecurrenceResult;
+    public string $PaymentRedirectUrl;
+    public ?string $ThreeDSAuthClientData;
+    public ?string $TraceId;
 
     function __construct()
     {
@@ -36,8 +41,8 @@ class PreparePaymentResponseModel extends BaseResponseModel implements iBarionMo
         $this->QRUrl = "";
         $this->RecurrenceResult = "";
         $this->PaymentRedirectUrl = "";
-        $this->ThreeDSAuthClientData = "";
-        $this->TraceId = "";
+        $this->ThreeDSAuthClientData = null;
+        $this->TraceId = null;
         $this->Transactions = array();
     }
 

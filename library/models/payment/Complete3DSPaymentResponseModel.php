@@ -15,13 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Complete3DSPaymentResponseModel extends BaseResponseModel implements iBarionModel
+
+namespace Barion\Models\Payment;
+
+use function Barion\Helpers\jget;
+
+class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $PaymentId;
-    public $PaymentRequestId;
-    public $Status;
-    public $IsSuccessful;
-    public $TraceId;
+    public bool $IsSuccessful;
+    public string $PaymentId;
+    public string $PaymentRequestId;
+    public string $Status;
+    public string $TraceId;
 
     function __construct()
     {

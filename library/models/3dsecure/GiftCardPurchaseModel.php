@@ -15,14 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class GiftCardPurchaseModel implements iBarionModel
+
+namespace Barion\Models\ThreeDSecure;
+
+use function Barion\Helpers\jget;
+
+class GiftCardPurchaseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $Amount;
-    public $Count;
+    public float $Amount;
+    public int $Count;
 
     function __construct()
     {
-        $this->Amount = "";
+        $this->Amount = 0.0;
         $this->Count = 0;
     }
 

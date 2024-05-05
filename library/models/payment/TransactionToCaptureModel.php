@@ -15,57 +15,50 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
 class TransactionToCaptureModel
 {
-    public $TransactionId;
-    public $Total;
-    public $PayeeTransactions;
-    public $Items;
-    public $Comment;
+    public string $TransactionId;
+    public float $Total;
+    public array $PayeeTransactions;
+    public array $Items;
+    public ?string $Comment;
 
     function __construct()
     {
         $this->TransactionId = "";
-        $this->Total = 0;
+        $this->Total = 0.0;
         $this->PayeeTransactions = array();
-        $this->Comment = "";
+        $this->Comment = null;
         $this->Items = array();
     }
 
-    public function AddItem(ItemModel $item)
+    public function AddItem(\Barion\Models\Common\ItemModel $item)
     {
-        if ($this->Items == null) {
-            $this->Items = array();
-        }
         array_push($this->Items, $item);
     }
 
     public function AddItems($items)
     {
-        if (!empty($items)) {
-            foreach ($items as $item) {
-                if ($item instanceof ItemModel) {
-                    $this->AddItem($item);
-                }
+        foreach ($items as $item) {
+            if ($item instanceof \Barion\Models\Common\ItemModel) {
+                $this->AddItem($item);
             }
         }
     }
     
     public function AddPayeeTransaction(PayeeTransactionToFinishModel $model)
     {
-        if ($this->PayeeTransactions == null) {
-            $this->PayeeTransactions = array();
-        }
         array_push($this->PayeeTransactions, $model);
     }
 
     public function AddPayeeTransactions($transactions)
     {
-        if (!empty($transactions)) {
-            foreach ($transactions as $transaction) {
-                if ($transaction instanceof PayeeTransactionToFinishModel) {
-                    $this->AddPayeeTransaction($transaction);
-                }
+        foreach ($transactions as $transaction) {
+            if ($transaction instanceof PayeeTransactionToFinishModel) {
+                $this->AddPayeeTransaction($transaction);
             }
         }
     }

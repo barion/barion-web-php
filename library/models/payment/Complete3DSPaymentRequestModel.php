@@ -15,9 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class Complete3DSPaymentRequestModel extends BaseRequestModel
+
+namespace Barion\Models\Payment;
+
+class Complete3DSPaymentRequestModel extends \Barion\Models\BaseRequestModel
 {
-    public $PaymentId;
+    public string $PaymentId;
 
     function __construct($paymentId)
     {

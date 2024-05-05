@@ -15,13 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TransactionResponseModel implements iBarionModel
+
+namespace Barion\Models\Payment;
+
+class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $POSTransactionId;
-    public $TransactionId;
-    public $Status;
-    public $TransactionTime;
-    public $RelatedId;
+    public string $POSTransactionId;
+    public string $TransactionId;
+    public string $Status;
+    public string $TransactionTime;
+    public ?string $RelatedId;
 
     function __construct()
     {
@@ -29,7 +32,7 @@ class TransactionResponseModel implements iBarionModel
         $this->TransactionId = "";
         $this->Status = "";
         $this->TransactionTime = "";
-        $this->RelatedId = "";
+        $this->RelatedId = null;
     }
 
     public function fromJson($json)

@@ -15,11 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class FundingInformationModel implements iBarionModel
+
+namespace Barion\Models\Common;
+
+use function Barion\Helpers\jget;
+
+class FundingInformationModel implements \Barion\Interfaces\IBarionModel
 {
-    public $BankCard;
-    public $AuthorizationCode;
-    public $ProcessResult;
+    public object $BankCard;
+    public string $AuthorizationCode;
+    public string $ProcessResult;
 
     function __construct()
     {

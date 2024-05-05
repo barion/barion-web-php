@@ -15,10 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RefundResponseModel extends BaseResponseModel implements iBarionModel
+
+namespace Barion\Models\Refund;
+
+use function Barion\Helpers\jget;
+
+class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public $PaymentId;
-    public $RefundedTransactions;
+    public string $PaymentId;
+    public array $RefundedTransactions;
 
     function __construct()
     {

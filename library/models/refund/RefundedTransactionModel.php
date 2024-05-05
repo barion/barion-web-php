@@ -15,21 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class RefundedTransactionModel implements iBarionModel {
 
-    public $TransactionId;
-    public $Total;
-    public $POSTransactionId;
-    public $Comment;
-    public $Status;
+namespace Barion\Models\Refund;
+
+class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
+
+    public string $TransactionId;
+    public float $Total;
+    public ?string $POSTransactionId;
+    public ?string $Comment;
+    public ?string $Status;
 
     function __construct()
     {
         $this->TransactionId = "";
-        $this->Total = 0;
-        $this->POSTransactionId = "";
-        $this->Comment = "";
-        $this->Status = "";
+        $this->Total = 0.0;
+        $this->POSTransactionId = null;
+        $this->Comment = null;
+        $this->Status = null;
     }
 
 

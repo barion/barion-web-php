@@ -15,33 +15,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class PurchaseInformationModel implements iBarionModel
+
+namespace Barion\Models\ThreeDSecure;
+
+use function Barion\Helpers\jget;
+
+class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
 {
-    public $DeliveryTimeframe;
-    public $DeliveryEmailAddress;
-    public $PreOrderDate;
-    public $AvailabilityIndicator;
-    public $ReOrderIndicator;
-    public $RecurringExpiry;
-    public $RecurringFrequency;
-    public $ShippingAddressIndicator;
-    public $GiftCardPurchase;
-    public $PurchaseType;
-    public $PurchaseDate;
+    public ?string $DeliveryTimeframe;
+    public ?string $DeliveryEmailAddress;
+    public ?string $PreOrderDate;
+    public ?string $AvailabilityIndicator;
+    public ?string $ReOrderIndicator;
+    public ?string $RecurringExpiry;
+    public ?string $RecurringFrequency;
+    public ?string $ShippingAddressIndicator;
+    public ?string $GiftCardPurchase;
+    public ?string $PurchaseType;
+    public ?string $PurchaseDate;
 
     function __construct()
     {
-        $this->DeliveryTimeframe = "";
-        $this->DeliveryEmailAddress = "";
-        $this->PreOrderDate = "";
-        $this->AvailabilityIndicator = "";
-        $this->ReOrderIndicator = "";
-        $this->RecurringExpiry = "";
-        $this->RecurringFrequency = "";
-        $this->ShippingAddressIndicator = "";
-        $this->GiftCardPurchase = "";
-        $this->PurchaseType = "";
-        $this->PurchaseDate = "";
+        $this->DeliveryTimeframe = null;
+        $this->DeliveryEmailAddress = null;
+        $this->PreOrderDate = null;
+        $this->AvailabilityIndicator = null;
+        $this->ReOrderIndicator = null;
+        $this->RecurringExpiry = null;
+        $this->RecurringFrequency = null;
+        $this->ShippingAddressIndicator = null;
+        $this->GiftCardPurchase = null;
+        $this->PurchaseType = null;
+        $this->PurchaseDate = null;
     }
 
     public function fromJson($json)

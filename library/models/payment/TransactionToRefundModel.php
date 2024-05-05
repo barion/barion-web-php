@@ -15,14 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
 class TransactionToRefundModel
 {
-    public $TransactionId;
-    public $POSTransactionId;
-    public $AmountToRefund;
-    public $Comment;
+    public string $TransactionId;
+    public string $POSTransactionId;
+    public float $AmountToRefund;
+    public ?string $Comment;
 
-    function __construct($transactionId = null, $posTransactionId = null, $amountToRefund = null, $comment = null)
+    function __construct($transactionId, $posTransactionId, $amountToRefund, $comment = null)
     {
         $this->TransactionId = $transactionId;
         $this->POSTransactionId = $posTransactionId;

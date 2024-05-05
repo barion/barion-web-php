@@ -15,16 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+namespace Barion\Models\Payment;
+
 class PayeeTransactionToFinishModel
 {
-    public $TransactionId;
-    public $Total;
-    public $Comment;
+    public string $TransactionId;
+    public float $Total;
+    public ?string $Comment;
 
     function __construct()
     {
         $this->TransactionId = "";
-        $this->Total = 0;
-        $this->Comment = "";
+        $this->Total = 0.0;
+        $this->Comment = null;
     }
 }

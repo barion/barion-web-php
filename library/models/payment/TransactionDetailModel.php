@@ -15,39 +15,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class TransactionDetailModel implements iBarionModel
+
+namespace Barion\Models\Payment;
+
+class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
 {
-    public $TransactionId;
-    public $POSTransactionId;
-    public $TransactionTime;
-    public $Total;
-    public $Currency;
-    public $Payer;
-    public $Payee;
-    public $Comment;
-    public $Status;
-    public $TransactionType;
-    public $Items;
-    public $RelatedId;
-    public $POSId;
-    public $PaymentId;
+    public string $TransactionId;
+    public ?string $POSTransactionId;
+    public string $TransactionTime;
+    public float $Total;
+    public string $Currency;
+    public object $Payer;
+    public object $Payee;
+    public ?string $Comment;
+    public string $Status;
+    public string $TransactionType;
+    public array $Items;
+    public ?string $RelatedId;
+    public ?string $POSId;
+    public ?string $PaymentId;
 
     function __construct()
     {
         $this->TransactionId = "";
-        $this->POSTransactionId = "";
+        $this->POSTransactionId = null;
         $this->TransactionTime = "";
-        $this->Total = 0;
+        $this->Total = 0.0;
         $this->Currency = "";
-        $this->Payer = new UserModel();
-        $this->Payee = new UserModel();
-        $this->Comment = "";
+        $this->Payer = new \Barion\Models\Common\UserModel();
+        $this->Payee = new \Barion\Models\Common\UserModel();
+        $this->Comment = null;
         $this->Status = "";
         $this->TransactionType = "";
         $this->Items = array();
-        $this->RelatedId = "";
-        $this->POSId = "";
-        $this->PaymentId = "";
+        $this->RelatedId = null;
+        $this->POSId = null;
+        $this->PaymentId = null;
     }
 
     public function fromJson($json)
@@ -59,10 +62,10 @@ class TransactionDetailModel implements iBarionModel
             $this->Total = $json['Total'];
             $this->Currency = $json['Currency'];
 
-            $this->Payer = new UserModel();
+            $this->Payer = new \Barion\Models\Common\UserModel();
             $this->Payer->fromJson($json['Payer']);
 
-            $this->Payee = new UserModel();
+            $this->Payee = new \Barion\Models\Common\UserModel();
             $this->Payee->fromJson($json['Payee']);
 
             $this->Comment = $json['Comment'];
@@ -73,7 +76,7 @@ class TransactionDetailModel implements iBarionModel
 
             if (!empty($json['Items'])) {
                 foreach ($json['Items'] as $i) {
-                    $item = new ItemModel();
+                    $item = new \Barion\Models\Common\ItemModel();
                     $item->fromJson($i);
                     array_push($this->Items, $item);
                 }

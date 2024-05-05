@@ -15,12 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class BankCardModel implements iBarionModel
+
+namespace Barion\Models\Common;
+
+use function Barion\Helpers\jget;
+
+class BankCardModel implements \Barion\Interfaces\IBarionModel
 {
-    public $MaskedPan;
-    public $BankCardType;
-    public $ValidThruYear;
-    public $ValidThruMonth;
+    public string $MaskedPan;
+    public string $BankCardType;
+    public string $ValidThruYear;
+    public string $ValidThruMonth;
 
     function __construct()
     {
