@@ -24,5 +24,3 @@ enum QRCodeSize : string
     case Normal = "Normal";
     case Large = "Large";
 }
-
-?>

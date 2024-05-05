@@ -27,5 +27,3 @@ enum FundingSourceType : string
     case ApplePay = "ApplePay";
     case GooglePay = "GooglePay";
 }
-
-?>

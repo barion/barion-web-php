@@ -40,5 +40,3 @@ enum TransactionStatus : string
     case PaymentSenderOrRecipientIsInvalid = "PaymentSenderOrRecipientIsInvalid";
     case Unknown = "Unknown";
 }
-
-?>

@@ -27,5 +27,3 @@ enum PaymentMethodIndicator : string
     case Between30And60Days = "Between30And60Days";
     case MoreThan60Days = "MoreThan60Days";
 }
-
-?>

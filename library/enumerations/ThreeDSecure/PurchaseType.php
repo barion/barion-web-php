@@ -27,5 +27,3 @@ enum PurchaseType : string
     case QuasiCashTransaction = "QuasiCashTransaction";
     case PrePaidVacationAndLoan = "PrePaidVacationAndLoan";
 }
-
-?>

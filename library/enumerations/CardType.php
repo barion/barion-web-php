@@ -27,5 +27,3 @@ enum CardType : string
     case Electron = "Electron";
     case AmericanExpress = "AmericanExpress";
 }
-
-?>

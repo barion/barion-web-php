@@ -24,5 +24,3 @@ enum RecurrenceType : string
     case OneClickPayment = "OneClickPayment";
     case RecurringPayment = "RecurringPayment";
 }
-
-?>

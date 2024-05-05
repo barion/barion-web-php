@@ -32,5 +32,3 @@ enum PaymentStatus : string
     case PartiallySucceeded = "PartiallySucceeded";
     case Expired = "Expired";
 }
-
-?>

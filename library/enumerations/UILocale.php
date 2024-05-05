@@ -30,5 +30,3 @@ enum UILocale : string
     case GR = "el-GR";
     case ES = "es-ES";
 }
-
-?>

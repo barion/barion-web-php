@@ -25,5 +25,3 @@ enum RecurrenceResult : string
     case Failed = "Failed";
     case NotFound = "NotFound";
 }
-
-?>

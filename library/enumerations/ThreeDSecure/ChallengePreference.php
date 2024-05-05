@@ -25,5 +25,3 @@ enum ChallengePreference : string
     case ChallengeRequired = "ChallengeRequired";
     case NoChallengeNeeded = "NoChallengeNeeded";
 }
-
-?>

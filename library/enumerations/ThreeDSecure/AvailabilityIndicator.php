@@ -24,5 +24,3 @@ enum AvailabilityIndicator : string
     case MerchandiseAvailable = "MerchandiseAvailable";
     case FutureAvailability = "FutureAvailability";
 }
-
-?>

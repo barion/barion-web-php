@@ -26,5 +26,3 @@ enum DeliveryTimeframeType : string
     case OvernightShipping = "OvernightShipping";
     case TwoDayOrMoreShipping = "TwoDayOrMoreShipping";
 }
-
-?>

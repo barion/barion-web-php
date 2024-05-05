@@ -24,5 +24,3 @@ enum PaymentType : string
     case Reservation = "Reservation";
     case DelayedCapture = "DelayedCapture";
 }
-
-?>

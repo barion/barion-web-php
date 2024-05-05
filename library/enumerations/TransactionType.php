@@ -64,5 +64,3 @@ enum TransactionType : string
     case BankTransferPaymentFee = "BankTransferPaymentFee";
     case BarionBalanceProcessingFee = "BarionBalanceProcessingFee";
 }
-
-?>

@@ -29,5 +29,3 @@ enum ShippingAddressIndicator : string
     case TravelAndEventTickets = "TravelAndEventTickets";
     case Other = "Other";
 }
-
-?>
