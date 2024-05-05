@@ -25,20 +25,20 @@ use Barion\Enumerations\{
 
 class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public bool $IsSuccessful;
-    public string $PaymentId;
-    public string $PaymentRequestId;
+    public ?bool $IsSuccessful;
+    public ?string $PaymentId;
+    public ?string $PaymentRequestId;
     public PaymentStatus $Status;
-    public string $TraceId;
+    public ?string $TraceId;
 
     function __construct()
     {
         parent::__construct();
-        $this->PaymentId = "";
-        $this->PaymentRequestId = "";
+        $this->PaymentId = null;
+        $this->PaymentRequestId = null;
         $this->Status = PaymentStatus::Prepared;
         $this->IsSuccessful = false;
-        $this->TraceId = "";
+        $this->TraceId = null;
     }
 
     public function fromJson($json)
@@ -48,7 +48,7 @@ class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel i
 
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(jget($json, 'PaymentStatus'));
+            $this->Status = PaymentStatus::from(jget($json, 'PaymentStatus') ?? '');
             $this->IsSuccessful = jget($json, 'IsSuccessful');
             $this->TraceId = jget($json, 'TraceId');
         }

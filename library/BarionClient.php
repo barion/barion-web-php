@@ -29,7 +29,12 @@ require 'BarionLoader.php';
 
 use Barion\Constants;
 use Barion\Enumerations\{
-    BarionEnvironment
+    BarionEnvironment,
+    QRCodeSize
+};
+use Barion\Models\{
+    BaseRequestModel,
+    BaseResponseModel
 };
 use Barion\Models\Common;
 use Barion\Models\Error\{
@@ -58,28 +63,26 @@ use Barion\Models\ThreeDSecure;
 
 class BarionClient
 {
-    private $Environment;
+    private BarionEnvironment $Environment;
 
-    private $Password;
-    private $APIVersion;
-    private $POSKey;
+    private int $APIVersion;
+    private string $POSKey;
 
-    private $BARION_API_URL = "";
-    private $BARION_WEB_URL = "";
+    private string $BARION_API_URL = "";
+    private string $BARION_WEB_URL = "";
 
-    private $UseBundledRootCertificates;
+    private bool $UseBundledRootCertificates;
 
     /**
      *  Constructor
      *
      * @param string $poskey The secret POSKey of your shop
      * @param int $version The version of the Barion API
-     * @param string $env The environment to connect to
+     * @param BarionEnvironment $env The environment to connect to
      * @param bool $useBundledRootCerts Set this to true if you're having problem with SSL connection
      */
     function __construct($poskey, $version = 2, $env = BarionEnvironment::Prod, $useBundledRootCerts = false)
     {
-
         $this->POSKey = $poskey;
         $this->APIVersion = $version;
         $this->Environment = $env;
@@ -255,7 +258,7 @@ class BarionClient
      * @param string $username The username of the shop's owner
      * @param string $password The password of the shop's owner
      * @param string $paymentId The Id of the payment
-     * @param string $qrCodeSize The desired size of the QR image
+     * @param QRCodeSize $qrCodeSize The desired size of the QR image
      * @return mixed|string Returns the response of the QR request
      */
     public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)

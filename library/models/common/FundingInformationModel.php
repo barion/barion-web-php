@@ -23,14 +23,14 @@ use function Barion\Helpers\jget;
 class FundingInformationModel implements \Barion\Interfaces\IBarionModel
 {
     public object $BankCard;
-    public string $AuthorizationCode;
-    public string $ProcessResult;
+    public ?string $AuthorizationCode;
+    public ?string $ProcessResult;
 
     function __construct()
     {
         $this->BankCard = new BankCardModel();
-        $this->AuthorizationCode = "";
-        $this->ProcessResult = "";
+        $this->AuthorizationCode = null;
+        $this->ProcessResult = null;
     }
 
     public function fromJson($json)

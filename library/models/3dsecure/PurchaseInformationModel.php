@@ -59,16 +59,16 @@ class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
     public function fromJson($json)
     {
         if (!empty($json)) {
-            $this->DeliveryTimeframe = DeliveryTimeframeType::from(jget($json, 'DeliveryTimeframe'));
+            $this->DeliveryTimeframe = DeliveryTimeframeType::from(jget($json, 'DeliveryTimeframe') ?? '');
             $this->DeliveryEmailAddress = jget($json, 'DeliveryEmailAddress');
             $this->PreOrderDate = jget($json, 'PreOrderDate');
-            $this->AvailabilityIndicator = AvailabilityIndicator::from(jget($json, 'AvailabilityIndicator'));
-            $this->ReOrderIndicator = ReOrderIndicator::from(jget($json, 'ReOrderIndicator'));
+            $this->AvailabilityIndicator = AvailabilityIndicator::from(jget($json, 'AvailabilityIndicator') ?? '');
+            $this->ReOrderIndicator = ReOrderIndicator::from(jget($json, 'ReOrderIndicator') ?? '');
             $this->RecurringExpiry = jget($json, 'RecurringExpiry');
             $this->RecurringFrequency = jget($json, 'RecurringFrequency');
-            $this->ShippingAddressIndicator = ShippingAddressIndicator::from(jget($json, 'ShippingAddressIndicator'));
+            $this->ShippingAddressIndicator = ShippingAddressIndicator::from(jget($json, 'ShippingAddressIndicator') ?? '');
             $this->GiftCardPurchase = jget($json, 'GiftCardPurchase');
-            $this->PurchaseType = PurchaseType::from(jget($json, 'PurchaseType'));
+            $this->PurchaseType = PurchaseType::from(jget($json, 'PurchaseType') ?? '');
             $this->PurchaseDate = jget($json, 'PurchaseDate');
         }
     }

@@ -60,16 +60,16 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
     public ChallengePreference $ChallengePreference;
     public ?string $TraceId;
 
-    function __construct($requestId = "", $type = PaymentType::Immediate, $guestCheckoutAllowed = true, 
-                            $allowedFundingSources = array(FundingSourceType::All), $window = "00:30:00", $locale = UILocale::HU, 
+    function __construct($requestId = "", $paymentType = PaymentType::Immediate, $guestCheckoutAllowed = true, 
+                            $allowedFundingSources = array(FundingSourceType::All), $paymentWindow = "00:30:00", $locale = UILocale::HU, 
                             $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, 
                             $callbackUrl = null, $currency = Currency::HUF, $traceId = null)
     {
         $this->PaymentRequestId = $requestId;
-        $this->PaymentType = $type;
-        $this->PaymentWindow = $window;
-        $this->GuestCheckout = true;
-        $this->FundingSources = array(FundingSourceType::All);
+        $this->PaymentType = $paymentType;
+        $this->PaymentWindow = $paymentWindow;
+        $this->GuestCheckout = $guestCheckoutAllowed;
+        $this->FundingSources = $allowedFundingSources;
         $this->Locale = $locale;
         $this->InitiateRecurrence = $initiateRecurrence;
         $this->RecurrenceId = $recurrenceId;

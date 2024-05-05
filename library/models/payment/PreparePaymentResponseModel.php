@@ -26,25 +26,25 @@ use Barion\Enumerations\{
 
 class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $PaymentId;
-    public string $PaymentRequestId;
+    public ?string $PaymentId;
+    public ?string $PaymentRequestId;
     public PaymentStatus $Status;
     public array $Transactions;
-    public string $QRUrl;
+    public ?string $QRUrl;
     public RecurrenceResult $RecurrenceResult;
-    public string $PaymentRedirectUrl;
+    public ?string $PaymentRedirectUrl;
     public ?string $ThreeDSAuthClientData;
     public ?string $TraceId;
 
     function __construct()
     {
         parent::__construct();
-        $this->PaymentId = "";
-        $this->PaymentRequestId = "";
+        $this->PaymentId = null;
+        $this->PaymentRequestId = null;
         $this->Status = PaymentStatus::Prepared;
-        $this->QRUrl = "";
+        $this->QRUrl = null;
         $this->RecurrenceResult = RecurrenceResult::None;
-        $this->PaymentRedirectUrl = "";
+        $this->PaymentRedirectUrl = null;
         $this->ThreeDSAuthClientData = null;
         $this->TraceId = null;
         $this->Transactions = array();
@@ -56,9 +56,9 @@ class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel imple
             parent::fromJson($json);
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(jget($json, 'Status'));
+            $this->Status = PaymentStatus::from(jget($json, 'Status') ?? '');
             $this->QRUrl = jget($json, 'QRUrl');
-            $this->RecurrenceResult = RecurrenceResult::from(jget($json, 'RecurrenceResult') ?? "None");
+            $this->RecurrenceResult = RecurrenceResult::from(jget($json, 'RecurrenceResult') ?? 'None');
             $this->ThreeDSAuthClientData = jget($json, 'ThreeDSAuthClientData');
             $this->TraceId = jget($json, 'TraceId');
             $this->Transactions = array();

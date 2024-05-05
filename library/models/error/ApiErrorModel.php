@@ -20,7 +20,7 @@ namespace Barion\Models\Error;
 
 class ApiErrorModel
 {
-    public string $Title;
+    public ?string $Title;
     public ?string $ErrorCode;
     public ?string $Description;
     public ?string $HappenedAt;

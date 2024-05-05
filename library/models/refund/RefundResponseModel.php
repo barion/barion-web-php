@@ -22,13 +22,13 @@ use function Barion\Helpers\jget;
 
 class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $PaymentId;
+    public ?string $PaymentId;
     public array $RefundedTransactions;
 
     function __construct()
     {
         parent::__construct();
-        $this->PaymentId = "";
+        $this->PaymentId = null;
         $this->RefundedTransactions = array();
     }
 

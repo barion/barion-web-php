@@ -25,9 +25,9 @@ use Barion\Enumerations\{
 
 class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public bool $IsSuccessful;
-    public string $PaymentId;
-    public string $PaymentRequestId;
+    public ?bool $IsSuccessful;
+    public ?string $PaymentId;
+    public ?string $PaymentRequestId;
     public PaymentStatus $Status;
     public array $Transactions;
 
@@ -37,7 +37,7 @@ class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel im
         $this->IsSuccessful = false;
         $this->PaymentId = "";
         $this->PaymentRequestId = "";
-        $this->PaymentStatus = PaymentStatus::Prepared;
+        $this->Status = PaymentStatus::Prepared;
         $this->Transactions = array();
     }
 
@@ -49,7 +49,7 @@ class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel im
             $this->IsSuccessful = jget($json, 'IsSuccessful');
             $this->PaymentId = jget($json, 'PaymentId');
             $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(jget($json, 'Status'));
+            $this->Status = PaymentStatus::from(jget($json, 'Status') ?? '');
 
             $this->Transactions = array();
 

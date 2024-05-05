@@ -72,20 +72,20 @@ class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
         if (!empty($json)) {
             $this->AccountId = jget($json, 'AccountId');
             $this->AccountCreated = jget($json, 'AccountCreated');
-            $this->AccountCreationIndicator = AccountCreationIndicator::from(jget($json, 'AccountCreationIndicator'));
+            $this->AccountCreationIndicator = AccountCreationIndicator::from(jget($json, 'AccountCreationIndicator') ?? '');
             $this->AccountLastChanged = jget($json, 'AccountLastChanged');
-            $this->AccountChangeIndicator = AccountChangeIndicator::from(jget($json, 'AccountChangeIndicator'));
+            $this->AccountChangeIndicator = AccountChangeIndicator::from(jget($json, 'AccountChangeIndicator') ?? '');
             $this->PasswordLastChanged = jget($json, 'PasswordLastChanged');
-            $this->PasswordChangeIndicator = PasswordChangeIndicator::from(jget($json, 'PasswordChangeIndicator'));
+            $this->PasswordChangeIndicator = PasswordChangeIndicator::from(jget($json, 'PasswordChangeIndicator') ?? '');
             $this->PurchasesInTheLastSixMonths = jget($json, 'PurchasesInTheLastSixMonths');
             $this->ShippingAddressAdded = jget($json, 'ShippingAddressAdded');
-            $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::from(jget($json, 'ShippingAddressUsageIndicator'));
+            $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::from(jget($json, 'ShippingAddressUsageIndicator') ?? '');
             $this->PaymentMethodAdded = jget($json, 'PaymentMethodAdded');
-            $this->PaymentMethodIndicator = PaymentMethodIndicator::from(jget($json, 'PaymentMethodIndicator'));
+            $this->PaymentMethodIndicator = PaymentMethodIndicator::from(jget($json, 'PaymentMethodIndicator') ?? '');
             $this->ProvisionAttempts = jget($json, 'ProvisionAttempts');
             $this->TransactionalActivityPerDay = jget($json, 'TransactionalActivityPerDay');
             $this->TransactionalActivityPerYear = jget($json, 'TransactionalActivityPerYear');
-            $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::from(jget($json, 'SuspiciousActivityIndicator'));
+            $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::from(jget($json, 'SuspiciousActivityIndicator') ?? '');
         }
     }
 }

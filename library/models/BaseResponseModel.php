@@ -18,6 +18,8 @@
  
 namespace Barion\Models;
 
+use Barion\Models\Error\ApiErrorModel;
+
 class BaseResponseModel
 {
     public array $Errors;
@@ -39,12 +41,12 @@ class BaseResponseModel
 
             if (array_key_exists('Errors', $json)) {
                 foreach ($json['Errors'] as $error) {
-                    $apiError = new Barion\Models\Error\ApiErrorModel();
+                    $apiError = new ApiErrorModel();
                     $apiError->fromJson($error);
                     array_push($this->Errors, $apiError);
                 }
             } else {
-                $internalError = new Barion\Models\Error\ApiErrorModel();
+                $internalError = new ApiErrorModel();
                 $internalError->ErrorCode = "500";
                 if (array_key_exists('ExceptionMessage', $json)) {
                     $internalError->Title = $json['ExceptionMessage'];

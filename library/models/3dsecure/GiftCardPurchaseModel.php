@@ -22,8 +22,8 @@ use function Barion\Helpers\jget;
 
 class GiftCardPurchaseModel implements \Barion\Interfaces\IBarionModel
 {
-    public float $Amount;
-    public int $Count;
+    public ?float $Amount;
+    public ?int $Count;
 
     function __construct()
     {

@@ -23,7 +23,8 @@ use Barion\Enumerations\{
     PaymentType,
     PaymentStatus,
     Currency,
-    RecurrenceResult
+    RecurrenceResult,
+    UILocale
 };
 use Barion\Enumerations\ThreeDSecure\{
     RecurrenceType
@@ -31,29 +32,29 @@ use Barion\Enumerations\ThreeDSecure\{
 
 class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $PaymentId;
-    public string $PaymentRequestId;
+    public ?string $PaymentId;
+    public ?string $PaymentRequestId;
     public ?string $OrderNumber;
-    public string $POSId;
-    public string $POSName;
-    public string $POSOwnerEmail;
-    public string $POSOwnerCountry;
+    public ?string $POSId;
+    public ?string $POSName;
+    public ?string $POSOwnerEmail;
+    public ?string $POSOwnerCountry;
     public PaymentStatus $Status;
     public PaymentType $PaymentType;
     public ?string $FundingSource;
     public object $FundingInformation;
-    public array $AllowedFundingSources;
-    public bool $GuestCheckout;
-    public string $CreatedAt;
+    public ?array $AllowedFundingSources;
+    public ?bool $GuestCheckout;
+    public ?string $CreatedAt;
     public ?string $ValidUntil;
     public ?string $CompletedAt;
     public ?string $ReservedUntil;
     public ?string $DelayedCaptureUntil;
-    public float $Total;
+    public ?float $Total;
     public Currency $Currency;
     public array $Transactions;
     public RecurrenceResult $RecurrenceResult;
-    public string $SuggestedLocale;
+    public UILocale $SuggestedLocale;
     public ?float $FraudRiskScore;
     public ?string $RedirectUrl;
     public ?string $CallbackUrl;
@@ -85,7 +86,7 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
         $this->Currency = Currency::HUF;
         $this->Transactions = array();
         $this->RecurrenceResult = RecurrenceResult::None;
-        $this->SuggestedLocale ="";
+        $this->SuggestedLocale = UILocale::HU;
         $this->FraudRiskScore = 0.0;
         $this->RedirectUrl = null;
         $this->CallbackUrl = null;
@@ -105,8 +106,8 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->POSName = jget($json, 'POSName');
             $this->POSOwnerEmail = jget($json, 'POSOwnerEmail');
             $this->POSOwnerCountry = jget($json, 'POSOwnerCountry');
-            $this->Status = PaymentStatus::from(jget($json, 'Status'));
-            $this->PaymentType = PaymentType::from(jget($json, 'PaymentType'));
+            $this->Status = PaymentStatus::from(jget($json, 'Status') ?? '');
+            $this->PaymentType = PaymentType::from(jget($json, 'PaymentType') ?? '');
             $this->FundingSource = jget($json, 'FundingSource');
             if(!empty($json['FundingInformation'])) {
                 $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
@@ -120,9 +121,9 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->ReservedUntil = jget($json, 'ReservedUntil');
             $this->DelayedCaptureUntil = jget($json, 'DelayedCaptureUntil');
             $this->Total = jget($json, 'Total');
-            $this->Currency = Currency::from(jget($json, 'Currency'));
+            $this->Currency = Currency::from(jget($json, 'Currency') ?? '');
             $this->RecurrenceResult = RecurrenceResult::from(jget($json, 'RecurrenceResult') ?? 'None');
-            $this->SuggestedLocale = jget($json, 'SuggestedLocale');
+            $this->SuggestedLocale = UILocale::from(jget($json, 'SuggestedLocale') ?? '');
             $this->FraudRiskScore = jget($json, 'FraudRiskScore');
             $this->RedirectUrl = jget($json, 'RedirectUrl');
             $this->CallbackUrl = jget($json, 'CallbackUrl');

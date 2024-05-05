@@ -18,6 +18,8 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Enumerations\QRCodeSize;
+
 class PaymentQRRequestModel extends \Barion\Models\BaseRequestModel
 {
     public string $UserName;
@@ -25,11 +27,11 @@ class PaymentQRRequestModel extends \Barion\Models\BaseRequestModel
     public string $PaymentId;
     public QRCodeSize $Size;
 
-    function __construct($userName, $password, $paymentId)
+    function __construct($userName, $password, $paymentId, $size = QRCodeSize::Normal)
     {
         $this->UserName = $userName;
         $this->Password = $password;
         $this->PaymentId = $paymentId;
-        $this->Size = QRCodeSize::Normal;
+        $this->Size = $size;
     }
 }

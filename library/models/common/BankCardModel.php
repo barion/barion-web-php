@@ -22,10 +22,10 @@ use function Barion\Helpers\jget;
 
 class BankCardModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $MaskedPan;
-    public string $BankCardType;
-    public string $ValidThruYear;
-    public string $ValidThruMonth;
+    public ?string $MaskedPan;
+    public ?string $BankCardType;
+    public ?string $ValidThruYear;
+    public ?string $ValidThruMonth;
 
     function __construct()
     {

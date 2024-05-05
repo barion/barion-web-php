@@ -22,7 +22,7 @@ use function Barion\Helpers\jget;
 
 class ItemModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $Name;
+    public ?string $Name;
     public ?string $Description;
     public ?float $Quantity;
     public ?string $Unit;
@@ -32,7 +32,7 @@ class ItemModel implements \Barion\Interfaces\IBarionModel
 
     function __construct()
     {
-        $this->Name = "";
+        $this->Name = null;
         $this->Description = null;
         $this->Quantity = null;
         $this->Unit = null;
