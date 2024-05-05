@@ -74,6 +74,8 @@ class BarionClient
 {
     /* -------- CONSTANTS -------- */
 
+    private const MINIMUM_PHP_VERSION               = "8.2";
+
     public const BARION_API_URL_PROD               = "https://api.barion.com";
     public const BARION_WEB_URL_PROD               = "https://secure.barion.com/Pay";
     public const BARION_API_URL_TEST               = "https://api.test.barion.com";
@@ -108,6 +110,11 @@ class BarionClient
      */
     function __construct(string $poskey, int $version = 2, BarionEnvironment $env = BarionEnvironment::Prod, bool $useBundledRootCerts = false)
     {
+        // check for minimum PHP version
+        if (version_compare(phpversion(), BarionClient::MINIMUM_PHP_VERSION, '<')) {
+            throw new BarionException("The Barion PHP library requires at least PHP version ".BarionClient::MINIMUM_PHP_VERSION." to function. Please update your PHP installation.");
+        }
+
         $this->POSKey = $poskey;
         $this->APIVersion = $version;
         $this->Environment = $env;
