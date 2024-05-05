@@ -33,8 +33,17 @@ $include_dirs = Array(
 );
 
 foreach ($include_dirs as $directoryKey => $directoryName) {
-    $files = glob($directoryName . '/*.php');   
+    $files = new \DirectoryIterator(strval($directoryName));
+    foreach ($files as $fileInfo) {
+        if (!$fileInfo->isDot() && !$fileInfo->isDir()) {
+            $filePath = $directoryName . DIRECTORY_SEPARATOR . $fileInfo->getFilename();
+            require_once $filePath;
+        }
+    }
+    /*
+    $files = glob($directoryName . '/*.php');
     foreach ($files as $fileKey => $fileName) {
         require_once $fileName;
     }
+    */
 }
