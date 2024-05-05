@@ -13,6 +13,9 @@
 - Added Spanish (es-ES) locale to the supported Barion Smart Gateway languages
 - Updated examples and docs
 - Added PHPDoc annotation
+- Client throws exception if PHP version is not sufficient or cURL extension is not available
+- Client throws exception if an incorrect API version is specified for a method
+- API version can now be set on-the-fly between calls
 
 ### [v1.4.11](https://github.com/barion/barion-web-php/releases/tag/v1.4.11) 2024-04-02
 
