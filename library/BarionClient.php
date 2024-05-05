@@ -18,7 +18,7 @@
  
 namespace Barion;
 
-require 'BarionLoader.php';
+require __DIR__ . '/../vendor/autoload.php';
 
 /*
 *  

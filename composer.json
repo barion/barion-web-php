@@ -1,8 +1,20 @@
 {
     "name": "barion/barion-web-php",
     "description": "PHP libary for Barion Smart Gateway API integration",
+    "type": "library",
     "require": {
-        "php": ">=7.3",
+        "php": ">=8.2",
         "ext-curl": "*"
+    },
+    "license": "Apache-2.0",
+    "support": {
+        "email": "devsupport@barion.com",
+        "docs": "https://docs.barion.com",
+        "chat": "https://discord.gg/rPkeS5fW"
+    },
+    "autoload": {
+        "psr-4": {
+            "Barion\\": "library/"
+        }
     }
 }
