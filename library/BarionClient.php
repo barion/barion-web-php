@@ -15,6 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/*
+* BARION WEB PHP
+* PHP library for implementing REST API calls towards the Barion payment system.
+* 
+* https://docs.barion.com
+* https://www.barion.com
+*/
  
 namespace Barion;
 
@@ -27,13 +35,8 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once 'autoload.php';
 }
 
-/*
-* PHP library for implementing REST API calls towards the Barion payment system.  
-*/
-
 /* -------- IMPORTED CLASSES -------- */
 
-use Barion\Exceptions;
 use Barion\Enumerations\{
     BarionEnvironment,
     QRCodeSize
