@@ -18,6 +18,9 @@
  
 namespace Barion\Interfaces;
  
+/*
+* Base model interface.
+*/
 interface IBarionModel
 {
     /**
