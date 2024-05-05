@@ -115,6 +115,11 @@ class BarionClient
             throw new BarionException("The Barion PHP library requires at least PHP version ".BarionClient::MINIMUM_PHP_VERSION." to function. Please update your PHP installation.");
         }
 
+        // check for cURL extension
+        if (!extension_loaded('curl')) {
+            throw new BarionException("The Barion PHP library requires the cURL module to function. Please check your system configuration.");
+        }
+
         $this->POSKey = $poskey;
         $this->APIVersion = $version;
         $this->Environment = $env;
