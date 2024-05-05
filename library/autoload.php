@@ -24,6 +24,7 @@ namespace Barion;
 
 $include_dirs = Array(
     realpath(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), "Interfaces"))),
+    realpath(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), "Exceptions"))),
     realpath(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), "Enumerations"))),
     realpath(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), "Enumerations/ThreeDSecure"))),
     realpath(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), "Helpers"))),

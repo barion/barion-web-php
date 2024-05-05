@@ -18,6 +18,9 @@
  
 namespace Barion;
 
+/*
+* Autoloading necessary files. Uses own autoloader if Composer autoload is not present.
+*/
 if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
 } else {
