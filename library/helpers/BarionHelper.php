@@ -23,13 +23,15 @@
 *  Helper functions
 */
 
+namespace Barion\Helpers;
+
 /**
  * Gets the value of the specified property from the json
  *
  * @param array  $json The json
  * @param string $propertyName
  * @return null The value of the property
- */
+ */ 
 function jget($json, $propertyName)
 {
     return isset($json[$propertyName]) ? $json[$propertyName] : null;
