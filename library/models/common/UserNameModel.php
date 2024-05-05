@@ -19,6 +19,7 @@
 namespace Barion\Models\Common;
 
 use Barion\Helpers\JSON;
+use Barion\Helpers\StringExtension;
 
 class UserNameModel implements \Barion\Interfaces\IBarionModel
 {
@@ -35,6 +36,7 @@ class UserNameModel implements \Barion\Interfaces\IBarionModel
         $this->OrganizationName = null;
     }
 
+    /** @param array<mixed> $json */
     public function fromJson(array $json) : void
     {
         if (!empty($json)) {

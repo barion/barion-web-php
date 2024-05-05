@@ -26,10 +26,10 @@ use Barion\Enumerations\{
 
 class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $POSTransactionId;
-    public string $TransactionId;
+    public ?string $POSTransactionId;
+    public ?string $TransactionId;
     public TransactionStatus $Status;
-    public string $TransactionTime;
+    public ?string $TransactionTime;
     public ?string $RelatedId;
 
     function __construct()
@@ -45,7 +45,7 @@ class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
     {
         if (!empty($json)) {
             $this->POSTransactionId = JSON::getString($json, 'POSTransactionId');
-            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status'));
+            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status') ?? "Unknown");
             $this->TransactionId = JSON::getString($json, 'TransactionId');
             $this->TransactionTime = JSON::getString($json, 'TransactionTime');
             $this->RelatedId = JSON::getString($json, 'RelatedId');

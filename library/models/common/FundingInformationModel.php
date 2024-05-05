@@ -38,7 +38,7 @@ class FundingInformationModel implements \Barion\Interfaces\IBarionModel
     {
         if (!empty($json)) {
             $this->BankCard = new BankCardModel();
-            $this->BankCard->fromJson(JSON::getArray($json, 'BankCard'));
+            $this->BankCard->fromJson(JSON::getArray($json, 'BankCard') ?? array());
             $this->AuthorizationCode = JSON::getString($json, 'AuthorizationCode');
             $this->ProcessResult = JSON::getString($json, 'ProcessResult');
         }

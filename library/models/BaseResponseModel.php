@@ -45,10 +45,13 @@ class BaseResponseModel
             }
 
             if (array_key_exists('Errors', $json)) {
-                foreach (JSON::getArray($json, 'Errors') as $error) {
-                    $apiError = new ApiErrorModel();
-                    $apiError->fromJson($error);
-                    array_push($this->Errors, $apiError);
+                $errors = JSON::getArray($json, 'Errors');
+                if (is_array($errors) && !empty($errors)) {
+                    foreach ($errors as $key => $error) {
+                        $apiError = new ApiErrorModel();
+                        $apiError->fromJson($error);
+                        array_push($this->Errors, $apiError);
+                    }
                 }
             } else {
                 $internalError = new ApiErrorModel();

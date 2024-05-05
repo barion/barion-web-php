@@ -33,10 +33,10 @@ use Barion\Enumerations\{
 
 class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
 {
-    public string $TransactionId;
+    public ?string $TransactionId;
     public ?string $POSTransactionId;
-    public string $TransactionTime;
-    public float $Total;
+    public ?string $TransactionTime;
+    public ?float $Total;
     public Currency $Currency;
     public object $Payer;
     public object $Payee;
@@ -76,17 +76,17 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
             $this->POSTransactionId = JSON::getString($json, 'POSTransactionId');
             $this->TransactionTime = JSON::getString($json, 'TransactionTime');
             $this->Total = JSON::getFloat($json, 'Total');
-            $this->Currency = Currency::from(JSON::getString($json, 'Currency'));
+            $this->Currency = Currency::from(JSON::getString($json, 'Currency') ?? "Unspecified");
 
             $this->Payer = new UserModel();
-            $this->Payer->fromJson(JSON::getArray($json, 'Payer'));
+            $this->Payer->fromJson(JSON::getArray($json, 'Payer') ?? array());
 
             $this->Payee = new UserModel();
-            $this->Payee->fromJson(JSON::getArray($json, 'Payee'));
+            $this->Payee->fromJson(JSON::getArray($json, 'Payee') ?? array());
 
             $this->Comment = JSON::getString($json, 'Comment');
-            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status'));
-            $this->TransactionType = TransactionType::from(JSON::getString($json, 'TransactionType'));
+            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status') ?? "Unknown");
+            $this->TransactionType = TransactionType::from(JSON::getString($json, 'TransactionType') ?? "Unspecified");
 
             $this->Items = array();
             

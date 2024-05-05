@@ -31,12 +31,17 @@ class UserModel implements \Barion\Interfaces\IBarionModel
         $this->Email = null;
     }
 
+    /** @param array<mixed> $json */
     public function fromJson(array $json) : void
     {
-        if (!empty($json)) {
+        if ($json !== null && !empty($json)) {
             $this->Email = JSON::getString($json, 'Email');
-            $name = new UserNameModel();
-            $name->fromJson(JSON::getArray($json, 'Name'));
+            $userNameData = JSON::getArray($json, 'Name');
+            if ($userNameData !== null) {
+                $name = new UserNameModel();
+                $name->fromJson($userNameData);
+                $this->Name = $name->getName();
+            }
         }
     }
 }

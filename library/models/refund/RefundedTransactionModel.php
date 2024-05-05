@@ -26,8 +26,8 @@ use Barion\Enumerations\{
 
 class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
 
-    public string $TransactionId;
-    public float $Total;
+    public ?string $TransactionId;
+    public ?float $Total;
     public ?string $POSTransactionId;
     public ?string $Comment;
     public TransactionStatus $Status;
