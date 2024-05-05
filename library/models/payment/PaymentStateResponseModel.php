@@ -232,6 +232,13 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
      */
     public ?string $TraceId;
 
+    /** 
+     * The payment method that was ultimately used to complete the payment, if applicable
+     * 
+     * @var ?string
+     */
+    public ?string $PaymentMethod;
+
     function __construct()
     {
         parent::__construct();
@@ -263,6 +270,7 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
         $this->CallbackUrl = null;
         $this->TraceId = null;
         $this->RecurrenceType = RecurrenceType::Unspecified;
+        $this->PaymentMethod = null;
     }
 
     public function fromJson(array $json) : void
@@ -303,6 +311,7 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->CallbackUrl = JSON::getString($json, 'CallbackUrl');
             $this->TraceId = JSON::getString($json, 'TraceId');
             $this->RecurrenceType = RecurrenceType::from(JSON::getString($json, 'RecurrenceType') ?? '');
+            $this->PaymentMethod = JSON::getString($json, 'PaymentMethod');
 
             $this->Transactions = array();
             

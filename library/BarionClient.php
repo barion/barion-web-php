@@ -64,7 +64,7 @@ const BARION_API_URL_TEST               = "https://api.test.barion.com";
 const BARION_WEB_URL_TEST               = "https://secure.test.barion.com/Pay";
 
 const API_ENDPOINT_PREPAREPAYMENT       = "/Payment/Start";
-const API_ENDPOINT_PAYMENTSTATE         = "/Payment/GetPaymentState";
+const API_ENDPOINT_PAYMENTSTATE         = "/Payment/{paymentId}/PaymentState";
 const API_ENDPOINT_QRCODE               = "/QR/Generate";
 const API_ENDPOINT_REFUND               = "/Payment/Refund";
 const API_ENDPOINT_FINISHRESERVATION    = "/Payment/FinishReservation";
@@ -250,7 +250,7 @@ class BarionClient
     {
         $model = new PaymentStateRequestModel($paymentId);
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_PAYMENTSTATE;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . str_ireplace("{paymentId}", $paymentId,API_ENDPOINT_PAYMENTSTATE);
         $response = $this->GetFromBarion($url, $model);
         $ps = new PaymentStateResponseModel();
         if (!empty($response)) {
