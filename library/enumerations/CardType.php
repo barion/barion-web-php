@@ -2,14 +2,14 @@
 
 namespace Barion\Enumerations;
 
-abstract class CardType
+enum CardType : string
 {
-    const Unknown = "Unknown";
-    const Mastercard = "Mastercard";
-    const Maestro = "Maestro";
-    const Visa = "Visa";
-    const Electron = "Electron";
-    const AmericanExpress = "AmericanExpress";
+    case Unknown = "Unknown";
+    case Mastercard = "Mastercard";
+    case Maestro = "Maestro";
+    case Visa = "Visa";
+    case Electron = "Electron";
+    case AmericanExpress = "AmericanExpress";
 }
 
 ?>

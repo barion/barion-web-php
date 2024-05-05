@@ -2,12 +2,12 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class DeliveryTimeframeType
+enum DeliveryTimeframeType : string
 {
-    const ElectronicDelivery = "ElectronicDelivery";
-    const SameDayShipping = "SameDayShipping";
-    const OvernightShipping = "OvernightShipping";
-    const TwoDayOrMoreShipping = "TwoDayOrMoreShipping";
+    case ElectronicDelivery = "ElectronicDelivery";
+    case SameDayShipping = "SameDayShipping";
+    case OvernightShipping = "OvernightShipping";
+    case TwoDayOrMoreShipping = "TwoDayOrMoreShipping";
 }
 
 ?>

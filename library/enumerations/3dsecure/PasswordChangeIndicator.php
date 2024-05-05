@@ -2,13 +2,13 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class PasswordChangeIndicator
+enum PasswordChangeIndicator : string
 {
-    const NoChange = "NoChange";
-    const ChangedDuringThisTransaction = "ChangedDuringThisTransaction";
-    const LessThan30Days = "LessThan30Days";
-    const Between30And60Days = "Between30And60Days";
-    const MoreThan60Days = "MoreThan60Days";
+    case NoChange = "NoChange";
+    case ChangedDuringThisTransaction = "ChangedDuringThisTransaction";
+    case LessThan30Days = "LessThan30Days";
+    case Between30And60Days = "Between30And60Days";
+    case MoreThan60Days = "MoreThan60Days";
 }
 
 ?>

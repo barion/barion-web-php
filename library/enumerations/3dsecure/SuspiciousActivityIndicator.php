@@ -2,10 +2,10 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class SuspiciousActivityIndicator
+enum SuspiciousActivityIndicator : string
 {
-    const NoSuspiciousActivityObserved = "NoSuspiciousActivityObserved";
-    const SuspiciousActivityObserved = "SuspiciousActivityObserved";
+    case NoSuspiciousActivityObserved = "NoSuspiciousActivityObserved";
+    case SuspiciousActivityObserved = "SuspiciousActivityObserved";
 }
 
 ?>

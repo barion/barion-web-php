@@ -2,13 +2,13 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class AccountCreationIndicator
+enum AccountCreationIndicator : string
 {
-    const NoAccount = "NoAccount";
-    const CreatedDuringThisTransaction = "CreatedDuringThisTransaction";
-    const LessThan30Days = "LessThan30Days";
-    const Between30And60Days = "Between30And60Days";
-    const MoreThan60Days = "MoreThan60Days";
+    case NoAccount = "NoAccount";
+    case CreatedDuringThisTransaction = "CreatedDuringThisTransaction";
+    case LessThan30Days = "LessThan30Days";
+    case Between30And60Days = "Between30And60Days";
+    case MoreThan60Days = "MoreThan60Days";
 }
 
 ?>

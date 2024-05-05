@@ -2,12 +2,12 @@
 
 namespace Barion\Enumerations;
 
-abstract class FundingSourceType
+enum FundingSourceType : string
 {
-    const All = "All";
-    const Balance = "Balance";
-    const Bankcard = "Bankcard";
-    const BankTransfer = "BankTransfer";
+    case All = "All";
+    case Balance = "Balance";
+    case Bankcard = "Bankcard";
+    case BankTransfer = "BankTransfer";
 }
 
 ?>

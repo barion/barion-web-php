@@ -2,10 +2,10 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class ReOrderIndicator
+enum ReOrderIndicator : string
 {
-    const FirstTimeOrdered = "FirstTimeOrdered";
-    const ReOrdered = "ReOrdered";
+    case FirstTimeOrdered = "FirstTimeOrdered";
+    case ReOrdered = "ReOrdered";
 }
 
 ?>

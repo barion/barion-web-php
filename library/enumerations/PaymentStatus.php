@@ -2,30 +2,30 @@
 
 namespace Barion\Enumerations;
 
-abstract class PaymentStatus
+enum PaymentStatus : string
 {
     // 10
-    const Prepared = "Prepared";
+    case Prepared = "Prepared";
     // 20
-    const Started = "Started";
+    case Started = "Started";
     // 21
-    const InProgress = "InProgress";
+    case InProgress = "InProgress";
     // 22
-    const Waiting = "Waiting";
+    case Waiting = "Waiting";
     // 25
-    const Reserved = "Reserved";
+    case Reserved = "Reserved";
     // 26
-    const Authorized = "Authorized";
+    case Authorized = "Authorized";
     // 30
-    const Canceled = "Canceled";
+    case Canceled = "Canceled";
     // 40
-    const Succeeded = "Succeeded";
+    case Succeeded = "Succeeded";
     // 50
-    const Failed = "Failed";
+    case Failed = "Failed";
     // 60
-    const PartiallySucceeded = "PartiallySucceeded";
+    case PartiallySucceeded = "PartiallySucceeded";
     // 70
-    const Expired = "Expired";
+    case Expired = "Expired";
 }
 
 ?>

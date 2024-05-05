@@ -2,11 +2,11 @@
 
 namespace Barion\Enumerations;
 
-abstract class PaymentType
+enum PaymentType : string
 {
-    const Immediate = "Immediate";
-    const Reservation = "Reservation";
-    const DelayedCapture = "DelayedCapture";
+    case Immediate = "Immediate";
+    case Reservation = "Reservation";
+    case DelayedCapture = "DelayedCapture";
 }
 
 ?>

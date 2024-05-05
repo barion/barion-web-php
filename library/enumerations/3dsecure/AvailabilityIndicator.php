@@ -2,10 +2,10 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class AvailabilityIndicator
+enum AvailabilityIndicator : string
 {
-    const MerchandiseAvailable = "MerchandiseAvailable";
-    const FutureAvailability = "FutureAvailability";
+    case MerchandiseAvailable = "MerchandiseAvailable";
+    case FutureAvailability = "FutureAvailability";
 }
 
 ?>

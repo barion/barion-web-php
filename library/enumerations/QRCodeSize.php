@@ -2,11 +2,11 @@
 
 namespace Barion\Enumerations;
 
-abstract class QRCodeSize
+enum QRCodeSize : string
 {
-    const Small = "Small";
-    const Normal = "Normal";
-    const Large = "Large";
+    case Small = "Small";
+    case Normal = "Normal";
+    case Large = "Large";
 }
 
 ?>

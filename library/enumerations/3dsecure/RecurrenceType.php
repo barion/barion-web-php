@@ -2,11 +2,11 @@
 
 namespace Barion\Enumerations\ThreeDSecure;
 
-abstract class RecurrenceType 
+enum RecurrenceType : string
 {
-    const MerchantInitiatedPayment = "MerchantInitiatedPayment";
-    const OneClickPayment = "OneClickPayment";
-    const RecurringPayment = "RecurringPayment";
+    case MerchantInitiatedPayment = "MerchantInitiatedPayment";
+    case OneClickPayment = "OneClickPayment";
+    case RecurringPayment = "RecurringPayment";
 }
 
 ?>

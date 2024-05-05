@@ -2,16 +2,16 @@
 
 namespace Barion\Enumerations;
 
-abstract class UILocale
+enum UILocale : string
 {
-    const HU = "hu-HU";
-    const EN = "en-US";
-    const DE = "de-DE";
-    const SL = "sl-SI";
-    const SK = "sk-SK";
-    const FR = "fr-FR";
-    const CZ = "cs-CZ";
-    const GR = "el-GR";
+    case HU = "hu-HU";
+    case EN = "en-US";
+    case DE = "de-DE";
+    case SL = "sl-SI";
+    case SK = "sk-SK";
+    case FR = "fr-FR";
+    case CZ = "cs-CZ";
+    case GR = "el-GR";
 }
 
 ?>

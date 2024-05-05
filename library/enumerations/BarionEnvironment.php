@@ -2,10 +2,10 @@
 
 namespace Barion\Enumerations;
 
-abstract class BarionEnvironment
+enum BarionEnvironment : string
 {
-    const Test = "test";
-    const Prod = "prod";
+    case Test = "test";
+    case Prod = "prod";
 }
 
 ?>

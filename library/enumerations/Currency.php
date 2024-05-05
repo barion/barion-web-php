@@ -2,12 +2,12 @@
 
 namespace Barion\Enumerations;
 
-abstract class Currency
+enum Currency : string
 {
-    const HUF = "HUF";
-    const EUR = "EUR";
-    const USD = "USD";
-    const CZK = "CZK";
+    case HUF = "HUF";
+    case EUR = "EUR";
+    case USD = "USD";
+    case CZK = "CZK";
 
     public static function isValid($name)
     {

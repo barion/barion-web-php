@@ -2,12 +2,12 @@
 
 namespace Barion\Enumerations;
 
-abstract class RecurrenceResult
+enum RecurrenceResult : string
 {
-    const None = "None";
-    const Successful = "Successful";
-    const Failed = "Failed";
-    const NotFound = "NotFound";
+    case None = "None";
+    case Successful = "Successful";
+    case Failed = "Failed";
+    case NotFound = "NotFound";
 }
 
 ?>
