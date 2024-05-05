@@ -18,12 +18,13 @@
 
 namespace Barion\Models\ThreeDSecure;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model representing a shipping address used during a 3D-Secure card payment process.
  */
-class ShippingAddressModel implements \Barion\Interfaces\IBarionModel
+class ShippingAddressModel implements IBarionModel
 {
     /** 
      * The 2-character code (ISO-3166-2 format) of the country of the address.

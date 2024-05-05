@@ -19,7 +19,6 @@
 namespace Barion\Models;
 
 use Barion\Helpers\JSON;
-
 use Barion\Models\Error\ApiErrorModel;
 
 class BaseResponseModel

@@ -18,8 +18,8 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\{
     TransactionStatus
 };
@@ -27,7 +27,7 @@ use Barion\Enumerations\{
 /**
  *  Model containing detailed information about a payment transaction in a Barion API response.
  */
-class TransactionResponseModel implements \Barion\Interfaces\IBarionModel
+class TransactionResponseModel implements IBarionModel
 {
     /** 
      * The internal identifier of the transaction, specified by the shop.

@@ -18,12 +18,14 @@
 
 namespace Barion\Models\Refund;
 
+use Barion\Interfaces\IBarionModel;
+use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model containing the response data after a refund request sent to the Barion API.
  */
-class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
+class RefundResponseModel extends BaseResponseModel implements IBarionModel
 {    
     /** 
      * The Barion identifier of the payment.

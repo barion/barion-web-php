@@ -18,12 +18,13 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\BaseRequestModel;
 use Barion\Interfaces\IPaymentTransactionContainer;
 
 /**
  * Model used to request the finish of a previously started reservation payment on the Barion Smart Gateway.
  */
-class FinishReservationRequestModel extends \Barion\Models\BaseRequestModel implements IPaymentTransactionContainer
+class FinishReservationRequestModel extends BaseRequestModel implements IPaymentTransactionContainer
 {
     /** 
      * The Barion identifier of the payment.

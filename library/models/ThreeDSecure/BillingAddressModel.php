@@ -18,12 +18,13 @@
  
 namespace Barion\Models\ThreeDSecure;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
- 
+
 /**
  * Model representing a billing address used during a 3D-Secure card payment process.
  */
-class BillingAddressModel implements \Barion\Interfaces\IBarionModel
+class BillingAddressModel implements IBarionModel
 {
     /** 
      * The 2-character code (ISO-3166-2 format) of the country of the address.

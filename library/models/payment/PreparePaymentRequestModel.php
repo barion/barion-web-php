@@ -18,23 +18,23 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\BaseRequestModel;
+use Barion\Interfaces\IPaymentTransactionContainer;
 use Barion\Enumerations\{
     PaymentType,
     FundingSourceType,
     Currency,
     UILocale
 };
-
 use Barion\Enumerations\ThreeDSecure\{
     RecurrenceType,
     ChallengePreference
 };
-use Barion\Interfaces\IPaymentTransactionContainer;
 
 /**
  * Model used to start a new payment on the Barion Smart Gateway.
  */
-class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel implements IPaymentTransactionContainer
+class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTransactionContainer
 {
     /** 
      * The type of the payment.

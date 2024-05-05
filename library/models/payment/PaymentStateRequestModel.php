@@ -18,10 +18,12 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\BaseRequestModel;
+
 /**
  * Model used to request detailed information about a payment on the Barion Smart Gateway.
  */
-class PaymentStateRequestModel extends \Barion\Models\BaseRequestModel
+class PaymentStateRequestModel extends BaseRequestModel
 {
     /** 
      * The Barion identifier of the payment.

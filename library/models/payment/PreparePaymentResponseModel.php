@@ -18,8 +18,9 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IBarionModel;
+use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\{
     PaymentStatus,
     RecurrenceResult
@@ -28,7 +29,7 @@ use Barion\Enumerations\{
 /**
  * Model containing the response data after starting a new payment on the Barion Smart Gateway.
  */
-class PreparePaymentResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
+class PreparePaymentResponseModel extends BaseResponseModel implements IBarionModel
 {
     /** 
      * The Barion identifier of the payment.

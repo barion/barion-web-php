@@ -18,8 +18,9 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IBarionModel;
+use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\{
     PaymentStatus
 };
@@ -27,7 +28,7 @@ use Barion\Enumerations\{
 /**
  * Model containing the response data after requesting the cancellation of a previously authorized payment in a delayed capture scenario.
  */
-class CancelAuthorizationResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
+class CancelAuthorizationResponseModel extends BaseResponseModel implements IBarionModel
 {
     /** 
      * Flag indicating that the cancellation was successful.

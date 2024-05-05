@@ -18,12 +18,13 @@
 
 namespace Barion\Models\Common;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model representing an item included in a payment transaction.
  */
-class ItemModel implements \Barion\Interfaces\IBarionModel
+class ItemModel implements IBarionModel
 {
     /** 
      * The name of the item.

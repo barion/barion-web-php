@@ -18,12 +18,13 @@
  
 namespace Barion\Models\Error;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model containing error response data received from the Barion API.
  */
-class ApiErrorModel
+class ApiErrorModel implements IBarionModel
 {
     /** 
      * The title of the error message.

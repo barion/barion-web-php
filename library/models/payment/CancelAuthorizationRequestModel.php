@@ -18,10 +18,12 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\BaseRequestModel;
+
 /**
  * Model used to request the cancellation of a previously authorized payment in a delayed capture scenario.
  */
-class CancelAuthorizationRequestModel extends \Barion\Models\BaseRequestModel
+class CancelAuthorizationRequestModel extends BaseRequestModel
 {
     /** 
      * The Barion identifier of the payment.

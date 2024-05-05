@@ -18,12 +18,13 @@
 
 namespace Barion\Models\Common;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model representing a bank card that was used to complete a payment on the Barion Smart Gateway.
  */
-class BankCardModel implements \Barion\Interfaces\IBarionModel
+class BankCardModel implements IBarionModel
 {
     /** 
      * The last 4 digits of the bank card number.

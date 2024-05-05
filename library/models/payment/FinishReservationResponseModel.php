@@ -18,8 +18,9 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IBarionModel;
+use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\{
     PaymentStatus
 };
@@ -27,7 +28,7 @@ use Barion\Enumerations\{
 /**
  * Model containing the response data after requesting the finishing of a previously started reservation payment on the Barion Smart Gateway.
  */
-class FinishReservationResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
+class FinishReservationResponseModel extends BaseResponseModel implements IBarionModel
 {
     /** 
      * Flag indicating that the cancellation was successful.

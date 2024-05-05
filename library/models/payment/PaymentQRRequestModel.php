@@ -18,13 +18,14 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\BaseRequestModel;
 use Barion\Enumerations\QRCodeSize;
 
 /**
  * @deprecated
  * Model used to request a QR code image for the Barion Smart Gateway URL of a payment.
  */
-class PaymentQRRequestModel extends \Barion\Models\BaseRequestModel
+class PaymentQRRequestModel extends BaseRequestModel
 {
     /** 
      * The Barion user name (e-mail address) of the caller.

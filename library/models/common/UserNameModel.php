@@ -18,13 +18,14 @@
 
 namespace Barion\Models\Common;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 use Barion\Helpers\StringExtension;
 
 /**
  * Model containing information about the name of a user partaking in a Barion Smart Gateway payment.
  */
-class UserNameModel implements \Barion\Interfaces\IBarionModel
+class UserNameModel implements IBarionModel
 {
     /** 
      * The Barion login name of the user.

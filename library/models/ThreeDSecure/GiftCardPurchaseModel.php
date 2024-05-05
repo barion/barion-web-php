@@ -18,12 +18,13 @@
 
 namespace Barion\Models\ThreeDSecure;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model describing a gift card purchase during a 3D-Secure card payment process.
  */
-class GiftCardPurchaseModel implements \Barion\Interfaces\IBarionModel
+class GiftCardPurchaseModel implements IBarionModel
 {
     /** 
      * The total amount of all gift cards that are being purchased during the payment.

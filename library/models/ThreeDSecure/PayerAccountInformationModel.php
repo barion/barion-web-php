@@ -18,8 +18,8 @@
 
 namespace Barion\Models\ThreeDSecure;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\ThreeDSecure\{
     AccountChangeIndicator,
     AccountCreationIndicator,
@@ -32,7 +32,7 @@ use Barion\Enumerations\ThreeDSecure\{
 /**
  * Model containing information about the payer during a 3D-Secure card payment process.
  */
-class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
+class PayerAccountInformationModel implements IBarionModel
 {
     /** 
      * The account number of the payer, if applicable.

@@ -18,12 +18,13 @@
 
 namespace Barion\Models\Common;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
 
 /**
  * Model containing information about the funding source that was used to attempt to complete a payment on the Barion Smart Gateway.
  */
-class FundingInformationModel implements \Barion\Interfaces\IBarionModel
+class FundingInformationModel implements IBarionModel
 {
     /** 
      * The object containing bank card details.

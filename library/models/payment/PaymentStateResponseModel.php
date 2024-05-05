@@ -18,8 +18,9 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IBarionModel;
+use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\{
     PaymentType,
     PaymentStatus,
@@ -33,7 +34,7 @@ use Barion\Enumerations\ThreeDSecure\{
 /**
  * Model containing detailed information about a payment on the Barion Smart Gateway.
  */
-class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
+class PaymentStateResponseModel extends BaseResponseModel implements IBarionModel
 {
     /** 
      * The Barion identifier of the payment.

@@ -18,13 +18,12 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
-
 use Barion\Models\Common\{
     UserModel,
     ItemModel
 };
-
 use Barion\Enumerations\{
     Currency,
     TransactionType,
@@ -34,7 +33,7 @@ use Barion\Enumerations\{
 /**
  * Model containing detailed information about a payment transaction in a Barion API request.
  */
-class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
+class TransactionDetailModel implements IBarionModel
 {
     /** 
      * The Barion identifier of the transaction.

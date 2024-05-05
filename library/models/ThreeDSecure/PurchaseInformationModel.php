@@ -18,8 +18,8 @@
 
 namespace Barion\Models\ThreeDSecure;
 
+use Barion\Interfaces\IBarionModel;
 use Barion\Helpers\JSON;
-
 use Barion\Enumerations\ThreeDSecure\{
     AvailabilityIndicator,
     DeliveryTimeframeType,
@@ -31,7 +31,7 @@ use Barion\Enumerations\ThreeDSecure\{
 /**
  * Model containing information about the purchase during a 3D-Secure card payment process.
  */
-class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
+class PurchaseInformationModel implements IBarionModel
 {
     /** 
      * Indicator about the delivery speed of the purchase.
