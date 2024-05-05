@@ -92,7 +92,7 @@ class BarionClient
      * @param string $poskey The secret POSKey of your shop
      * @param int $version The version of the Barion API
      * @param BarionEnvironment $env The environment to connect to
-     * @param bool $useBundledRootCerts Set this to true if you're having problem with SSL connection
+     * @param bool $useBundledRootCerts Set this to true to use the library-bundled root certificate chain for SSL (only recommended as a last resort, if you are having connection problems)
      */
     function __construct(string $poskey, int $version = 2, BarionEnvironment $env = BarionEnvironment::Prod, bool $useBundledRootCerts = false)
     {
