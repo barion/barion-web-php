@@ -1,4 +1,4 @@
-﻿# BarionPHP
+﻿# Barion Web PHP Library
 
 [![version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://packagist.org/packages/barion/barion-web-php) [![Total Downloads](https://poser.pugx.org/barion/barion-web-php/downloads.svg)](https://packagist.org/packages/barion/barion-web-php) [![License](https://poser.pugx.org/barion/barion-web-php/license.svg)](https://packagist.org/packages/barion/barion-web-php)
 
@@ -14,37 +14,6 @@ It allows you to accept credit card, e-money, and wire transfer payments in just
 
 All with just a few simple pieces of code!
 
-# Version history
-
-- **2.0.0** XX. XX. 2024
-- **1.4.11** April 2. 2024
-- **1.4.10** June 13. 2022
-- **1.4.9** June 9. 2022
-- **1.4.8** June 9. 2022
-- **1.4.7** May 25. 2022
-- **1.4.6** April 28. 2021
-- **1.4.5** April 15. 2021
-- **1.4.4** February 17. 2021
-- **1.4.3** December 11. 2020
-- **1.4.2** August 15. 2019.
-- **1.4.1** August 14. 2019.
-- **1.4.0** August 08. 2019.
-- **1.3.2** August 05. 2019.
-- **1.3.1** March 20. 2019.
-- **1.3.0** March 12. 2019.
-- **1.2.9** May 16. 2017.
-- **1.2.8** April 13. 2017.
-- **1.2.7** February 14. 2017.
-- **1.2.5** November 07. 2016.
-- **1.2.4** May 25. 2016.
-- **1.2.3** January 14. 2016.
-- **1.2.2** January 11. 2016.
-- **1.1.0** November 27. 2015.
-- **1.0.1** November 26. 2015.
-- **1.0.0** November 17. 2015.
-
-For details about version changes, please refer to the [changelog.md](https://github.com/barion/barion-web-php/blob/master/changelog.md) file.
-
 # System requirements
 
 - PHP 8.2 or higher
@@ -53,7 +22,8 @@ For details about version changes, please refer to the [changelog.md](https://gi
 
 ## Legacy version support
 
-If you are using PHP versions 8.1 or lower, download our library version [1.4.11](https://github.com/Adyen/adyen-php-api-library/releases/tag/1.4.11).
+If you are using PHP versions 8.1 or lower, download our library version [1.4.11](https://github.com/Adyen/adyen-php-api-library/releases/tag/1.4.11).  
+Please note that the use of End-Of-Support and End-Of-Life software during integration is highly discouraged.
 
 # Installation
 
@@ -218,7 +188,8 @@ Based on the payment status and parameters received in the response, the shop ca
 
 # API documentation
 
-To help fully understand the Barion API, please refer to the official [Barion API Documentation](https://docs.barion.com).
+It is essential to get a basic understanding of the various statuses and errors returned by the Barion API during HTTP calls.  
+Please refer to the official [Barion API Documentation](https://docs.barion.com) to learn more about the various API endpoints and their responses.
 
 # Basic troubleshooting
 
@@ -236,15 +207,57 @@ Here are a few common mistakes you might want to double check for before reachin
 **3\. I get SSL errors about invalid certificates when trying to call the API**
 
 - Be sure to double check your server certificates and the issuer's trusted status. Always renew your server certificates in time to avoid loss of service.
-- Check every single component of your architecture for outdated software. Be sure to use the latest PHP, other runtimes, and even operating systems whenever possible. Trusted certificate chains may expire or get revoked, and Barion has no control over them. Using End-Of-Service and End-Of-Life software is highly discouraged.
+- Check every single component of your architecture for outdated software. Be sure to use the latest PHP, other runtimes, and even operating systems whenever possible. Trusted certificate chains may expire or get revoked, and Barion has no control over them. Using End-Of-Support and End-Of-Life software is highly discouraged.
 - As a last resort, you may try creating the `BarionClient` instance with `useBundledRootCerts` set to `true`. But be advised, there is no guarantee that the bundled certificate chain remains valid at all times.
 
 # License
 
 This repository is available under the [Apache 2.0 License](https://github.com/barion/barion-web-php/blob/master/LICENSE).
 
+# Contributing
+
+## How to contribute to the Barion API library
+
+1.  Fork the `barion/barion-php-web` repository.
+2.  Create a new branch in your fork, make the desired changes, then push the changes to your fork.
+3.  Create a pull request to the `barion/barion-php-web` repository.  
+    In the pull request, please describe the functionality you developed or the problem you solved in detail.
+
+We will try to review your pull request as soon as possible.
+
+# Version history
+
+- **2.0.0** XX. XX. 2024
+- **1.4.11** April 2. 2024
+- **1.4.10** June 13. 2022
+- **1.4.9** June 9. 2022
+- **1.4.8** June 9. 2022
+- **1.4.7** May 25. 2022
+- **1.4.6** April 28. 2021
+- **1.4.5** April 15. 2021
+- **1.4.4** February 17. 2021
+- **1.4.3** December 11. 2020
+- **1.4.2** August 15. 2019.
+- **1.4.1** August 14. 2019.
+- **1.4.0** August 08. 2019.
+- **1.3.2** August 05. 2019.
+- **1.3.1** March 20. 2019.
+- **1.3.0** March 12. 2019.
+- **1.2.9** May 16. 2017.
+- **1.2.8** April 13. 2017.
+- **1.2.7** February 14. 2017.
+- **1.2.5** November 07. 2016.
+- **1.2.4** May 25. 2016.
+- **1.2.3** January 14. 2016.
+- **1.2.2** January 11. 2016.
+- **1.1.0** November 27. 2015.
+- **1.0.1** November 26. 2015.
+- **1.0.0** November 17. 2015.
+
+For details about version changes, please refer to the [changelog.md](https://github.com/barion/barion-web-php/blob/master/changelog.md) file.
+
 # Further examples
 
-To view more examples about the usage of the Barion library, refer to the _docs_ and _examples_ folders of the repository.
+To view more examples about the usage of the Barion library, refer to the _**docs**_ and _**examples**_ folders of the repository.
 
 _© 2024 Barion Payment Inc._
