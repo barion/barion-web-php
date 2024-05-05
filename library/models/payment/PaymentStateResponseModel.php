@@ -242,8 +242,6 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
         $this->POSName = "";
         $this->POSOwnerEmail = "";
         $this->POSOwnerCountry = "";
-        $this->Status = PaymentStatus::Prepared;
-        $this->PaymentType = PaymentType::Immediate;
         $this->FundingSource = null;
         $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
         $this->AllowedFundingSources = array();
@@ -254,9 +252,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
         $this->ReservedUntil = null;
         $this->DelayedCaptureUntil = null;
         $this->Total = 0.0;
-        $this->Currency = Currency::HUF;
         $this->Transactions = array();
-        $this->SuggestedLocale = UILocale::HU;
         $this->FraudRiskScore = 0.0;
         $this->RedirectUrl = null;
         $this->CallbackUrl = null;
@@ -277,8 +273,12 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
             $this->POSName = JSON::getString($json, 'POSName');
             $this->POSOwnerEmail = JSON::getString($json, 'POSOwnerEmail');
             $this->POSOwnerCountry = JSON::getString($json, 'POSOwnerCountry');
-            $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
-            $this->PaymentType = PaymentType::from(JSON::getString($json, 'PaymentType') ?? '');
+            if (array_key_exists('Status', $json)) {
+                $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? 'Prepared');
+            }
+            if (array_key_exists('PaymentType', $json)) {
+                $this->PaymentType = PaymentType::from(JSON::getString($json, 'PaymentType') ?? 'Immediate');
+            }
             $this->FundingSource = JSON::getString($json, 'FundingSource');
             
             $fundingInformation = JSON::getArray($json, 'FundingInformation');
@@ -295,8 +295,15 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
             $this->ReservedUntil = JSON::getString($json, 'ReservedUntil');
             $this->DelayedCaptureUntil = JSON::getString($json, 'DelayedCaptureUntil');
             $this->Total = JSON::getFloat($json, 'Total');
-            $this->Currency = Currency::from(JSON::getString($json, 'Currency') ?? '');
-            $this->SuggestedLocale = UILocale::from(JSON::getString($json, 'SuggestedLocale') ?? '');
+            
+            if (array_key_exists('Currency', $json)) {
+                $this->Currency = Currency::from(JSON::getString($json, 'Currency') ?? 'HUF');
+            }
+
+            if (array_key_exists('SuggestedLocale', $json)) {
+                $this->SuggestedLocale = UILocale::from(JSON::getString($json, 'SuggestedLocale') ?? 'HU');
+            }
+            
             $this->FraudRiskScore = JSON::getFloat($json, 'FraudRiskScore');
             $this->RedirectUrl = JSON::getString($json, 'RedirectUrl');
             $this->CallbackUrl = JSON::getString($json, 'CallbackUrl');

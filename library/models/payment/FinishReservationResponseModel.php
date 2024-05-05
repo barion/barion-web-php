@@ -71,7 +71,6 @@ class FinishReservationResponseModel extends BaseResponseModel implements IBario
         $this->IsSuccessful = false;
         $this->PaymentId = "";
         $this->PaymentRequestId = "";
-        $this->Status = PaymentStatus::Prepared;
         $this->Transactions = array();
     }
 
@@ -83,8 +82,11 @@ class FinishReservationResponseModel extends BaseResponseModel implements IBario
             $this->IsSuccessful = JSON::getBool($json, 'IsSuccessful');
             $this->PaymentId = JSON::getString($json, 'PaymentId');
             $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
 
+            if (array_key_exists('Status', $json)) {
+                $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? 'Prepared');
+            }
+            
             $this->Transactions = array();
             
             $transactions = JSON::getArray($json, 'Transactions');

@@ -71,7 +71,6 @@ class CancelAuthorizationResponseModel extends BaseResponseModel implements IBar
         $this->IsSuccessful = false;
         $this->PaymentId = null;
         $this->PaymentRequestId = null;
-        $this->Status = PaymentStatus::Prepared;
         $this->Transactions = array();
     }
 
@@ -83,7 +82,10 @@ class CancelAuthorizationResponseModel extends BaseResponseModel implements IBar
             $this->IsSuccessful = JSON::getBool($json, 'IsSuccessful');
             $this->PaymentId = JSON::getString($json, 'PaymentId');
             $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
+            
+            if (array_key_exists('Status', $json)) {
+                $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? 'Prepared');
+            }
 
             $this->Transactions = array();
             

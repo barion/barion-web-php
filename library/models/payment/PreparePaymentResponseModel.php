@@ -99,7 +99,6 @@ class PreparePaymentResponseModel extends BaseResponseModel implements IBarionMo
         parent::__construct();
         $this->PaymentId = null;
         $this->PaymentRequestId = null;
-        $this->Status = PaymentStatus::Prepared;
         $this->QRUrl = null;
         $this->RecurrenceResult = RecurrenceResult::None;
         $this->PaymentRedirectUrl = null;
@@ -114,12 +113,15 @@ class PreparePaymentResponseModel extends BaseResponseModel implements IBarionMo
             parent::fromJson($json);
             $this->PaymentId = JSON::getString($json, 'PaymentId');
             $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
             $this->QRUrl = JSON::getString($json, 'QRUrl');
             $this->RecurrenceResult = RecurrenceResult::from(JSON::getString($json, 'RecurrenceResult') ?? 'None');
             $this->ThreeDSAuthClientData = JSON::getString($json, 'ThreeDSAuthClientData');
             $this->TraceId = JSON::getString($json, 'TraceId');
             $this->Transactions = array();
+
+            if (array_key_exists('Status', $json)) {
+                $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? 'Prepared');
+            }
             
             $transactions = JSON::getArray($json, 'Transactions');
 

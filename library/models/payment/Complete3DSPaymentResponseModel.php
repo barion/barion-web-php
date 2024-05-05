@@ -70,7 +70,6 @@ class Complete3DSPaymentResponseModel extends BaseResponseModel implements IBari
         parent::__construct();
         $this->PaymentId = null;
         $this->PaymentRequestId = null;
-        $this->Status = PaymentStatus::Prepared;
         $this->IsSuccessful = false;
         $this->TraceId = null;
     }
@@ -82,7 +81,11 @@ class Complete3DSPaymentResponseModel extends BaseResponseModel implements IBari
 
             $this->PaymentId = JSON::getString($json, 'PaymentId');
             $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(JSON::getString($json, 'PaymentStatus') ?? '');
+            
+            if (array_key_exists('PaymentStatus', $json)) {
+                $this->Status = PaymentStatus::from(JSON::getString($json, 'PaymentStatus') ?? 'Prepared');
+            }
+
             $this->IsSuccessful = JSON::getBool($json, 'IsSuccessful');
             $this->TraceId = JSON::getString($json, 'TraceId');
         }

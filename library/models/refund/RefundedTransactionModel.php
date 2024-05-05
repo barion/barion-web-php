@@ -80,7 +80,7 @@ class RefundedTransactionModel implements IBarionModel
             $this->Total = JSON::getFloat($json, 'Total');
             $this->POSTransactionId = JSON::getString($json, 'POSTransactionId');
             $this->Comment = JSON::getString($json, 'Comment');
-            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status') ?? '');
+            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status') ?? 'Unknown');
         }
     }
 }
