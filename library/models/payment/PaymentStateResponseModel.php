@@ -24,7 +24,6 @@ use Barion\Enumerations\{
     PaymentType,
     PaymentStatus,
     Currency,
-    RecurrenceResult,
     UILocale
 };
 use Barion\Enumerations\ThreeDSecure\{
@@ -182,13 +181,6 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
      * @var array<object> 
     */
     public array $Transactions;
-    
-    /** 
-     * The result of a recurring payment action, if applicable.
-     * 
-     * @var RecurrenceResult
-     */
-    public RecurrenceResult $RecurrenceResult;
 
     /** 
      * The locale of the Barion Smart Gateway for the payment.
@@ -221,9 +213,9 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
     /** 
      * The recurrence type of the payment, if applicable.
      * 
-     * @var RecurrenceType
+     * @var ?string
      */
-    public RecurrenceType $RecurrenceType;
+    public ?string $RecurrenceType;
 
     /** 
      * The trace id of the 3D-Secure payment flow.
@@ -263,13 +255,12 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
         $this->Total = 0.0;
         $this->Currency = Currency::HUF;
         $this->Transactions = array();
-        $this->RecurrenceResult = RecurrenceResult::None;
         $this->SuggestedLocale = UILocale::HU;
         $this->FraudRiskScore = 0.0;
         $this->RedirectUrl = null;
         $this->CallbackUrl = null;
         $this->TraceId = null;
-        $this->RecurrenceType = RecurrenceType::Unspecified;
+        $this->RecurrenceType = null;
         $this->PaymentMethod = null;
     }
 
@@ -304,13 +295,16 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
             $this->DelayedCaptureUntil = JSON::getString($json, 'DelayedCaptureUntil');
             $this->Total = JSON::getFloat($json, 'Total');
             $this->Currency = Currency::from(JSON::getString($json, 'Currency') ?? '');
-            $this->RecurrenceResult = RecurrenceResult::from(JSON::getString($json, 'RecurrenceResult') ?? 'None');
             $this->SuggestedLocale = UILocale::from(JSON::getString($json, 'SuggestedLocale') ?? '');
             $this->FraudRiskScore = JSON::getFloat($json, 'FraudRiskScore');
             $this->RedirectUrl = JSON::getString($json, 'RedirectUrl');
             $this->CallbackUrl = JSON::getString($json, 'CallbackUrl');
             $this->TraceId = JSON::getString($json, 'TraceId');
-            $this->RecurrenceType = RecurrenceType::from(JSON::getString($json, 'RecurrenceType') ?? '');
+
+            if (array_key_exists("RecurrenceType", $json) && $json["RecurrenceType"] !== null) {
+                $this->RecurrenceType = RecurrenceType::from(JSON::getString($json, 'RecurrenceType') ?? 'MerchantInitiatedPayment')->value;
+            }
+
             $this->PaymentMethod = JSON::getString($json, 'PaymentMethod');
 
             $this->Transactions = array();
