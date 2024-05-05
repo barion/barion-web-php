@@ -2,10 +2,10 @@
 
 [![version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://packagist.org/packages/barion/barion-web-php) [![Total Downloads](https://poser.pugx.org/barion/barion-web-php/downloads.svg)](https://packagist.org/packages/barion/barion-web-php) [![License](https://poser.pugx.org/barion/barion-web-php/license.svg)](https://packagist.org/packages/barion/barion-web-php)
 
-**BarionPHP** is a compact PHP library to manage online e-money and card payments via the _Barion Smart Gateway_.  
+A compact PHP library to manage online e-money and card payments via the _Barion Smart Gateway_.  
 It allows you to accept credit card, e-money, and wire transfer payments in just a few lines of code.
 
-**BarionPHP** lets you
+This library will help you
 
 - Start an online payment easily in various scenarios (immediate payment, reservation/escrow, delayed capture, third-party payments, recurring/token payment etc.)
 - Get details about a given payment
@@ -24,6 +24,19 @@ All with just a few simple pieces of code!
 
 If you are using PHP versions 8.1 or lower, download our library version [1.4.11](https://github.com/Adyen/adyen-php-api-library/releases/tag/1.4.11).  
 Please note that the use of End-Of-Support and End-Of-Life software during integration is highly discouraged.
+
+# Supported API versions
+
+| BarionClient method | Endpoint description                                   | Current API version |
+| ------------------- | ------------------------------------------------------ | ------------------- |
+| PreparePayment      | Prepares a new payment in the Barion system            | **v2**              |
+| GetPaymentState     | Requests the full current state of a payment           | **v4**              |
+| FinishReservation   | Finishes a previously reserved Reservation payment     | **v2**              |
+| Capture             | Captures the final amount of a Delayed Capture payment | **v2**              |
+| CancelAuthorization | Cancels the authorization on a Delayed Capture payment | **v2**              |
+| Complete3DSPayment  | Completes a previously 3D-Secure authenticated payment | **v2**              |
+| RefundPayment       | Refunds a previously completed payment                 | **v2**              |
+| _GetPaymentQRImage_ | _Requests a QR code image for a payment (deprecated)_  | _**v1**_            |
 
 # Installation
 
@@ -187,11 +200,15 @@ To request details about a payment, you only need one parameter: the payment ide
 
 ### 2.2. Calling the Barion API
 
-To request payment details, we call the **GetPaymentState** method of the Barion client class with the identifier above:
+To request payment details, we call the **GetPaymentState** method of the Barion client class with the identifier above.
 
 ```php
+$BC->SetVersion(4);
 $paymentDetails = $BC->GetPaymentState("64157032d3dc4296aedafd4b0994c64e");
 ```
+
+> **Note**  
+> The PaymentState API is available in API version 4.
 
 Based on the payment status and parameters received in the response, the shop can now decide whether the payment was successful or not.
 
