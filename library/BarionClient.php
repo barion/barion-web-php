@@ -87,7 +87,7 @@ class BarionClient
     private bool $UseBundledRootCertificates;
 
     /**
-     *  Constructor
+     * Create a new instance of the Barion API client.
      *
      * @param string $poskey The secret POSKey of your shop
      * @param int $version The version of the Barion API
