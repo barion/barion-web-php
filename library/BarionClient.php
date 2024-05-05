@@ -229,10 +229,8 @@ class BarionClient
      */
     public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)
     {
-        $model = new PaymentQRRequestModel($paymentId);
+        $model = new PaymentQRRequestModel($username, $password, $paymentId);
         $model->POSKey = $this->POSKey;
-        $model->UserName = $username;
-        $model->Password = $password;
         $model->Size = $qrCodeSize;
         $url = $this->BARION_API_URL . API_ENDPOINT_QRCODE;
         $response = $this->GetFromBarion($url, $model);

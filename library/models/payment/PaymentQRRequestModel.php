@@ -22,8 +22,10 @@ class PaymentQRRequestModel extends BaseRequestModel
     public $PaymentId;
     public $Size;
 
-    function __construct($paymentId)
+    function __construct($userName, $password, $paymentId)
     {
+        $this->UserName = $userName;
+        $this->Password = $password;
         $this->PaymentId = $paymentId;
         $this->Size = QRCodeSize::Normal;
     }
