@@ -4,7 +4,6 @@ namespace Barion\Enumerations;
 
 abstract class Currency
 {
-    const UNKNOWN = "Unknown";
     const HUF = "HUF";
     const EUR = "EUR";
     const USD = "USD";
