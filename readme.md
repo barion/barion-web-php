@@ -114,7 +114,6 @@ $trans = new PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "webshop@example.com";
 $trans->Total = 1000;
-$trans->Currency = Currency::HUF;
 $trans->Comment = "Test transaction containing the product";
 $trans->AddItem($item);
 ```
