@@ -54,38 +54,46 @@ Include the **BarionClient** class in your PHP script:
 require_once 'library/BarionClient.php';
 ```
 
-Then instantiate a Barion client. To achieve this, you must supply three parameters.
+> **Note**  
+> BarionClient will autoload everything for you, regardless of whether you used Composer ot not.
 
-First, the secret key of the online store registered in Barion (called POSKey)
+Then instantiate a Barion client. To achieve this, you must supply three key parameters:
+
+1\. The secret key of the online store registered in Barion (called _POSKey_)
 
 ```php
-$myPosKey = "9c165cfc-cbd1-452f-8307-21a3a9cee664";
+$myPosKey = "9c165cfccbd1452f830721a3a9cee664";
 ```
 
-The API version number (2 by default)
+2\. The target Barion API version number (2 by default)
 
 ```php
 $apiVersion = 2;
 ```
 
-The environment to connect to. This can be the test system, or the production environment.
+3\. The environment to connect to. This can be the test/sandbox system, or the production environment.
 
 ```php
 // Test environment
-$environment = BarionEnvironment::Test;
+$environment = \Barion\Enumerations\BarionEnvironment::Test;
 
 // Production environment
-$environment = BarionEnvironment::Prod;
+$environment = \Barion\Enumerations\BarionEnvironment::Prod;
 ```
 
 With these parameters you can create an instance of the **BarionClient** class:
 
 ```php
-$BC = new BarionClient(poskey: $myPosKey, version: $apiVersion, env: $environment, useBundledRootCerts: false);
+$BC = new BarionClient(
+    poskey: $myPosKey,
+    version: $apiVersion,
+    env: $environment,
+    useBundledRootCerts: false
+);
 ```
 
 > **Note**  
-> Only set `useBundledRootCerts` to `true` as a last resort if you are having SSL connection problems. It is your own responsibility to use up-to-date software that includes the latest international trusted CA certificate chains. The authors take no responsibility for loss of service resulting from the use of the bundled certificates.
+> Only set `useBundledRootCerts` to `true` as a last resort if you are having SSL connection problems. It is your own responsibility to use up-to-date software that includes the latest international trusted CA certificate chains. The authors take no responsibility for loss of service resulting from the use of the certificate chain bundled with the library.
 
 # Base flow
 
@@ -126,20 +134,21 @@ Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactio
 ```php
 $ppr = new PreparePaymentRequestModel();
 $ppr->GuestCheckout = true;
-$ppr->PaymentType = PaymentType::Immediate;
+$ppr->PaymentType = \Barion\Enumerations\PaymentType::Immediate;
 $ppr->FundingSources = array(FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
 $ppr->PayerHint = "user@example.com";
-$ppr->Locale = UILocale::EN;
+$ppr->Locale = \Barion\Enumerations\UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
-$ppr->Currency = Currency::HUF;
+$ppr->Currency = \Barion\Enumerations\Currency::HUF;
 $ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
 $ppr->CallbackUrl = "http://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
 ```
 
-**Note:** the secret _POSKey_ used for authentication is not part of the request object.  
-The Barion client class automatically injects this value into every request sent to the Barion API.
+> **Note**  
+> The secret _POSKey_ used for authentication is not part of the request object.  
+> The Barion client class automatically injects this value into every request sent to the Barion API.
 
 ### 1.2. Calling the Barion API
 
@@ -151,7 +160,7 @@ $myPayment = $BC->PreparePayment($ppr);
 
 The Barion API now prepares a payment entity that can be paid by anyone.
 
-The **$myPayment** variable holds the response received from the Barion API, which is an instance of a **PreparePaymentResponseModel** object.
+The `$myPayment` variable holds the response received from the Barion API, which is an instance of a `PreparePaymentResponseModel` object.
 
 ### 1.3. Redirecting the user to the Barion Smart Gateway
 
@@ -173,7 +182,7 @@ In this example we are going to get detailed information about the payment we ju
 To request details about a payment, you only need one parameter: the payment identifier. This is the **PaymentId** we have used earlier to redirect the user.
 
 ```
-64157032-d3dc-4296-aeda-fd4b0994c64e
+64157032d3dc4296aedafd4b0994c64e
 ```
 
 ### 2.2. Calling the Barion API
@@ -181,7 +190,7 @@ To request details about a payment, you only need one parameter: the payment ide
 To request payment details, we call the **GetPaymentState** method of the Barion client class with the identifier above:
 
 ```php
-$paymentDetails = $BC->GetPaymentState("64157032-d3dc-4296-aeda-fd4b0994c64e");
+$paymentDetails = $BC->GetPaymentState("64157032d3dc4296aedafd4b0994c64e");
 ```
 
 Based on the payment status and parameters received in the response, the shop can now decide whether the payment was successful or not.
