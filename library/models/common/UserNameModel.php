@@ -44,4 +44,21 @@ class UserNameModel implements \Barion\Interfaces\IBarionModel
             $this->OrganizationName = JSON::getString($json, 'OrganizationName');
         }
     }
+    
+    public function getName() : string
+    {
+        if (!StringExtension::isNullOrEmpty($this->OrganizationName)) {
+            return strval($this->OrganizationName);
+        }
+        
+        if (!StringExtension::isNullOrEmpty($this->FirstName) || !StringExtension::isNullOrEmpty($this->LastName)) {
+            return trim(strval($this->FirstName) . " " . strval($this->LastName));
+        }
+        
+        if (!StringExtension::isNullOrEmpty($this->LoginName)) {
+            return strval($this->LoginName);
+        }
+        
+        return "";
+    }
 }
