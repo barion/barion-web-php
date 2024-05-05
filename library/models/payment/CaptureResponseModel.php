@@ -18,7 +18,8 @@
 
 namespace Barion\Models\Payment;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
+
 use Barion\Enumerations\{
     PaymentStatus
 };
@@ -41,15 +42,15 @@ class CaptureResponseModel extends \Barion\Models\BaseResponseModel implements \
         $this->Transactions = array();
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->IsSuccessful = jget($json, 'IsSuccessful');
-            $this->PaymentId = jget($json, 'PaymentId');
-            $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(jget($json, 'Status') ?? '');
+            $this->IsSuccessful = JSON::getBool($json, 'IsSuccessful');
+            $this->PaymentId = JSON::getString($json, 'PaymentId');
+            $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
+            $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
 
             $this->Transactions = array();
 

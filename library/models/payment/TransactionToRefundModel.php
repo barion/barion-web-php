@@ -25,7 +25,7 @@ class TransactionToRefundModel
     public float $AmountToRefund;
     public ?string $Comment;
 
-    function __construct($transactionId, $posTransactionId, $amountToRefund, $comment = null)
+    function __construct(string $transactionId, string $posTransactionId, float $amountToRefund, string $comment = null)
     {
         $this->TransactionId = $transactionId;
         $this->POSTransactionId = $posTransactionId;

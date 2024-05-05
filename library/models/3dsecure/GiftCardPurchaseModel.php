@@ -18,7 +18,7 @@
 
 namespace Barion\Models\ThreeDSecure;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
 
 class GiftCardPurchaseModel implements \Barion\Interfaces\IBarionModel
 {
@@ -31,11 +31,11 @@ class GiftCardPurchaseModel implements \Barion\Interfaces\IBarionModel
         $this->Count = 0;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->Amount = jget($json, 'Amount');
-            $this->Count = jget($json, 'Count');
+            $this->Amount = JSON::getFloat($json, 'Amount');
+            $this->Count = JSON::getInt($json, 'Count');
         }
     }
 }

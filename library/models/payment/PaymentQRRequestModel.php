@@ -27,7 +27,7 @@ class PaymentQRRequestModel extends \Barion\Models\BaseRequestModel
     public string $PaymentId;
     public QRCodeSize $Size;
 
-    function __construct($userName, $password, $paymentId, $size = QRCodeSize::Normal)
+    function __construct(string $userName, string $password, string $paymentId, QRCodeSize $size = QRCodeSize::Normal)
     {
         $this->UserName = $userName;
         $this->Password = $password;

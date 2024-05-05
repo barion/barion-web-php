@@ -18,7 +18,7 @@
 
 namespace Barion\Models\Common;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
 
 class BankCardModel implements \Barion\Interfaces\IBarionModel
 {
@@ -35,13 +35,13 @@ class BankCardModel implements \Barion\Interfaces\IBarionModel
         $this->ValidThruMonth = "";
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->MaskedPan = jget($json, 'MaskedPan');
-            $this->BankCardType = jget($json, 'BankCardType');
-            $this->ValidThruYear = jget($json, 'ValidThruYear');
-            $this->ValidThruMonth = jget($json, 'ValidThruMonth');
+            $this->MaskedPan = JSON::getString($json, 'MaskedPan');
+            $this->BankCardType = JSON::getString($json, 'BankCardType');
+            $this->ValidThruYear = JSON::getString($json, 'ValidThruYear');
+            $this->ValidThruMonth = JSON::getString($json, 'ValidThruMonth');
         }
     }
 }

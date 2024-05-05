@@ -22,7 +22,7 @@ class Complete3DSPaymentRequestModel extends \Barion\Models\BaseRequestModel
 {
     public string $PaymentId;
 
-    function __construct($paymentId)
+    function __construct(string $paymentId)
     {
         $this->PaymentId = $paymentId;
     }

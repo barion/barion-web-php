@@ -23,13 +23,13 @@ class FinishReservationRequestModel extends \Barion\Models\BaseRequestModel
     public string $PaymentId;
     public array $Transactions;
 
-    function __construct($paymentId)
+    function __construct(string $paymentId)
     {
         $this->PaymentId = $paymentId;
         $this->Transactions = array();
     }
 
-    public function AddTransaction(TransactionToFinishModel $transaction)
+    public function AddTransaction(TransactionToFinishModel $transaction) : void
     {
         if ($this->Transactions == null) {
             $this->Transactions = array();
@@ -37,7 +37,7 @@ class FinishReservationRequestModel extends \Barion\Models\BaseRequestModel
         array_push($this->Transactions, $transaction);
     }
 
-    public function AddTransactions($transactions)
+    public function AddTransactions(array $transactions) : void
     {
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {

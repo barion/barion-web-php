@@ -18,11 +18,15 @@
  
 namespace Barion\Models;
 
+use Barion\Helpers\JSON;
+
 use Barion\Models\Error\ApiErrorModel;
 
 class BaseResponseModel
 {
+    /* @var array<object> */
     public array $Errors;
+
     public bool $RequestSuccessful;
 
     function __construct()
@@ -31,16 +35,16 @@ class BaseResponseModel
         $this->RequestSuccessful = false;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
             $this->RequestSuccessful = true;
-            if (!array_key_exists('Errors', $json) || !empty($json['Errors'])) {
+            if (!array_key_exists('Errors', $json) || !empty(JSON::getArray($json, 'Errors'))) {
                 $this->RequestSuccessful = false;
             }
 
             if (array_key_exists('Errors', $json)) {
-                foreach ($json['Errors'] as $error) {
+                foreach (JSON::getArray($json, 'Errors') as $error) {
                     $apiError = new ApiErrorModel();
                     $apiError->fromJson($error);
                     array_push($this->Errors, $apiError);
@@ -49,8 +53,8 @@ class BaseResponseModel
                 $internalError = new ApiErrorModel();
                 $internalError->ErrorCode = "500";
                 if (array_key_exists('ExceptionMessage', $json)) {
-                    $internalError->Title = $json['ExceptionMessage'];
-                    $internalError->Description = $json['ExceptionType'];
+                    $internalError->Title = JSON::getString($json, 'ExceptionMessage');
+                    $internalError->Description = JSON::getString($json, 'ExceptionType');
                 } else {
                     $internalError->Title = "Internal Server Error";
                 }

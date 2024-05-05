@@ -18,7 +18,8 @@
 
 namespace Barion\Models\Payment;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
+
 use Barion\Enumerations\{
     PaymentType,
     PaymentStatus,
@@ -94,41 +95,41 @@ class PaymentStateResponseModel extends \Barion\Models\BaseResponseModel impleme
         $this->RecurrenceType = RecurrenceType::Unspecified;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->PaymentId = jget($json, 'PaymentId');
-            $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->OrderNumber = jget($json, 'OrderNumber');
-            $this->POSId = jget($json, 'POSId');
-            $this->POSName = jget($json, 'POSName');
-            $this->POSOwnerEmail = jget($json, 'POSOwnerEmail');
-            $this->POSOwnerCountry = jget($json, 'POSOwnerCountry');
-            $this->Status = PaymentStatus::from(jget($json, 'Status') ?? '');
-            $this->PaymentType = PaymentType::from(jget($json, 'PaymentType') ?? '');
-            $this->FundingSource = jget($json, 'FundingSource');
+            $this->PaymentId = JSON::getString($json, 'PaymentId');
+            $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
+            $this->OrderNumber = JSON::getString($json, 'OrderNumber');
+            $this->POSId = JSON::getString($json, 'POSId');
+            $this->POSName = JSON::getString($json, 'POSName');
+            $this->POSOwnerEmail = JSON::getString($json, 'POSOwnerEmail');
+            $this->POSOwnerCountry = JSON::getString($json, 'POSOwnerCountry');
+            $this->Status = PaymentStatus::from(JSON::getString($json, 'Status') ?? '');
+            $this->PaymentType = PaymentType::from(JSON::getString($json, 'PaymentType') ?? '');
+            $this->FundingSource = JSON::getString($json, 'FundingSource');
             if(!empty($json['FundingInformation'])) {
                 $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
-                $this->FundingInformation->fromJson(jget($json, 'FundingInformation'));
+                $this->FundingInformation->fromJson(JSON::getString($json, 'FundingInformation'));
             }
-            $this->AllowedFundingSources = jget($json, 'AllowedFundingSources');
-            $this->GuestCheckout = jget($json, 'GuestCheckout');
-            $this->CreatedAt = jget($json, 'CreatedAt');
-            $this->ValidUntil = jget($json, 'ValidUntil');
-            $this->CompletedAt = jget($json, 'CompletedAt');
-            $this->ReservedUntil = jget($json, 'ReservedUntil');
-            $this->DelayedCaptureUntil = jget($json, 'DelayedCaptureUntil');
-            $this->Total = jget($json, 'Total');
-            $this->Currency = Currency::from(jget($json, 'Currency') ?? '');
-            $this->RecurrenceResult = RecurrenceResult::from(jget($json, 'RecurrenceResult') ?? 'None');
-            $this->SuggestedLocale = UILocale::from(jget($json, 'SuggestedLocale') ?? '');
-            $this->FraudRiskScore = jget($json, 'FraudRiskScore');
-            $this->RedirectUrl = jget($json, 'RedirectUrl');
-            $this->CallbackUrl = jget($json, 'CallbackUrl');
-            $this->TraceId = jget($json, 'TraceId');
-            $this->RecurrenceType = RecurrenceType::from(jget($json, 'RecurrenceType') ?? '');
+            $this->AllowedFundingSources = JSON::getArray($json, 'AllowedFundingSources');
+            $this->GuestCheckout = JSON::getBool($json, 'GuestCheckout');
+            $this->CreatedAt = JSON::getString($json, 'CreatedAt');
+            $this->ValidUntil = JSON::getString($json, 'ValidUntil');
+            $this->CompletedAt = JSON::getString($json, 'CompletedAt');
+            $this->ReservedUntil = JSON::getString($json, 'ReservedUntil');
+            $this->DelayedCaptureUntil = JSON::getString($json, 'DelayedCaptureUntil');
+            $this->Total = JSON::getFloat($json, 'Total');
+            $this->Currency = Currency::from(JSON::getString($json, 'Currency') ?? '');
+            $this->RecurrenceResult = RecurrenceResult::from(JSON::getString($json, 'RecurrenceResult') ?? 'None');
+            $this->SuggestedLocale = UILocale::from(JSON::getString($json, 'SuggestedLocale') ?? '');
+            $this->FraudRiskScore = JSON::getFloat($json, 'FraudRiskScore');
+            $this->RedirectUrl = JSON::getString($json, 'RedirectUrl');
+            $this->CallbackUrl = JSON::getString($json, 'CallbackUrl');
+            $this->TraceId = JSON::getString($json, 'TraceId');
+            $this->RecurrenceType = RecurrenceType::from(JSON::getString($json, 'RecurrenceType') ?? '');
 
             $this->Transactions = array();
 

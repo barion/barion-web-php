@@ -18,6 +18,8 @@
 
 namespace Barion\Models\Common;
 
+use Barion\Helpers\JSON;
+
 class UserNameModel implements \Barion\Interfaces\IBarionModel
 {
     public ?string $LoginName;
@@ -33,13 +35,13 @@ class UserNameModel implements \Barion\Interfaces\IBarionModel
         $this->OrganizationName = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->LoginName = $json['LoginName'];
-            $this->FirstName = $json['FirstName'];
-            $this->LastName = $json['LastName'];
-            $this->OrganizationName = $json['OrganizationName'];
+            $this->LoginName = JSON::getString($json, 'LoginName');
+            $this->FirstName = JSON::getString($json, 'FirstName');
+            $this->LastName = JSON::getString($json, 'LastName');
+            $this->OrganizationName = JSON::getString($json, 'OrganizationName');
         }
     }
 }

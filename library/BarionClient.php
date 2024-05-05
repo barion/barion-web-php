@@ -81,7 +81,7 @@ class BarionClient
      * @param BarionEnvironment $env The environment to connect to
      * @param bool $useBundledRootCerts Set this to true if you're having problem with SSL connection
      */
-    function __construct($poskey, $version = 2, $env = BarionEnvironment::Prod, $useBundledRootCerts = false)
+    function __construct(string $poskey, int $version = 2, BarionEnvironment $env = BarionEnvironment::Prod, bool $useBundledRootCerts = false)
     {
         $this->POSKey = $poskey;
         $this->APIVersion = $version;
@@ -289,7 +289,7 @@ class BarionClient
         
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if ($userAgent == "") {
-            $cver = curl_version();
+            $cver = (array)curl_version();
             $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
         }
 
@@ -345,7 +345,7 @@ class BarionClient
         
         $userAgent = $_SERVER['HTTP_USER_AGENT'];
         if ($userAgent == "") {
-            $cver = curl_version();
+            $cver = (array)curl_version();
             $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
         }
 

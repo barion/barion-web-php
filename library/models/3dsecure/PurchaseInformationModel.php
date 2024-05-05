@@ -18,7 +18,8 @@
 
 namespace Barion\Models\ThreeDSecure;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
+
 use Barion\Enumerations\ThreeDSecure\{
     AvailabilityIndicator,
     DeliveryTimeframeType,
@@ -56,20 +57,20 @@ class PurchaseInformationModel implements \Barion\Interfaces\IBarionModel
         $this->PurchaseDate = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->DeliveryTimeframe = DeliveryTimeframeType::from(jget($json, 'DeliveryTimeframe') ?? '');
-            $this->DeliveryEmailAddress = jget($json, 'DeliveryEmailAddress');
-            $this->PreOrderDate = jget($json, 'PreOrderDate');
-            $this->AvailabilityIndicator = AvailabilityIndicator::from(jget($json, 'AvailabilityIndicator') ?? '');
-            $this->ReOrderIndicator = ReOrderIndicator::from(jget($json, 'ReOrderIndicator') ?? '');
-            $this->RecurringExpiry = jget($json, 'RecurringExpiry');
-            $this->RecurringFrequency = jget($json, 'RecurringFrequency');
-            $this->ShippingAddressIndicator = ShippingAddressIndicator::from(jget($json, 'ShippingAddressIndicator') ?? '');
-            $this->GiftCardPurchase = jget($json, 'GiftCardPurchase');
-            $this->PurchaseType = PurchaseType::from(jget($json, 'PurchaseType') ?? '');
-            $this->PurchaseDate = jget($json, 'PurchaseDate');
+            $this->DeliveryTimeframe = DeliveryTimeframeType::from(JSON::getString($json, 'DeliveryTimeframe') ?? '');
+            $this->DeliveryEmailAddress = JSON::getString($json, 'DeliveryEmailAddress');
+            $this->PreOrderDate = JSON::getString($json, 'PreOrderDate');
+            $this->AvailabilityIndicator = AvailabilityIndicator::from(JSON::getString($json, 'AvailabilityIndicator') ?? '');
+            $this->ReOrderIndicator = ReOrderIndicator::from(JSON::getString($json, 'ReOrderIndicator') ?? '');
+            $this->RecurringExpiry = JSON::getString($json, 'RecurringExpiry');
+            $this->RecurringFrequency = JSON::getString($json, 'RecurringFrequency');
+            $this->ShippingAddressIndicator = ShippingAddressIndicator::from(JSON::getString($json, 'ShippingAddressIndicator') ?? '');
+            $this->GiftCardPurchase = JSON::getObject($json, 'GiftCardPurchase');
+            $this->PurchaseType = PurchaseType::from(JSON::getString($json, 'PurchaseType') ?? '');
+            $this->PurchaseDate = JSON::getString($json, 'PurchaseDate');
         }
     }
 }

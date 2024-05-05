@@ -18,6 +18,13 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Helpers\JSON;
+
+use Barion\Models\Common\{
+    UserModel,
+    ItemModel
+};
+
 use Barion\Enumerations\{
     Currency,
     TransactionType,
@@ -59,38 +66,40 @@ class TransactionDetailModel implements \Barion\Interfaces\IBarionModel
         $this->PaymentId = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->TransactionId = $json['TransactionId'];
-            $this->POSTransactionId = $json['POSTransactionId'];
-            $this->TransactionTime = $json['TransactionTime'];
-            $this->Total = $json['Total'];
-            $this->Currency = Currency::from($json['Currency']);
+            $this->TransactionId = JSON::getString($json, 'TransactionId');
+            $this->POSTransactionId = JSON::getString($json, 'POSTransactionId');
+            $this->TransactionTime = JSON::getString($json, 'TransactionTime');
+            $this->Total = JSON::getFloat($json, 'Total');
+            $this->Currency = Currency::from(JSON::getString($json, 'Currency'));
 
-            $this->Payer = new \Barion\Models\Common\UserModel();
-            $this->Payer->fromJson($json['Payer']);
+            $this->Payer = new UserModel();
+            $this->Payer->fromJson(JSON::getString($json, 'Payer'));
 
-            $this->Payee = new \Barion\Models\Common\UserModel();
-            $this->Payee->fromJson($json['Payee']);
+            $this->Payee = new UserModel();
+            $this->Payee->fromJson(JSON::getString($json, 'Payee'));
 
-            $this->Comment = $json['Comment'];
-            $this->Status = TransactionStatus::from($json['Status']);
-            $this->TransactionType = TransactionType::from($json['TransactionType']);
+            $this->Comment = JSON::getString($json, 'Comment');
+            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status'));
+            $this->TransactionType = TransactionType::from(JSON::getString($json, 'TransactionType'));
 
             $this->Items = array();
+            
+            $items = JSON::getArray($json, 'Items');
 
-            if (!empty($json['Items'])) {
-                foreach ($json['Items'] as $i) {
-                    $item = new \Barion\Models\Common\ItemModel();
+            if (!empty($items)) {
+                foreach ($items as $key => $i) {
+                    $item = new ItemModel();
                     $item->fromJson($i);
                     array_push($this->Items, $item);
                 }
             }
 
-            $this->RelatedId = $json['RelatedId'];
-            $this->POSId = $json['POSId'];
-            $this->PaymentId = $json['PaymentId'];
+            $this->RelatedId = JSON::getString($json, 'RelatedId');
+            $this->POSId = JSON::getString($json, 'POSId');
+            $this->PaymentId = JSON::getString($json, 'PaymentId');
         }
     }
 }

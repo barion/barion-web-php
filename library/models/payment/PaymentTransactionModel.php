@@ -18,6 +18,10 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Models\Common\{
+    ItemModel
+};
+
 class PaymentTransactionModel
 {
     public string $POSTransactionId;
@@ -37,26 +41,26 @@ class PaymentTransactionModel
         $this->PayeeTransactions = array();
     }
 
-    public function AddItem(\Barion\Models\Common\ItemModel $item)
+    public function AddItem(ItemModel $item) : void
     {
         array_push($this->Items, $item);
     }
 
-    public function AddItems($items)
+    public function AddItems(array $items) : void
     {
         foreach ($items as $item) {
-            if ($item instanceof \Barion\Models\Common\ItemModel) {
+            if ($item instanceof ItemModel) {
                 $this->AddItem($item);
             }
         }
     }
 
-    public function AddPayeeTransaction(PayeeTransactionModel $model)
+    public function AddPayeeTransaction(PayeeTransactionModel $model) : void
     {
         array_push($this->PayeeTransactions, $model);
     }
 
-    public function AddPayeeTransactions($transactions)
+    public function AddPayeeTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {
             if ($transaction instanceof PayeeTransactionModel) {

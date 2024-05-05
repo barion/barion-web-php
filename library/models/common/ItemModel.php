@@ -18,7 +18,7 @@
 
 namespace Barion\Models\Common;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
 
 class ItemModel implements \Barion\Interfaces\IBarionModel
 {
@@ -41,16 +41,16 @@ class ItemModel implements \Barion\Interfaces\IBarionModel
         $this->SKU = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->Name = jget($json, 'Name');
-            $this->Description = jget($json, 'Description');
-            $this->Quantity = jget($json, 'Quantity');
-            $this->Unit = jget($json, 'Unit');
-            $this->UnitPrice = jget($json, 'UnitPrice');
-            $this->ItemTotal = jget($json, 'ItemTotal');
-            $this->SKU = jget($json, 'SKU');
+            $this->Name = JSON::getString($json, 'Name');
+            $this->Description = JSON::getString($json, 'Description');
+            $this->Quantity = JSON::getFloat($json, 'Quantity');
+            $this->Unit = JSON::getString($json, 'Unit');
+            $this->UnitPrice = JSON::getFloat($json, 'UnitPrice');
+            $this->ItemTotal = JSON::getFloat($json, 'ItemTotal');
+            $this->SKU = JSON::getString($json, 'SKU');
         }
     }
 }

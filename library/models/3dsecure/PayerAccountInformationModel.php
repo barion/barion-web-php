@@ -18,7 +18,8 @@
 
 namespace Barion\Models\ThreeDSecure;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
+
 use Barion\Enumerations\ThreeDSecure\{
     AccountChangeIndicator,
     AccountCreationIndicator,
@@ -67,25 +68,25 @@ class PayerAccountInformationModel implements \Barion\Interfaces\IBarionModel
         $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::Unspecified;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->AccountId = jget($json, 'AccountId');
-            $this->AccountCreated = jget($json, 'AccountCreated');
-            $this->AccountCreationIndicator = AccountCreationIndicator::from(jget($json, 'AccountCreationIndicator') ?? '');
-            $this->AccountLastChanged = jget($json, 'AccountLastChanged');
-            $this->AccountChangeIndicator = AccountChangeIndicator::from(jget($json, 'AccountChangeIndicator') ?? '');
-            $this->PasswordLastChanged = jget($json, 'PasswordLastChanged');
-            $this->PasswordChangeIndicator = PasswordChangeIndicator::from(jget($json, 'PasswordChangeIndicator') ?? '');
-            $this->PurchasesInTheLastSixMonths = jget($json, 'PurchasesInTheLastSixMonths');
-            $this->ShippingAddressAdded = jget($json, 'ShippingAddressAdded');
-            $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::from(jget($json, 'ShippingAddressUsageIndicator') ?? '');
-            $this->PaymentMethodAdded = jget($json, 'PaymentMethodAdded');
-            $this->PaymentMethodIndicator = PaymentMethodIndicator::from(jget($json, 'PaymentMethodIndicator') ?? '');
-            $this->ProvisionAttempts = jget($json, 'ProvisionAttempts');
-            $this->TransactionalActivityPerDay = jget($json, 'TransactionalActivityPerDay');
-            $this->TransactionalActivityPerYear = jget($json, 'TransactionalActivityPerYear');
-            $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::from(jget($json, 'SuspiciousActivityIndicator') ?? '');
+            $this->AccountId = JSON::getString($json, 'AccountId');
+            $this->AccountCreated = JSON::getString($json, 'AccountCreated');
+            $this->AccountCreationIndicator = AccountCreationIndicator::from(JSON::getString($json, 'AccountCreationIndicator') ?? '');
+            $this->AccountLastChanged = JSON::getString($json, 'AccountLastChanged');
+            $this->AccountChangeIndicator = AccountChangeIndicator::from(JSON::getString($json, 'AccountChangeIndicator') ?? '');
+            $this->PasswordLastChanged = JSON::getString($json, 'PasswordLastChanged');
+            $this->PasswordChangeIndicator = PasswordChangeIndicator::from(JSON::getString($json, 'PasswordChangeIndicator') ?? '');
+            $this->PurchasesInTheLastSixMonths = JSON::getString($json, 'PurchasesInTheLastSixMonths');
+            $this->ShippingAddressAdded = JSON::getString($json, 'ShippingAddressAdded');
+            $this->ShippingAddressUsageIndicator = ShippingAddressUsageIndicator::from(JSON::getString($json, 'ShippingAddressUsageIndicator') ?? '');
+            $this->PaymentMethodAdded = JSON::getString($json, 'PaymentMethodAdded');
+            $this->PaymentMethodIndicator = PaymentMethodIndicator::from(JSON::getString($json, 'PaymentMethodIndicator') ?? '');
+            $this->ProvisionAttempts = JSON::getString($json, 'ProvisionAttempts');
+            $this->TransactionalActivityPerDay = JSON::getString($json, 'TransactionalActivityPerDay');
+            $this->TransactionalActivityPerYear = JSON::getString($json, 'TransactionalActivityPerYear');
+            $this->SuspiciousActivityIndicator = SuspiciousActivityIndicator::from(JSON::getString($json, 'SuspiciousActivityIndicator') ?? '');
         }
     }
 }

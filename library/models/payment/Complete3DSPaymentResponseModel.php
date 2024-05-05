@@ -18,7 +18,8 @@
 
 namespace Barion\Models\Payment;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
+
 use Barion\Enumerations\{
     PaymentStatus
 };
@@ -41,16 +42,16 @@ class Complete3DSPaymentResponseModel extends \Barion\Models\BaseResponseModel i
         $this->TraceId = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->PaymentId = jget($json, 'PaymentId');
-            $this->PaymentRequestId = jget($json, 'PaymentRequestId');
-            $this->Status = PaymentStatus::from(jget($json, 'PaymentStatus') ?? '');
-            $this->IsSuccessful = jget($json, 'IsSuccessful');
-            $this->TraceId = jget($json, 'TraceId');
+            $this->PaymentId = JSON::getString($json, 'PaymentId');
+            $this->PaymentRequestId = JSON::getString($json, 'PaymentRequestId');
+            $this->Status = PaymentStatus::from(JSON::getString($json, 'PaymentStatus') ?? '');
+            $this->IsSuccessful = JSON::getBool($json, 'IsSuccessful');
+            $this->TraceId = JSON::getString($json, 'TraceId');
         }
     }
 }

@@ -18,6 +18,8 @@
  
 namespace Barion\Models\Error;
 
+use Barion\Helpers\JSON;
+
 class ApiErrorModel
 {
     public ?string $Title;
@@ -39,18 +41,18 @@ class ApiErrorModel
         $this->PaymentId = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->ErrorCode = $json['ErrorCode'];
-            $this->Title = $json['Title'];
-            $this->Description = $json['Description'];
-            $this->HappenedAt = $json['HappenedAt'];
-            $this->AuthData = $json['AuthData'];
-            $this->EndPoint = $json['EndPoint'];
+            $this->ErrorCode = JSON::getString($json, 'ErrorCode');
+            $this->Title = JSON::getString($json, 'Title');
+            $this->Description = JSON::getString($json, 'Description');
+            $this->HappenedAt = JSON::getString($json, 'HappenedAt');
+            $this->AuthData = JSON::getString($json, 'AuthData');
+            $this->EndPoint = JSON::getString($json, 'EndPoint');
             
             if (array_key_exists('PaymentId', $json)) {
-                $this->PaymentId = $json['PaymentId'];
+                $this->PaymentId = JSON::getString($json, 'PaymentId');
             }
         }
     }

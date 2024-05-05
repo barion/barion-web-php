@@ -32,8 +32,9 @@ $include_dirs = Array(
     realpath(join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), "models/refund")))
 );
 
-foreach ($include_dirs as $dir) {
-    foreach (glob($dir . '/*.php') as $file) {
-        require_once $file;
+foreach ($include_dirs as $directoryKey => $directoryName) {
+    $files = glob($directoryName . '/*.php');   
+    foreach ($files as $fileKey => $fileName) {
+        require_once $fileName;
     }
 }

@@ -18,6 +18,8 @@
 
 namespace Barion\Models\Common;
 
+use Barion\Helpers\JSON;
+
 class UserModel implements \Barion\Interfaces\IBarionModel
 {
     public ?string $Name;
@@ -29,12 +31,12 @@ class UserModel implements \Barion\Interfaces\IBarionModel
         $this->Email = null;
     }
 
-    function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->Email = $json['Email'];
+            $this->Email = JSON::getString($json, 'Email');
             $name = new UserNameModel();
-            $name->fromJson($json['Name']);
+            $name->fromJson(JSON::getArray($json, 'Name'));
         }
     }
 }

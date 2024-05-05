@@ -60,10 +60,10 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
     public ChallengePreference $ChallengePreference;
     public ?string $TraceId;
 
-    function __construct($requestId = "", $paymentType = PaymentType::Immediate, $guestCheckoutAllowed = true, 
-                            $allowedFundingSources = array(FundingSourceType::All), $paymentWindow = "00:30:00", $locale = UILocale::HU, 
-                            $initiateRecurrence = false, $recurrenceId = null, $redirectUrl = null, 
-                            $callbackUrl = null, $currency = Currency::HUF, $traceId = null)
+    function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate, bool $guestCheckoutAllowed = true, 
+                            array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU, 
+                            bool $initiateRecurrence = false, string $recurrenceId = null, string $redirectUrl = null, 
+                            string $callbackUrl = null, Currency $currency = Currency::HUF, string $traceId = null)
     {
         $this->PaymentRequestId = $requestId;
         $this->PaymentType = $paymentType;
@@ -80,12 +80,12 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
         $this->TraceId = $traceId;
     }
 
-    public function AddTransaction(PaymentTransactionModel $transaction)
+    public function AddTransaction(PaymentTransactionModel $transaction) : void
     {
         array_push($this->Transactions, $transaction);
     }
 
-    public function AddTransactions($transactions)
+    public function AddTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {
             if ($transaction instanceof PaymentTransactionModel) {

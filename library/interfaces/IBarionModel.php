@@ -20,5 +20,9 @@ namespace Barion\Interfaces;
  
 interface IBarionModel
 {
-    public function fromJson($json);
+    /**
+     * @param array<int, object> $json Associative array from a JSON object.
+     * @return void
+     */
+    public function fromJson(array $json) : void;
 }

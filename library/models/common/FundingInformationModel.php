@@ -18,7 +18,7 @@
 
 namespace Barion\Models\Common;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
 
 class FundingInformationModel implements \Barion\Interfaces\IBarionModel
 {
@@ -33,13 +33,13 @@ class FundingInformationModel implements \Barion\Interfaces\IBarionModel
         $this->ProcessResult = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
             $this->BankCard = new BankCardModel();
-            $this->BankCard->fromJson(jget($json, 'BankCard'));
-            $this->AuthorizationCode = jget($json, 'AuthorizationCode');
-            $this->ProcessResult = jget($json, 'ProcessResult');
+            $this->BankCard->fromJson(JSON::getString($json, 'BankCard'));
+            $this->AuthorizationCode = JSON::getString($json, 'AuthorizationCode');
+            $this->ProcessResult = JSON::getString($json, 'ProcessResult');
         }
     }
 }

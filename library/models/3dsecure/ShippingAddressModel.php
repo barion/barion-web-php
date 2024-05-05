@@ -18,7 +18,7 @@
 
 namespace Barion\Models\ThreeDSecure;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
 
 class ShippingAddressModel implements \Barion\Interfaces\IBarionModel
 {
@@ -43,17 +43,17 @@ class ShippingAddressModel implements \Barion\Interfaces\IBarionModel
         $this->FullName = null;
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->Country = jget($json, 'Country');
-            $this->Region = jget($json, 'Region');
-            $this->City = jget($json, 'City');
-            $this->Zip = jget($json, 'Zip');
-            $this->Street = jget($json, 'Street');
-            $this->Street2 = jget($json, 'Street2');
-            $this->Street3 = jget($json, 'Street3');
-            $this->FullName = jget($json, 'FullName');
+            $this->Country = JSON::getString($json, 'Country');
+            $this->Region = JSON::getString($json, 'Region');
+            $this->City = JSON::getString($json, 'City');
+            $this->Zip = JSON::getString($json, 'Zip');
+            $this->Street = JSON::getString($json, 'Street');
+            $this->Street2 = JSON::getString($json, 'Street2');
+            $this->Street3 = JSON::getString($json, 'Street3');
+            $this->FullName = JSON::getString($json, 'FullName');
         }
     }
 }

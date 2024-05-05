@@ -18,6 +18,8 @@
 
 namespace Barion\Models\Refund;
 
+use Barion\Helpers\JSON;
+
 use Barion\Enumerations\{
     TransactionStatus
 };
@@ -40,14 +42,14 @@ class RefundedTransactionModel implements \Barion\Interfaces\IBarionModel {
     }
 
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
-            $this->TransactionId = $json['TransactionId'];
-            $this->Total = $json['Total'];
-            $this->POSTransactionId = $json['POSTransactionId'];
-            $this->Comment = $json['Comment'];
-            $this->Status = TransactionStatus::from($json['Status']);
+            $this->TransactionId = JSON::getString($json, 'TransactionId');
+            $this->Total = JSON::getFloat($json, 'Total');
+            $this->POSTransactionId = JSON::getString($json, 'POSTransactionId');
+            $this->Comment = JSON::getString($json, 'Comment');
+            $this->Status = TransactionStatus::from(JSON::getString($json, 'Status') ?? '');
         }
     }
 }

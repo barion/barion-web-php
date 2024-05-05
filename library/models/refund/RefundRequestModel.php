@@ -23,18 +23,18 @@ class RefundRequestModel extends \Barion\Models\BaseRequestModel
     public string $PaymentId;
     public array $TransactionsToRefund;
 
-    function __construct($paymentId)
+    function __construct(string $paymentId)
     {
         $this->PaymentId = $paymentId;
         $this->TransactionsToRefund = array();
     }
 
-    public function AddTransaction(\Barion\Models\Payment\TransactionToRefundModel $transaction)
+    public function AddTransaction(\Barion\Models\Payment\TransactionToRefundModel $transaction) : void
     {
         array_push($this->TransactionsToRefund, $transaction);
     }
 
-    public function AddTransactions($transactions)
+    public function AddTransactions(array $transactions) : void
     {
         if (!empty($transactions)) {
             foreach ($transactions as $transaction) {

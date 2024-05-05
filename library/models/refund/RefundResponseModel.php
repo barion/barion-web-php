@@ -18,7 +18,7 @@
 
 namespace Barion\Models\Refund;
 
-use function Barion\Helpers\jget;
+use Barion\Helpers\JSON;
 
 class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \Barion\Interfaces\IBarionModel
 {
@@ -32,18 +32,20 @@ class RefundResponseModel extends \Barion\Models\BaseResponseModel implements \B
         $this->RefundedTransactions = array();
     }
 
-    public function fromJson($json)
+    public function fromJson(array $json) : void
     {
         if (!empty($json)) {
             parent::fromJson($json);
 
-            $this->PaymentId = jget($json, 'PaymentId');
+            $this->PaymentId = JSON::getString($json, 'PaymentId');
             $this->RefundedTransactions = array();
 
-            if (!empty($json['RefundedTransactions'])) {
-                foreach ($json['RefundedTransactions'] as $key => $value) {
+            $refundedTransactions = JSON::getArray($json, 'RefundedTransactions');
+
+            if (!empty($refundedTransactions)) {
+                foreach ($refundedTransactions as $key => $refundedTransaction) {
                     $tr = new RefundedTransactionModel();
-                    $tr->fromJson($value);
+                    $tr->fromJson($refundedTransaction);
                     array_push($this->RefundedTransactions, $tr);
                 }
             }
