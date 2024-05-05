@@ -121,6 +121,16 @@ class BarionClient
         $this->UseBundledRootCertificates = $useBundledRootCerts;
     }
 
+    /**
+     * Sets the API version for the client. Useful if one instance manages different API version calls.
+     *
+     * @param int $version The version of the Barion API
+     * @return void
+     */
+    public function SetVersion(int $version) {
+        $this->APIVersion = $version;
+    }
+
     /* -------- BARION API CALL IMPLEMENTATIONS -------- */
 
 
