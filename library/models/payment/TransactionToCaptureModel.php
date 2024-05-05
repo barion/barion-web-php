@@ -18,6 +18,8 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IItemContainer;
+use Barion\Interfaces\IPayeeTransactionContainer;
 use Barion\Models\Common\{
     ItemModel
 };
@@ -25,7 +27,7 @@ use Barion\Models\Common\{
 /**
  * Model describing a transaction that is being captured in a delayed capture scenario.
  */
-class TransactionToCaptureModel
+class TransactionToCaptureModel implements IItemContainer, IPayeeTransactionContainer
 {
     /** 
      * The Barion identifier of the transaction.

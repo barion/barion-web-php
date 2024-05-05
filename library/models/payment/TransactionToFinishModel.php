@@ -17,6 +17,9 @@
  */
 
 namespace Barion\Models\Payment;
+
+use Barion\Interfaces\IItemContainer;
+use Barion\Interfaces\IPayeeTransactionContainer;
 use Barion\Models\Common\{
     ItemModel
 };
@@ -24,7 +27,7 @@ use Barion\Models\Common\{
 /**
  * Model describing a transaction that is being finished in a reservation payment scenario.
  */
-class TransactionToFinishModel
+class TransactionToFinishModel implements IItemContainer, IPayeeTransactionContainer
 {
     /** 
      * The Barion identifier of the transaction.

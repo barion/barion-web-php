@@ -29,11 +29,12 @@ use Barion\Enumerations\ThreeDSecure\{
     RecurrenceType,
     ChallengePreference
 };
+use Barion\Interfaces\IPaymentTransactionContainer;
 
 /**
  * Model used to start a new payment on the Barion Smart Gateway.
  */
-class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
+class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel implements IPaymentTransactionContainer
 {
     /** 
      * The type of the payment.

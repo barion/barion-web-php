@@ -18,10 +18,12 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IPaymentTransactionContainer;
+
 /**
  * Model used to request to capture the amount of a previously authorized payment in a delayed capture scenario.
  */
-class CaptureRequestModel extends \Barion\Models\BaseRequestModel
+class CaptureRequestModel extends \Barion\Models\BaseRequestModel implements IPaymentTransactionContainer
 {
     /** 
      * The Barion identifier of the payment.

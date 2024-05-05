@@ -18,6 +18,7 @@
 
 namespace Barion\Models\Refund;
 
+use Barion\Interfaces\IPaymentTransactionContainer;
 use Barion\Models\Payment\{
     TransactionToRefundModel
 };
@@ -25,7 +26,7 @@ use Barion\Models\Payment\{
 /**
  * Model used to request the refund of a previously completed payment transaction.
  */
-class RefundRequestModel extends \Barion\Models\BaseRequestModel
+class RefundRequestModel extends \Barion\Models\BaseRequestModel implements IPaymentTransactionContainer
 {
     /** 
      * The Barion identifier of the payment.

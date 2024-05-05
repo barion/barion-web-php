@@ -18,6 +18,8 @@
 
 namespace Barion\Models\Payment;
 
+use Barion\Interfaces\IItemContainer;
+use Barion\Interfaces\IPayeeTransactionContainer;
 use Barion\Models\Common\{
     ItemModel
 };
@@ -25,7 +27,7 @@ use Barion\Models\Common\{
 /**
  * Model containing details about a payment transaction attached to a Barion Smart Gateway payment.
  */
-class PaymentTransactionModel
+class PaymentTransactionModel implements IItemContainer, IPayeeTransactionContainer
 {
     /** 
      * The internal identifier of the transaction, specified by the shop.
