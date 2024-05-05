@@ -30,10 +30,12 @@ if (file_exists(__DIR__ . '/../vendor/autoload.php')) {
 
 /* -------- IMPORTED CLASSES -------- */
 
+use Barion\Exceptions;
 use Barion\Enumerations\{
     BarionEnvironment,
     QRCodeSize
 };
+use Barion\Exceptions\BarionException;
 use Barion\Models\{
     BaseResponseModel
 };
@@ -139,9 +141,15 @@ class BarionClient
      *
      * @param PreparePaymentRequestModel $model The request model for payment preparation
      * @return PreparePaymentResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function PreparePayment(PreparePaymentRequestModel $model)
     {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for Payment Prepare endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_PREPAREPAYMENT;
         $response = $this->PostToBarion($url, $model);
@@ -162,9 +170,15 @@ class BarionClient
      *
      * @param FinishReservationRequestModel $model The request model for the finish process
      * @return FinishReservationResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function FinishReservation(FinishReservationRequestModel $model)
     {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for Finish Reservation endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_FINISHRESERVATION;
         $response = $this->PostToBarion($url, $model);
@@ -182,9 +196,15 @@ class BarionClient
      *
      * @param CaptureRequestModel $model The request model for the capture process
      * @return CaptureResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function Capture(CaptureRequestModel $model)
     {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for Capture endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_CAPTURE;
         $response = $this->PostToBarion($url, $model);
@@ -202,9 +222,15 @@ class BarionClient
      *
      * @param CancelAuthorizationRequestModel $model The request model for cancelling the authorization
      * @return CancelAuthorizationResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function CancelAuthorization(CancelAuthorizationRequestModel $model)
     {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for Cancel Authorization endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_CANCELAUTHORIZATION;
         $response = $this->PostToBarion($url, $model);
@@ -221,9 +247,15 @@ class BarionClient
      *
      * @param Complete3DSPaymentRequestModel $model The request model for completing the authenticated payment
      * @return Complete3DSPaymentResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function Complete3DSPayment(Complete3DSPaymentRequestModel $model)
     {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for 3DS Complete endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_3DS_COMPLETE;
         $response = $this->PostToBarion($url, $model);
@@ -240,9 +272,15 @@ class BarionClient
      *
      * @param RefundRequestModel $model The request model for the refund process
      * @return RefundResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function RefundPayment(RefundRequestModel $model)
     {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for Refund endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_REFUND;
         $response = $this->PostToBarion($url, $model);
@@ -259,9 +297,15 @@ class BarionClient
      *
      * @param string $paymentId The Id of the payment
      * @return PaymentStateResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
      */
     public function GetPaymentState($paymentId)
     {
+        if ($this->APIVersion != 4) {
+            throw new BarionException("Incorrect API version for PaymentState endpoint! Current: {$this->APIVersion}. Expected: 4.");
+        }
+
         $model = new PaymentStateRequestModel($paymentId);
         $model->POSKey = $this->POSKey;
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . str_ireplace("{paymentId}", $paymentId, BarionClient::API_ENDPOINT_PAYMENTSTATE);
@@ -286,9 +330,15 @@ class BarionClient
      * @param string $paymentId The Id of the payment
      * @param QRCodeSize $qrCodeSize The desired size of the QR image
      * @return mixed|string Returns the response of the QR request
+     * 
+     * @throws BarionException
      */
     public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)
     {
+        if ($this->APIVersion != 1) {
+            throw new BarionException("Incorrect API version for QR Code endpoint! Current: {$this->APIVersion}. Expected: 1.");
+        }
+
         $model = new PaymentQRRequestModel($username, $password, $paymentId);
         $model->POSKey = $this->POSKey;
         $model->Size = $qrCodeSize;
