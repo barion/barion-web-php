@@ -5,10 +5,46 @@
 *  
 *  Executing a recurring payment of €19.95, using a previously initialized recurrence token, and parameters required for 3D-secure authentication.
 *  
-*  � 2020 Barion Payment Inc.
+*  © 2024 Barion Payment Inc.
 */
 
 require_once '../library/BarionClient.php';
+
+use Barion\BarionClient;
+use Barion\Enumerations\{
+    BarionEnvironment,
+    PaymentType,
+    FundingSourceType,
+    UILocale,
+    Currency
+};
+use Barion\Enumerations\ThreeDSecure\{
+    AccountChangeIndicator,
+    AccountCreationIndicator,
+    PasswordChangeIndicator,
+    ShippingAddressIndicator,
+    ShippingAddressUsageIndicator,
+    PaymentMethodIndicator,
+    SuspiciousActivityIndicator,
+    DeliveryTimeFrameType,
+    ReOrderIndicator,
+    AvailabilityIndicator,
+    PurchaseType,
+    ChallengePreference
+};
+use Barion\Models\Common\{
+    ItemModel
+};
+use Barion\Models\ThreeDSecure\{
+    ShippingAddressModel,
+    BillingAddressModel,
+    PayerAccountInformationModel,
+    PurchaseInformationModel
+};
+use Barion\Models\Payment\{
+    PaymentTransactionModel,
+    PreparePaymentRequestModel
+};
 
 $myPosKey = "11111111-1111-1111-1111-111111111111"; // <-- Replace this with your POSKey!
 $myEmailAddress = "mywebshop@example.com"; // <-- Replace this with your e-mail address in Barion!

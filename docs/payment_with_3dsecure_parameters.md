@@ -1,6 +1,6 @@
 ﻿# Example - parameters related to 3D Secure authentication
 
-From September 2019 it will be mandatory for online payments to comply with 3D Secure authentication whenever the bank card used for payment is protected by 3D Secure.
+From September 2019 it will be mandatory for online payments to comply with 3D Secure authentication whenever the bank card used for payment is protected by 3D Secure.  
 The Barion library has been extended with support to special parameters related to 3D Secure authentication.
 
 The purpose of these parameters is to help the Barion API and the webshop cooperate on making the payment process as smooth and frictionless as possible.
@@ -14,7 +14,7 @@ There is one or more **ItemModel** describing the product, as usual:
 ```php
 $item = new ItemModel();
 $item->Name = "TestItem";
-$item->Description = "A test item for payment"; 
+$item->Description = "A test item for payment";
 $item->Quantity = 1;
 $item->Unit = "pc";
 $item->UnitPrice = 75;
@@ -56,7 +56,7 @@ $billingAddress->Street2 = "1. ebene";
 $billingAddress->Street3 = "";
 ```
 
-**NOTE:** the older version of the library used the shipping address as one simple string. This method will <u>NO LONGER WORK</u>, the address structure must fully comply with the API documentation. Please review any request assembling in your integration where you are handling a shipping address.
+**NOTE:** the older version of the library used the shipping address as one simple string. This method will NO LONGER WORK, the address structure must fully comply with the API documentation. Please review any request assembling in your integration where you are handling a shipping address.
 
 The webshop should supply as much information about the account of the customer as it can. This is done in the **PayerAccountInformationModel**.
 
@@ -126,8 +126,8 @@ The complete payment request object looks like this:
 PreparePaymentRequestModel Object
 (
     [PaymentType] => Immediate
-    [ReservationPeriod] => 
-    [DelayedCapturePeriod] => 
+    [ReservationPeriod] =>
+    [DelayedCapturePeriod] =>
     [PaymentWindow] => 00:30:00
     [GuestCheckout] => 1
     [FundingSources] => Array
@@ -173,30 +173,30 @@ PreparePaymentRequestModel Object
     [ShippingAddress] => ShippingAddressModel Object
         (
             [Country] => DE
-            [Region] => 
+            [Region] =>
             [City] => Berlin
             [Zip] => 10243
             [Street] => Karl-Marx-Allee 93A
             [Street2] => 1. ebene
-            [Street3] => 
+            [Street3] =>
             [FullName] => Thomas Testing
         )
 
     [BillingAddress] => BillingAddressModel Object
         (
             [Country] => DE
-            [Region] => 
+            [Region] =>
             [City] => Berlin
             [Zip] => 10243
             [Street] => Karl-Marx-Allee 93A
             [Street2] => 1. ebene
-            [Street3] => 
+            [Street3] =>
         )
 
-    [InitiateRecurrence] => 
-    [RecurrenceId] => 
-    [RedirectUrl] => 
-    [CallbackUrl] => 
+    [InitiateRecurrence] =>
+    [RecurrenceId] =>
+    [RedirectUrl] =>
+    [CallbackUrl] =>
     [Currency] => EUR
     [CardHolderNameHint] => John Doe
     [PayerPhoneNumber] => 36301122334
@@ -205,16 +205,16 @@ PreparePaymentRequestModel Object
     [PayerAccountInformation] => PayerAccountInformationModel Object
         (
             [AccountId] => 4690011905085639
-            [AccountCreated] => 
+            [AccountCreated] =>
             [AccountCreationIndicator] => CreatedDuringThisTransaction
-            [AccountLastChanged] => 
+            [AccountLastChanged] =>
             [AccountChangeIndicator] => ChangedDuringThisTransaction
-            [PasswordLastChanged] => 
+            [PasswordLastChanged] =>
             [PasswordChangeIndicator] => NoChange
             [PurchasesInTheLastSixMonths] => 6
-            [ShippingAddressAdded] => 
+            [ShippingAddressAdded] =>
             [ShippingAddressUsageIndicator] => ThisTransaction
-            [PaymentMethodAdded] => 
+            [PaymentMethodAdded] =>
             [PaymentMethodIndicator] => ThisTransaction
             [ProvisionAttempts] => 1
             [TransactionalActivityPerDay] => 1
@@ -225,18 +225,18 @@ PreparePaymentRequestModel Object
     [PurchaseInformation] => PurchaseInformationModel Object
         (
             [DeliveryTimeframe] => OvernightShipping
-            [DeliveryEmailAddress] => 
-            [PreOrderDate] => 
+            [DeliveryEmailAddress] =>
+            [PreOrderDate] =>
             [AvailabilityIndicator] => MerchandiseAvailable
             [ReOrderIndicator] => FirstTimeOrdered
             [RecurringExpiry] => 2099-12-31 23:59:59
             [RecurringFrequency] => 0
             [ShippingAddressIndicator] => ShipToCardholdersBillingAddress
-            [GiftCardPurchase] => 
+            [GiftCardPurchase] =>
             [PurchaseType] => GoodsAndServicePurchase
         )
 
-    [POSKey] => 
+    [POSKey] =>
 )
 ```
 
@@ -250,5 +250,5 @@ From here the process is identical to any other payment scenario. The additional
 
 ## Detailed documentation
 
-We strongly suggest that you read this article about parameters related to 3D Secure authentication in the official Barion API documentation:
-https://docs.barion.com/Payment-Start-v2-3DS
+We strongly suggest that you read this article about parameters related to 3D Secure authentication in the official Barion API documentation:  
+https://docs.barion.com/Payment-Start-v2
