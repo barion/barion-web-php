@@ -21,7 +21,7 @@
 
 namespace Barion\Helpers;
 
-class String {
+class StringExtension {
     
     /** 
         @param ?string $string
