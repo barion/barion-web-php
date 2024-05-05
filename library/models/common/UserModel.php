@@ -45,7 +45,12 @@ class UserModel implements \Barion\Interfaces\IBarionModel
         $this->Email = null;
     }
 
-    /** @param array<mixed> $json */
+    /**
+     * Build model from a JSON array.
+     *  
+     * @param array<mixed> $json 
+     * @return void
+    */
     public function fromJson(array $json) : void
     {
         if ($json !== null && !empty($json)) {

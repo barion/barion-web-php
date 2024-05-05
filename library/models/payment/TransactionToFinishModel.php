@@ -81,7 +81,12 @@ class TransactionToFinishModel
         array_push($this->Items, $item);
     }
 
-    /** @param array<object> $items */
+    /** 
+     * Add multiple items to the transaction. 
+     * 
+     * @param array<object> $items
+     * @return void
+    */
     public function AddItems(array $items) : void
     {
         foreach ($items as $item) {
@@ -102,7 +107,13 @@ class TransactionToFinishModel
         array_push($this->PayeeTransactions, $model);
     }
 
-    /** @param array<object> $transactions */
+    
+    /** 
+     * Add multiple payee transactions to the transaction. 
+     * 
+     * @param array<object> $transactions 
+     * @return void
+    */
     public function AddPayeeTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {

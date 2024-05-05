@@ -62,7 +62,12 @@ class UserNameModel implements \Barion\Interfaces\IBarionModel
         $this->OrganizationName = null;
     }
 
-    /** @param array<mixed> $json */
+    /**
+     * Build model from a JSON array.
+     *  
+     * @param array<mixed> $json 
+     * @return void
+    */
     public function fromJson(array $json) : void
     {
         if (!empty($json)) {
@@ -72,7 +77,12 @@ class UserNameModel implements \Barion\Interfaces\IBarionModel
             $this->OrganizationName = JSON::getString($json, 'OrganizationName');
         }
     }
-    
+        
+    /**
+     * Gets the final formatted name of the user based on available values.
+     *
+     * @return string
+     */
     public function getName() : string
     {
         if (!StringExtension::isNullOrEmpty($this->OrganizationName)) {

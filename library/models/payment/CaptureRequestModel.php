@@ -57,7 +57,12 @@ class CaptureRequestModel extends \Barion\Models\BaseRequestModel
         array_push($this->Transactions, $transaction);
     }
 
-    /** @param array<object> $transactions */
+    /** 
+     * Add multiple transactions to the capture request. 
+     * 
+     * @param array<object> $transactions
+     * @return void
+    */
     public function AddTransactions(array $transactions) : void
     {
         if (!empty($transactions)) {

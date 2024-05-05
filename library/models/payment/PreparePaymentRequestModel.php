@@ -226,7 +226,14 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
      */
     public ?string $TraceId;
 
-    /** @param array<\Barion\Enumerations\FundingSourceType> $allowedFundingSources */
+    /**
+     * Create a new request for starting a payment.
+     *
+     * @param string $requestId
+     * @param PaymentType $paymentType
+     * @param bool $guestCheckoutAllowed
+     * @param array<FundingSourceType> $allowedFundingSources
+     */
     function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate, bool $guestCheckoutAllowed = true, 
                             array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU, 
                             bool $initiateRecurrence = false, string $recurrenceId = null, string $redirectUrl = null, 
@@ -246,13 +253,24 @@ class PreparePaymentRequestModel extends \Barion\Models\BaseRequestModel
         $this->Transactions = array();
         $this->TraceId = $traceId;
     }
-
+    
+    /**
+     * Add a single payment transaction to the payment.
+     *
+     * @param PaymentTransactionModel $transaction
+     * @return void
+     */
     public function AddTransaction(PaymentTransactionModel $transaction) : void
     {
         array_push($this->Transactions, $transaction);
     }
 
-    /** @param array<object> $transactions */
+    /** 
+     * Add multiple payment transactions to the payment. 
+     * 
+     * @param array<object> $transactions
+     * @return void
+    */
     public function AddTransactions(array $transactions) : void
     {
         foreach ($transactions as $transaction) {
