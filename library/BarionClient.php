@@ -56,26 +56,26 @@ use Barion\Models\Refund\{
     RefundResponseModel
 };
 
-/* -------- CONSTANTS -------- */
-
-const BARION_API_URL_PROD               = "https://api.barion.com";
-const BARION_WEB_URL_PROD               = "https://secure.barion.com/Pay";
-const BARION_API_URL_TEST               = "https://api.test.barion.com";
-const BARION_WEB_URL_TEST               = "https://secure.test.barion.com/Pay";
-
-const API_ENDPOINT_PREPAREPAYMENT       = "/Payment/Start";
-const API_ENDPOINT_PAYMENTSTATE         = "/Payment/{paymentId}/PaymentState";
-const API_ENDPOINT_QRCODE               = "/QR/Generate";
-const API_ENDPOINT_REFUND               = "/Payment/Refund";
-const API_ENDPOINT_FINISHRESERVATION    = "/Payment/FinishReservation";
-const API_ENDPOINT_CAPTURE              = "/Payment/Capture";
-const API_ENDPOINT_CANCELAUTHORIZATION  = "/Payment/CancelAuthorization";
-const API_ENDPOINT_3DS_COMPLETE         = "/Payment/Complete";
-
 /* -------- CLASS DEFINITION -------- */
 
 class BarionClient
 {
+    /* -------- CONSTANTS -------- */
+
+    public const BARION_API_URL_PROD               = "https://api.barion.com";
+    public const BARION_WEB_URL_PROD               = "https://secure.barion.com/Pay";
+    public const BARION_API_URL_TEST               = "https://api.test.barion.com";
+    public const BARION_WEB_URL_TEST               = "https://secure.test.barion.com/Pay";
+
+    public const API_ENDPOINT_PREPAREPAYMENT       = "/Payment/Start";
+    public const API_ENDPOINT_PAYMENTSTATE         = "/Payment/{paymentId}/PaymentState";
+    public const API_ENDPOINT_QRCODE               = "/QR/Generate";
+    public const API_ENDPOINT_REFUND               = "/Payment/Refund";
+    public const API_ENDPOINT_FINISHRESERVATION    = "/Payment/FinishReservation";
+    public const API_ENDPOINT_CAPTURE              = "/Payment/Capture";
+    public const API_ENDPOINT_CANCELAUTHORIZATION  = "/Payment/CancelAuthorization";
+    public const API_ENDPOINT_3DS_COMPLETE         = "/Payment/Complete";
+
     private BarionEnvironment $Environment;
 
     private int $APIVersion;
@@ -103,14 +103,14 @@ class BarionClient
         switch ($env) {
 
             case BarionEnvironment::Test:
-                $this->BARION_API_URL = BARION_API_URL_TEST;
-                $this->BARION_WEB_URL = BARION_WEB_URL_TEST;
+                $this->BARION_API_URL = BarionClient::BARION_API_URL_TEST;
+                $this->BARION_WEB_URL = BarionClient::BARION_WEB_URL_TEST;
                 break;
 
             case BarionEnvironment::Prod:
             default:
-                $this->BARION_API_URL = BARION_API_URL_PROD;
-                $this->BARION_WEB_URL = BARION_WEB_URL_PROD;
+                $this->BARION_API_URL = BarionClient::BARION_API_URL_PROD;
+                $this->BARION_WEB_URL = BarionClient::BARION_WEB_URL_PROD;
                 break;
         }
 
@@ -129,7 +129,7 @@ class BarionClient
     public function PreparePayment(PreparePaymentRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_PREPAREPAYMENT;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_PREPAREPAYMENT;
         $response = $this->PostToBarion($url, $model);
         $rm = new PreparePaymentResponseModel();
         if (!empty($response)) {
@@ -152,7 +152,7 @@ class BarionClient
     public function FinishReservation(FinishReservationRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_FINISHRESERVATION;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_FINISHRESERVATION;
         $response = $this->PostToBarion($url, $model);
         $rm = new FinishReservationResponseModel();
         if (!empty($response)) {
@@ -172,7 +172,7 @@ class BarionClient
     public function Capture(CaptureRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_CAPTURE;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_CAPTURE;
         $response = $this->PostToBarion($url, $model);
         $captureResponse = new CaptureResponseModel();
         if (!empty($response)) {
@@ -192,7 +192,7 @@ class BarionClient
     public function CancelAuthorization(CancelAuthorizationRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_CANCELAUTHORIZATION;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_CANCELAUTHORIZATION;
         $response = $this->PostToBarion($url, $model);
         $cancelAuthResponse = new CancelAuthorizationResponseModel();
         if (!empty($response)) {
@@ -211,7 +211,7 @@ class BarionClient
     public function Complete3DSPayment(Complete3DSPaymentRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_3DS_COMPLETE;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_3DS_COMPLETE;
         $response = $this->PostToBarion($url, $model);
         $rm = new Complete3DSPaymentResponseModel();
         if (!empty($response)) {
@@ -230,7 +230,7 @@ class BarionClient
     public function RefundPayment(RefundRequestModel $model)
     {
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . API_ENDPOINT_REFUND;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_REFUND;
         $response = $this->PostToBarion($url, $model);
         $rm = new RefundResponseModel();
         if (!empty($response)) {
@@ -250,7 +250,7 @@ class BarionClient
     {
         $model = new PaymentStateRequestModel($paymentId);
         $model->POSKey = $this->POSKey;
-        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . str_ireplace("{paymentId}", $paymentId,API_ENDPOINT_PAYMENTSTATE);
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . str_ireplace("{paymentId}", $paymentId, BarionClient::API_ENDPOINT_PAYMENTSTATE);
         $response = $this->GetFromBarion($url, $model);
         $ps = new PaymentStateResponseModel();
         if (!empty($response)) {
@@ -278,7 +278,7 @@ class BarionClient
         $model = new PaymentQRRequestModel($username, $password, $paymentId);
         $model->POSKey = $this->POSKey;
         $model->Size = $qrCodeSize;
-        $url = $this->BARION_API_URL . API_ENDPOINT_QRCODE;
+        $url = $this->BARION_API_URL . BarionClient::API_ENDPOINT_QRCODE;
         $response = $this->GetFromBarion($url, $model);
         return $response;
     }
