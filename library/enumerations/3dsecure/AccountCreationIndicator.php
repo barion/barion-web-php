@@ -4,6 +4,7 @@ namespace Barion\Enumerations\ThreeDSecure;
 
 enum AccountCreationIndicator : string
 {
+    case Unspecified = "";
     case NoAccount = "NoAccount";
     case CreatedDuringThisTransaction = "CreatedDuringThisTransaction";
     case LessThan30Days = "LessThan30Days";

@@ -4,6 +4,7 @@ namespace Barion\Enumerations\ThreeDSecure;
 
 enum PasswordChangeIndicator : string
 {
+    case Unspecified = "";
     case NoChange = "NoChange";
     case ChangedDuringThisTransaction = "ChangedDuringThisTransaction";
     case LessThan30Days = "LessThan30Days";

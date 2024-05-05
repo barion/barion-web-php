@@ -4,6 +4,7 @@ namespace Barion\Enumerations\ThreeDSecure;
 
 enum PaymentMethodIndicator : string
 {
+    case Unspecified = "";
     case NoAccount = "NoAccount";
     case ThisTransaction = "ThisTransaction";
     case LessThan30Days = "LessThan30Days";
