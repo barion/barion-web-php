@@ -27,6 +27,6 @@ $BC = new BarionClient(
 );
 
 // send the request
-$paymentDetails = $BC->GetPaymentState($paymentId);
+$paymentDetails = $BC->PaymentState($paymentId);
 
 // TODO: process the information contained in $paymentDetails

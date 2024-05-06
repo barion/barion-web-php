@@ -27,16 +27,17 @@ Please note that the use of End-Of-Support and End-Of-Life software during integ
 
 # Supported API versions
 
-| BarionClient method | Endpoint description                                   | Current API version |
-| ------------------- | ------------------------------------------------------ | ------------------- |
-| PreparePayment      | Prepares a new payment in the Barion system            | **v2**              |
-| GetPaymentState     | Requests the full current state of a payment           | **v4**              |
-| FinishReservation   | Finishes a previously reserved Reservation payment     | **v2**              |
-| Capture             | Captures the final amount of a Delayed Capture payment | **v2**              |
-| CancelAuthorization | Cancels the authorization on a Delayed Capture payment | **v2**              |
-| Complete3DSPayment  | Completes a previously 3D-Secure authenticated payment | **v2**              |
-| RefundPayment       | Refunds a previously completed payment                 | **v2**              |
-| _GetPaymentQRImage_ | _Requests a QR code image for a payment (deprecated)_  | _**v1**_            |
+| BarionClient method | Endpoint description                                        | Current API version |
+| ------------------- | ----------------------------------------------------------- | ------------------- |
+| PreparePayment      | Prepares a new payment in the Barion system                 | **v2**              |
+| PaymentState        | Requests the full current state of a payment                | **v4**              |
+| FinishReservation   | Finishes a previously reserved Reservation payment          | **v2**              |
+| Capture             | Captures the final amount of a Delayed Capture payment      | **v2**              |
+| CancelAuthorization | Cancels the authorization on a Delayed Capture payment      | **v2**              |
+| Complete3DSPayment  | Completes a previously 3D-Secure authenticated payment      | **v2**              |
+| RefundPayment       | Refunds a previously completed payment                      | **v2**              |
+| _GetPaymentState_   | _Requests the full current state of a payment (deprecated)_ | _**v2**_            |
+| _GetPaymentQRImage_ | _Requests a QR code image for a payment (deprecated)_       | _**v1**_            |
 
 # Installation
 
@@ -200,15 +201,16 @@ To request details about a payment, you only need one parameter: the payment ide
 
 ### 2.2. Calling the Barion API
 
-To request payment details, we call the **GetPaymentState** method of the Barion client class with the identifier above.
+To request payment details, we call the **PaymentState** method of the Barion client class with the identifier above.
 
 ```php
 $BC->SetVersion(4);
-$paymentDetails = $BC->GetPaymentState("64157032d3dc4296aedafd4b0994c64e");
+$paymentDetails = $BC->PaymentState("64157032d3dc4296aedafd4b0994c64e");
 ```
 
 > **Note**  
 > The PaymentState API is available in API version 4.
+> The v2 GetPaymentState API is now deprecated.
 
 Based on the payment status and parameters received in the response, the shop can now decide whether the payment was successful or not.
 

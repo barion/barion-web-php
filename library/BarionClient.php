@@ -53,6 +53,8 @@ use Barion\Models\Payment\{
     PreparePaymentResponseModel,
     FinishReservationRequestModel,
     FinishReservationResponseModel,
+    GetPaymentStateRequestModel,
+    GetPaymentStateResponseModel,
     CaptureRequestModel,
     CaptureResponseModel,
     CancelAuthorizationRequestModel,
@@ -82,6 +84,7 @@ class BarionClient
     public const BARION_WEB_URL_TEST               = "https://secure.test.barion.com/Pay";
 
     public const API_ENDPOINT_PREPAREPAYMENT       = "/Payment/Start";
+    public const API_ENDPOINT_GETPAYMENTSTATE      = "/Payment/GetPaymentState";
     public const API_ENDPOINT_PAYMENTSTATE         = "/Payment/{paymentId}/PaymentState";
     public const API_ENDPOINT_QRCODE               = "/QR/Generate";
     public const API_ENDPOINT_REFUND               = "/Payment/Refund";
@@ -314,11 +317,38 @@ class BarionClient
      * Get detailed information about a given payment
      *
      * @param string $paymentId The Id of the payment
+     * @return GetPaymentStateResponseModel Returns the response from the Barion API
+     * 
+     * @throws BarionException
+     * @deprecated
+     */
+    public function GetPaymentState($paymentId)
+    {
+        if ($this->APIVersion != 2) {
+            throw new BarionException("Incorrect API version for GetPaymentState endpoint! Current: {$this->APIVersion}. Expected: 2.");
+        }
+
+        $model = new GetPaymentStateRequestModel($paymentId);
+        $model->POSKey = $this->POSKey;
+        $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_GETPAYMENTSTATE;
+        $response = $this->GetFromBarion($url, $model);
+        $ps = new GetPaymentStateResponseModel();
+        if (!empty($response)) {
+            $json = json_decode($response, true);
+            $ps->fromJson($json);
+        }
+        return $ps;
+    }
+
+    /**
+     * Get detailed information about a given payment
+     *
+     * @param string $paymentId The Id of the payment
      * @return PaymentStateResponseModel Returns the response from the Barion API
      * 
      * @throws BarionException
      */
-    public function GetPaymentState($paymentId)
+    public function PaymentState($paymentId)
     {
         if ($this->APIVersion != 4) {
             throw new BarionException("Incorrect API version for PaymentState endpoint! Current: {$this->APIVersion}. Expected: 4.");
