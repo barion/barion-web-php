@@ -97,7 +97,7 @@ $environment = \Barion\Enumerations\BarionEnvironment::Prod;
 With these parameters you can create an instance of the **BarionClient** class:
 
 ```php
-$BC = new BarionClient(
+$BC = new \Barion\BarionClient(
     poskey: $myPosKey,
     version: $apiVersion,
     env: $environment,
@@ -121,7 +121,7 @@ To start an online payment, you have to create one or more **Payment Transaction
 First, create an **ItemModel**:
 
 ```php
-$item = new ItemModel();
+$item = new \Barion\Models\Common\ItemModel();
 $item->Name = "TestItem";
 $item->Description = "A test product";
 $item->Quantity = 1;
@@ -134,7 +134,7 @@ $item->SKU = "ITEM-01";
 Then create a **PaymentTransactionModel** and add the **Item** mentioned above to it:
 
 ```php
-$trans = new PaymentTransactionModel();
+$trans = new \Barion\Models\Payment\PaymentTransactionModel();
 $trans->POSTransactionId = "TRANS-01";
 $trans->Payee = "webshop@example.com";
 $trans->Total = 1000;
@@ -145,7 +145,7 @@ $trans->AddItem($item);
 Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactionModel** mentioned above to it:
 
 ```php
-$ppr = new PreparePaymentRequestModel();
+$ppr = new \Barion\Models\Payment\PreparePaymentRequestModel();
 $ppr->GuestCheckout = true;
 $ppr->PaymentType = \Barion\Enumerations\PaymentType::Immediate;
 $ppr->FundingSources = array(FundingSourceType::All);
