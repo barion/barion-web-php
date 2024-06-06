@@ -28,7 +28,7 @@ Please note that the use of End-Of-Support and End-Of-Life software during integ
 # Supported API versions
 
 | BarionClient method | Endpoint description                                        | Current API version |
-| ------------------- | ----------------------------------------------------------- | ------------------- |
+|---------------------|-------------------------------------------------------------|---------------------|
 | PreparePayment      | Prepares a new payment in the Barion system                 | **v2**              |
 | PaymentState        | Requests the full current state of a payment                | **v4**              |
 | FinishReservation   | Finishes a previously reserved Reservation payment          | **v2**              |
