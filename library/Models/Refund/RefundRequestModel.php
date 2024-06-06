@@ -57,7 +57,7 @@ class RefundRequestModel extends BaseRequestModel implements IPaymentTransaction
      */
     public function AddTransaction(TransactionToRefundModel $transaction) : void
     {
-        array_push($this->TransactionsToRefund, $transaction);
+        $this->TransactionsToRefund[] = $transaction;
     }
 
     /**

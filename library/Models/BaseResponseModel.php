@@ -64,7 +64,7 @@ class BaseResponseModel
                     foreach ($errors as $key => $error) {
                         $apiError = new ApiErrorModel();
                         $apiError->fromJson($error);
-                        array_push($this->Errors, $apiError);
+                        $this->Errors[] = $apiError;
                     }
                 }
             } else {
@@ -77,7 +77,7 @@ class BaseResponseModel
                     $internalError->Title = "Internal Server Error";
                 }
 
-                array_push($this->Errors, $internalError);
+                $this->Errors[] = $internalError;
             }
         }
     }

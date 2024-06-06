@@ -323,7 +323,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
                 foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionDetailModel();
                     $tr->fromJson($transaction);
-                    array_push($this->Transactions, $tr);
+                    $this->Transactions[] = $tr;
                 }
             }
 

@@ -57,7 +57,7 @@ class CaptureRequestModel extends BaseRequestModel implements IPaymentTransactio
         if ($this->Transactions == null) {
             $this->Transactions = array();
         }
-        array_push($this->Transactions, $transaction);
+        $this->Transactions[] = $transaction;
     }
 
     /** 

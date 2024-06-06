@@ -263,7 +263,7 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      */
     public function AddTransaction(PaymentTransactionModel $transaction) : void
     {
-        array_push($this->Transactions, $transaction);
+        $this->Transactions[] = $transaction;
     }
 
     /** 

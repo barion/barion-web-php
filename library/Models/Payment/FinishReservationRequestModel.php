@@ -57,7 +57,7 @@ class FinishReservationRequestModel extends BaseRequestModel implements IPayment
         if ($this->Transactions == null) {
             $this->Transactions = array();
         }
-        array_push($this->Transactions, $transaction);
+        $this->Transactions[] = $transaction;
     }
 
     /** 
