@@ -48,6 +48,7 @@ use Barion\Models\{
 use Barion\Models\Error\{
     ApiErrorModel
 };
+use CurlHandle;
 use Barion\Models\Payment\{
     PreparePaymentRequestModel,
     PreparePaymentResponseModel,
@@ -426,29 +427,8 @@ class BarionClient
             "User-Agent: $userAgent",
             "x-pos-key: $posKey"
         ]);
-        
-        if ($this->UseBundledRootCertificates) {
-            curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'SSL', 'cacert.pem')));
 
-            if ($this->Environment == BarionEnvironment::Test) {
-                curl_setopt($ch, CURLOPT_CAPATH, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'SSL', 'gd_bundle-g2.crt')));
-            }
-        }
-
-        $output = curl_exec($ch);
-        if ($err_nr = curl_errno($ch)) {
-            $error = new ApiErrorModel();
-            $error->ErrorCode = "CURL_ERROR";
-            $error->Title = "CURL Error #" . $err_nr;
-            $error->Description = curl_error($ch);
-
-            $response = new BaseResponseModel();
-            $response->Errors = array($error);
-            $output = json_encode($response);
-        }
-        curl_close($ch);
-
-        return $output;
+        return $this->PostWithCurl($ch);
     }
 
     /**
@@ -479,6 +459,15 @@ class BarionClient
             "x-pos-key: $posKey"
         ]);
 
+        return $this->PostWithCurl($ch);
+    }
+
+    /**
+     * @param CurlHandle|false $ch
+     * @return bool|string
+     */
+    private function PostWithCurl(CurlHandle|false $ch): string|bool
+    {
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'SSL', 'cacert.pem')));
 
