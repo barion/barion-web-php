@@ -15,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 namespace Barion\Interfaces;
- 
+
 /**
-* Interface describing a model that can contain payee transactions.
-*
-* @method void AddPayeeTransaction(object $transaction)
-* @method void AddPayeeTransaction(array $transactions)
-*/
+ * Interface describing a model that can contain payee transactions.
+ *
+ * @method void AddPayeeTransaction(object $transaction)
+ * @method void AddPayeeTransactions(array $transactions)
+ */
 interface IPayeeTransactionContainer
 {
-   
+
 }
