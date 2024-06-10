@@ -238,6 +238,10 @@ Here are a few common mistakes you might want to double-check for before reachin
 - Check every single component of your architecture for outdated software. Be sure to use the latest PHP, other runtimes, and even operating systems whenever possible. Trusted certificate chains may expire or get revoked, and Barion has no control over them. Using End-Of-Support and End-Of-Life software is highly discouraged.
 - As a last resort, you may try creating the `BarionClient` instance with `useBundledRootCerts` set to `true`. But be advised, there is no guarantee that the bundled certificate chain remains valid at all times.
 
+# Getting help
+
+If you have any questions or need help with usage of this plugin, [join our Discord server](https://discord.gg/Wq4g7TBACd) and ask the developer community!
+
 # License
 
 This repository is available under the [Apache 2.0 License](https://github.com/barion/barion-web-php/blob/master/LICENSE).
