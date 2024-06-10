@@ -165,7 +165,7 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
     public Currency $Currency;
 
     /** 
-     * Information about the card holder name in case of a 3D-Secure card payment process.
+     * Information about the cardholder name in case of a 3D-Secure card payment process.
      * 
      * @var ?string
      */
@@ -234,6 +234,14 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      * @param PaymentType $paymentType
      * @param bool $guestCheckoutAllowed
      * @param array<FundingSourceType> $allowedFundingSources
+     * @param string $paymentWindow
+     * @param UILocale $locale
+     * @param bool $initiateRecurrence
+     * @param string|null $recurrenceId
+     * @param string|null $redirectUrl
+     * @param string|null $callbackUrl
+     * @param Currency $currency
+     * @param string|null $traceId
      */
     function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate, bool $guestCheckoutAllowed = true, 
                             array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU, 

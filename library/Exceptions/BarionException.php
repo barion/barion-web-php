@@ -18,7 +18,9 @@
 
 namespace Barion\Exceptions;
 
-class BarionException extends \Exception
+use Exception;
+
+class BarionException extends Exception
 {
     /**
      * BarionException constructor.
@@ -26,7 +28,7 @@ class BarionException extends \Exception
      * @param string $message
      * @param int $errorCode
      */
-    public function __construct($message = "", $errorCode = 0) {
+    public function __construct(string $message = "", int $errorCode = 0) {
         parent::__construct($message, $errorCode);
     }
 }

@@ -115,7 +115,7 @@ class PaymentTransactionModel implements IItemContainer, IPayeeTransactionContai
      */
     public function AddPayeeTransaction(PayeeTransactionModel $transaction) : void
     {
-        $this->PayeeTransactions[] = $model;
+        $this->PayeeTransactions[] = $transaction;
     }
 
     /** 

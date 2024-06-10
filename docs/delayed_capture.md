@@ -44,8 +44,8 @@ $ppr->PayerHint = "user@example.com";
 $ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
 $ppr->Currency = Currency::EUR;
-$ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
-$ppr->CallbackUrl = "http://webshop.example.com/processpayment";
+$ppr->RedirectUrl = "https://webshop.example.com/afterpayment";
+$ppr->CallbackUrl = "https://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
 ```
 
@@ -104,8 +104,8 @@ PreparePaymentRequestModel Object
     [BillingAddress] =>
     [InitiateRecurrence] =>
     [RecurrenceId] =>
-    [RedirectUrl] => http://webshop.example.com/afterpayment
-    [CallbackUrl] => http://webshop.example.com/processpayment
+    [RedirectUrl] => https://webshop.example.com/afterpayment
+    [CallbackUrl] => https://webshop.example.com/processpayment
     [Currency] => EUR
     [CardHolderNameHint] =>
     [PayerPhoneNumber] =>
@@ -170,7 +170,7 @@ The **RequestSuccessful** parameter shows that the request was successfully sent
 
 ### 3\. Redirecting the user to the Barion Smart Gateway
 
-You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **Id** query string parameter.  
+You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **ID** query string parameter.  
 The complete redirect URL looks like this:
 
 ```
@@ -286,8 +286,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] =>
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )
@@ -430,8 +430,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )
@@ -440,7 +440,7 @@ PaymentStateResponseModel Object
 )
 ```
 
-As you can see, the payment status is now **Authorized**, which means the customer has paid the amount and it is blocked on the bank card.  
+As you can see, the payment status is now **Authorized**, which means the customer has paid the amount, and it is blocked on the bank card.  
 At this point, the webshop has one day to capture the amount, as it was previously indicated in the **DelayedCapturePeriod** parameter when the payment was started.
 
 The shop can capture the amount by constructing the appropriate **CaptureRequestModel** instance:
@@ -670,8 +670,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )

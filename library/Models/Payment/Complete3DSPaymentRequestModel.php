@@ -21,7 +21,7 @@ namespace Barion\Models\Payment;
 use Barion\Models\BaseRequestModel;
 
 /**
- * Model used to completed a previously off-site authenticated 3D-Secure card payment.
+ * Model used to complete a previously off-site authenticated 3D-Secure card payment.
  */
 class Complete3DSPaymentRequestModel extends BaseRequestModel
 {

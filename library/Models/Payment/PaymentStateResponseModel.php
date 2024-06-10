@@ -21,12 +21,8 @@ namespace Barion\Models\Payment;
 use Barion\Interfaces\IBarionModel;
 use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
-use Barion\Enumerations\{
-    PaymentType,
-    PaymentStatus,
-    Currency,
-    UILocale
-};
+use Barion\Models\Common\FundingInformationModel;
+use Barion\Enumerations\{FundingSourceType, PaymentType, PaymentStatus, Currency, UILocale};
 use Barion\Enumerations\ThreeDSecure\{
     RecurrenceType
 };
@@ -116,7 +112,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
     /** 
      * List of funding source types allowed to complete the payment.
      * 
-     * @var array<\Barion\Enumerations\FundingSourceType> 
+     * @var array<FundingSourceType>
     */
     public ?array $AllowedFundingSources;
     
@@ -243,7 +239,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
         $this->POSOwnerEmail = "";
         $this->POSOwnerCountry = "";
         $this->FundingSource = null;
-        $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
+        $this->FundingInformation = new FundingInformationModel();
         $this->AllowedFundingSources = array();
         $this->GuestCheckout = false;
         $this->CreatedAt = "";
@@ -283,7 +279,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
             
             $fundingInformation = JSON::getArray($json, 'FundingInformation');
             if(!empty($fundingInformation)) {
-                $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
+                $this->FundingInformation = new FundingInformationModel();
                 $this->FundingInformation->fromJson($fundingInformation);
             }
             

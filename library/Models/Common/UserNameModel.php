@@ -66,7 +66,7 @@ class UserNameModel implements IBarionModel
     /**
      * Build model from a JSON array.
      *  
-     * @param array<mixed> $json 
+     * @param array $json
      * @return void
     */
     public function fromJson(array $json) : void
@@ -91,7 +91,7 @@ class UserNameModel implements IBarionModel
         }
         
         if (!StringExtension::isNullOrEmpty($this->FirstName) || !StringExtension::isNullOrEmpty($this->LastName)) {
-            return trim(strval($this->FirstName) . " " . strval($this->LastName));
+            return trim($this->FirstName . " " . $this->LastName);
         }
         
         if (!StringExtension::isNullOrEmpty($this->LoginName)) {

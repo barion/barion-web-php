@@ -49,12 +49,12 @@ class UserModel implements IBarionModel
     /**
      * Build model from a JSON array.
      *  
-     * @param array<mixed> $json 
+     * @param array $json
      * @return void
     */
     public function fromJson(array $json) : void
     {
-        if ($json !== null && !empty($json)) {
+        if (!empty($json)) {
             $this->Email = JSON::getString($json, 'Email');
             $userNameData = JSON::getArray($json, 'Name');
             if ($userNameData !== null) {

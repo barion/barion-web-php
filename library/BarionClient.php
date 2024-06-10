@@ -111,6 +111,7 @@ class BarionClient
      * @param int $version The version of the Barion API
      * @param BarionEnvironment $env The environment to connect to
      * @param bool $useBundledRootCerts Set this to true to use the library-bundled root certificate chain for SSL (only recommended as a last resort, if you are having connection problems)
+     * @throws BarionException
      */
     function __construct(string $poskey, int $version = 2, BarionEnvironment $env = BarionEnvironment::Prod, bool $useBundledRootCerts = false)
     {
@@ -151,7 +152,8 @@ class BarionClient
      * @param int $version The version of the Barion API
      * @return void
      */
-    public function SetVersion(int $version) {
+    public function SetVersion(int $version): void
+    {
         $this->APIVersion = $version;
     }
 
@@ -166,10 +168,10 @@ class BarionClient
      * 
      * @throws BarionException
      */
-    public function PreparePayment(PreparePaymentRequestModel $model)
+    public function PreparePayment(PreparePaymentRequestModel $model): PreparePaymentResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for Payment Prepare endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for Payment Prepare endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model->POSKey = $this->POSKey;
@@ -195,10 +197,10 @@ class BarionClient
      * 
      * @throws BarionException
      */
-    public function FinishReservation(FinishReservationRequestModel $model)
+    public function FinishReservation(FinishReservationRequestModel $model): FinishReservationResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for Finish Reservation endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for Finish Reservation endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model->POSKey = $this->POSKey;
@@ -221,10 +223,10 @@ class BarionClient
      * 
      * @throws BarionException
      */
-    public function Capture(CaptureRequestModel $model)
+    public function Capture(CaptureRequestModel $model): CaptureResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for Capture endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for Capture endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model->POSKey = $this->POSKey;
@@ -247,10 +249,10 @@ class BarionClient
      * 
      * @throws BarionException
      */
-    public function CancelAuthorization(CancelAuthorizationRequestModel $model)
+    public function CancelAuthorization(CancelAuthorizationRequestModel $model): CancelAuthorizationResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for Cancel Authorization endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for Cancel Authorization endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model->POSKey = $this->POSKey;
@@ -272,10 +274,10 @@ class BarionClient
      * 
      * @throws BarionException
      */
-    public function Complete3DSPayment(Complete3DSPaymentRequestModel $model)
+    public function Complete3DSPayment(Complete3DSPaymentRequestModel $model): Complete3DSPaymentResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for 3DS Complete endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for 3DS Complete endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model->POSKey = $this->POSKey;
@@ -297,10 +299,10 @@ class BarionClient
      * 
      * @throws BarionException
      */
-    public function RefundPayment(RefundRequestModel $model)
+    public function RefundPayment(RefundRequestModel $model): RefundResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for Refund endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for Refund endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model->POSKey = $this->POSKey;
@@ -317,16 +319,16 @@ class BarionClient
     /**
      * Get detailed information about a given payment
      *
-     * @param string $paymentId The Id of the payment
+     * @param string $paymentId The ID of the payment
      * @return GetPaymentStateResponseModel Returns the response from the Barion API
      * 
      * @throws BarionException
      * @deprecated
      */
-    public function GetPaymentState($paymentId)
+    public function GetPaymentState(string $paymentId): GetPaymentStateResponseModel
     {
         if ($this->APIVersion != 2) {
-            throw new BarionException("Incorrect API version for GetPaymentState endpoint! Current: {$this->APIVersion}. Expected: 2.");
+            throw new BarionException("Incorrect API version for GetPaymentState endpoint! Current: $this->APIVersion. Expected: 2.");
         }
 
         $model = new GetPaymentStateRequestModel($paymentId);
@@ -344,15 +346,15 @@ class BarionClient
     /**
      * Get detailed information about a given payment
      *
-     * @param string $paymentId The Id of the payment
+     * @param string $paymentId The ID of the payment
      * @return PaymentStateResponseModel Returns the response from the Barion API
      * 
      * @throws BarionException
      */
-    public function PaymentState($paymentId)
+    public function PaymentState(string $paymentId): PaymentStateResponseModel
     {
         if ($this->APIVersion != 4) {
-            throw new BarionException("Incorrect API version for PaymentState endpoint! Current: {$this->APIVersion}. Expected: 4.");
+            throw new BarionException("Incorrect API version for PaymentState endpoint! Current: $this->APIVersion. Expected: 4.");
         }
 
         $model = new PaymentStateRequestModel($paymentId);
@@ -373,27 +375,26 @@ class BarionClient
      * NOTE: This call is deprecated and is only working with username & password authentication.
      * If no username and/or password was set, this method returns NULL.
      *
-     * @deprecated
      * @param string $username The username of the shop's owner
      * @param string $password The password of the shop's owner
-     * @param string $paymentId The Id of the payment
+     * @param string $paymentId The ID of the payment
      * @param QRCodeSize $qrCodeSize The desired size of the QR image
-     * @return mixed|string Returns the response of the QR request
-     * 
+     * @return string|bool Returns the response of the QR request
+     *
      * @throws BarionException
+     *@deprecated
      */
-    public function GetPaymentQRImage($username, $password, $paymentId, $qrCodeSize = QRCodeSize::Large)
+    public function GetPaymentQRImage(string $username, string $password, string $paymentId, QRCodeSize $qrCodeSize = QRCodeSize::Large): string|bool
     {
         if ($this->APIVersion != 1) {
-            throw new BarionException("Incorrect API version for QR Code endpoint! Current: {$this->APIVersion}. Expected: 1.");
+            throw new BarionException("Incorrect API version for QR Code endpoint! Current: $this->APIVersion. Expected: 1.");
         }
 
         $model = new PaymentQRRequestModel($username, $password, $paymentId);
         $model->POSKey = $this->POSKey;
         $model->Size = $qrCodeSize;
         $url = $this->BARION_API_URL . BarionClient::API_ENDPOINT_QRCODE;
-        $response = $this->GetFromBarion($url, $model);
-        return $response;
+        return $this->GetFromBarion($url, $model);
     }
 
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
@@ -403,9 +404,9 @@ class BarionClient
      *
      * @param string $url The URL of the API endpoint
      * @param object $data The data object to be sent to the endpoint
-     * @return mixed|string Returns the response of the API
+     * @return string|bool Returns the response of the API
      */
-    private function PostToBarion($url, $data)
+    private function PostToBarion(string $url, object $data): string|bool
     {
         $ch = curl_init();
         $posKey = $this->POSKey;
@@ -436,9 +437,9 @@ class BarionClient
      *
      * @param string $url The URL of the API endpoint
      * @param object $data The data object to be sent to the endpoint
-     * @return mixed|string Returns the response of the API
+     * @return string|bool Returns the response of the API
      */
-    private function GetFromBarion($url, $data)
+    private function GetFromBarion(string $url, object $data): string|bool
     {
         $ch = curl_init();
         $posKey = $this->POSKey;

@@ -26,7 +26,7 @@ class StringExtension {
      * @param ?string $string
      * @return bool
      */
-    public static function isNullOrEmpty($string) : bool
+    public static function isNullOrEmpty(?string $string) : bool
     {
         return ($string === null || trim($string) === '');
     }

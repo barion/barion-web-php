@@ -28,7 +28,7 @@ use Barion\Enumerations\QRCodeSize;
 class PaymentQRRequestModel extends BaseRequestModel
 {
     /** 
-     * The Barion user name (e-mail address) of the caller.
+     * The Barion username (e-mail address) of the caller.
      * 
      * @var string
      */

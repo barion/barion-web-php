@@ -140,8 +140,8 @@ class TransactionDetailModel implements IBarionModel
         $this->TransactionTime = "";
         $this->Total = 0.0;
         $this->Currency = Currency::HUF;
-        $this->Payer = new \Barion\Models\Common\UserModel();
-        $this->Payee = new \Barion\Models\Common\UserModel();
+        $this->Payer = new UserModel();
+        $this->Payee = new UserModel();
         $this->Comment = null;
         $this->Status = TransactionStatus::Unknown;
         $this->TransactionType = TransactionType::Unspecified;
