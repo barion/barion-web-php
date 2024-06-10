@@ -120,8 +120,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )
@@ -367,8 +367,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )

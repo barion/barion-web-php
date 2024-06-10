@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -165,7 +165,7 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
     public Currency $Currency;
 
     /** 
-     * Information about the card holder name in case of a 3D-Secure card payment process.
+     * Information about the cardholder name in case of a 3D-Secure card payment process.
      * 
      * @var ?string
      */
@@ -234,6 +234,14 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      * @param PaymentType $paymentType
      * @param bool $guestCheckoutAllowed
      * @param array<FundingSourceType> $allowedFundingSources
+     * @param string $paymentWindow
+     * @param UILocale $locale
+     * @param bool $initiateRecurrence
+     * @param string|null $recurrenceId
+     * @param string|null $redirectUrl
+     * @param string|null $callbackUrl
+     * @param Currency $currency
+     * @param string|null $traceId
      */
     function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate, bool $guestCheckoutAllowed = true, 
                             array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU, 
@@ -263,7 +271,7 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      */
     public function AddTransaction(PaymentTransactionModel $transaction) : void
     {
-        array_push($this->Transactions, $transaction);
+        $this->Transactions[] = $transaction;
     }
 
     /** 

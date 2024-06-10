@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,15 +24,16 @@ enum TransactionType : string
     case Shop = "Shop";
     case TransferToExistingUser = "TransferToExistingUser";
     case TransferToTechnicalAccount = "TransferToTechnicalAccount";
-    case EMoneyTransferFromTechnicalAccount = "EMoneyTransferFromTechnicalAccount";
-    case EMoneyStornoFromTechnicalAccount = "EMoneyStornoFromTechnicalAccount";
-    case DomesticBankTansferWithdrawFee = "DomesticBankTansferWithdrawFee";
-    case AccountClosureFee = "AccountClosureFee";
+    case TransferFromTechnicalAccount = "TransferFromTechnicalAccount";
+    case Storno = "Storno";
+    case WithdrawFee = "WithdrawFee";
+    case ClosureFee = "ClosureFee";
+    case StornoBankTransferFee = "StornoBankTransferFee";
+    case CashDepositFee = "CashDepositFee";
+    case ForeignDepositFee = "ForeignDepositFee";
+    case ForeignWithdrawFee = "ForeignWithdrawFee";
+    case ForeignClosureFee = "ForeignClosureFee";
     case BankTransferWithdrawFeeStorno = "BankTransferWithdrawFeeStorno";
-    case CashTopUpFee = "CashTopUpFee";
-    case ForeignBankTransferTopUpFee = "ForeignBankTransferTopUpFee";
-    case ForeignBankTransferWithdrawFee = "ForeignBankTransferWithdrawFee";
-    case ForeignAccountClosureFee = "ForeignAccountClosureFee";
     case Reserve = "Reserve";
     case StornoReserve = "StornoReserve";
     case CardTopUpFee = "CardTopUpFee";
@@ -40,18 +41,18 @@ enum TransactionType : string
     case GatewayFee = "GatewayFee";
     case CardProcessingFeeStorno = "CardProcessingFeeStorno";
     case Unspecified = "Unspecified";
-    case DomesticBankTransferTopUp = "DomesticBankTransferTopUp";
-    case DomesticBankTransferWithdraw = "DomesticBankTransferWithdraw";
-    case CashTopUp = "CashTopUp";
-    case ForeignBankTransferTopUp = "ForeignBankTransferTopUp";
-    case ForeignBankTransferTopUpProcessingFee = "ForeignBankTransferTopUpProcessingFee";
-    case CashTopUpProcessingFee = "CashTopUpProcessingFee";
-    case CustodyMonthlyFee = "CustodyMonthlyFee";
-    case ForeignBankTransferWithdraw = "ForeignBankTransferWithdraw";
-    case IncomingBankTransferReversion = "IncomingBankTransferReversion";
+    case In = "In";
+    case Withdraw = "Withdraw";
+    case CashDeposit = "CashDeposit";
+    case ForeignDeposit = "ForeignDeposit";
+    case ForeignBankTransferFee = "ForeignBankTransferFee";
+    case CashBankTransferFee = "CashBankTransferFee";
+    case CustodyFee = "CustodyFee";
+    case ForeignWithdraw = "ForeignWithdraw";
+    case TransferBack = "TransferBack";
     case CardTopUp = "CardTopUp";
-    case CardAcquiringFee = "CardAcquiringFee";
-    case CardAcquiringFeeStorno = "CardAcquiringFeeStorno";
+    case CardTopUpBankFee = "CardTopUpBankFee";
+    case EmoneySubstractionRestore = "EmoneySubstractionRestore";
     case CardPayment = "CardPayment";
     case Refund = "Refund";
     case RefundToBankCard = "RefundToBankCard";

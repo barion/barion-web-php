@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -66,7 +66,7 @@ class UserNameModel implements IBarionModel
     /**
      * Build model from a JSON array.
      *  
-     * @param array<mixed> $json 
+     * @param array $json
      * @return void
     */
     public function fromJson(array $json) : void
@@ -91,7 +91,7 @@ class UserNameModel implements IBarionModel
         }
         
         if (!StringExtension::isNullOrEmpty($this->FirstName) || !StringExtension::isNullOrEmpty($this->LastName)) {
-            return trim(strval($this->FirstName) . " " . strval($this->LastName));
+            return trim($this->FirstName . " " . $this->LastName);
         }
         
         if (!StringExtension::isNullOrEmpty($this->LoginName)) {

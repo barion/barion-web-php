@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -64,7 +64,7 @@ class BaseResponseModel
                     foreach ($errors as $key => $error) {
                         $apiError = new ApiErrorModel();
                         $apiError->fromJson($error);
-                        array_push($this->Errors, $apiError);
+                        $this->Errors[] = $apiError;
                     }
                 }
             } else {
@@ -77,7 +77,7 @@ class BaseResponseModel
                     $internalError->Title = "Internal Server Error";
                 }
 
-                array_push($this->Errors, $internalError);
+                $this->Errors[] = $internalError;
             }
         }
     }

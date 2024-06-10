@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,9 @@
 
 namespace Barion\Exceptions;
 
-class BarionException extends \Exception
+use Exception;
+
+class BarionException extends Exception
 {
     /**
      * BarionException constructor.
@@ -26,7 +28,7 @@ class BarionException extends \Exception
      * @param string $message
      * @param int $errorCode
      */
-    public function __construct($message = "", $errorCode = 0) {
+    public function __construct(string $message = "", int $errorCode = 0) {
         parent::__construct($message, $errorCode);
     }
 }

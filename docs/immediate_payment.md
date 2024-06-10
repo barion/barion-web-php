@@ -43,8 +43,8 @@ $ppr->PayerHint = "user@example.com";
 $ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
 $ppr->Currency = Currency::HUF;
-$ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
-$ppr->CallbackUrl = "http://webshop.example.com/processpayment";
+$ppr->RedirectUrl = "https://webshop.example.com/afterpayment";
+$ppr->CallbackUrl = "https://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
 ```
 
@@ -94,8 +94,8 @@ PreparePaymentRequestModel Object
     [OrderNumber] => ORDER-0001
     [InitiateRecurrence] =>
     [RecurrenceId] =>
-    [RedirectUrl] => http://webshop.example.com/afterpayment
-    [CallbackUrl] => http://webshop.example.com/processpayments
+    [RedirectUrl] => https://webshop.example.com/afterpayment
+    [CallbackUrl] => https://webshop.example.com/processpayments
     [POSKey] =>
 )
 ```
@@ -166,7 +166,7 @@ The **RequestSuccessful** parameter shows that the request was successfully sent
 
 ### 3\. Redirecting the user to the Barion Smart Gateway
 
-You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **Id** query string parameter.  
+You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **ID** query string parameter.  
 The complete redirect URL looks like this:
 
 ```

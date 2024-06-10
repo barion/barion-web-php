@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -49,12 +49,12 @@ class UserModel implements IBarionModel
     /**
      * Build model from a JSON array.
      *  
-     * @param array<mixed> $json 
+     * @param array $json
      * @return void
     */
     public function fromJson(array $json) : void
     {
-        if ($json !== null && !empty($json)) {
+        if (!empty($json)) {
             $this->Email = JSON::getString($json, 'Email');
             $userNameData = JSON::getArray($json, 'Name');
             if ($userNameData !== null) {

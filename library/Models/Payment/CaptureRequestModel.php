@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -57,7 +57,7 @@ class CaptureRequestModel extends BaseRequestModel implements IPaymentTransactio
         if ($this->Transactions == null) {
             $this->Transactions = array();
         }
-        array_push($this->Transactions, $transaction);
+        $this->Transactions[] = $transaction;
     }
 
     /** 

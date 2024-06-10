@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ class TransactionToFinishModel implements IItemContainer, IPayeeTransactionConta
      */
     public function AddItem(ItemModel $item) : void
     {
-        array_push($this->Items, $item);
+        $this->Items[] = $item;
     }
 
     /** 
@@ -102,12 +102,12 @@ class TransactionToFinishModel implements IItemContainer, IPayeeTransactionConta
     /**
      * Add a single payee transaction to the transaction.
      *
-     * @param PayeeTransactionToFinishModel $model Model describing the payee transaction to be finished.
+     * @param PayeeTransactionToFinishModel $transaction Model describing the payee transaction to be finished.
      * @return void
      */  
-    public function AddPayeeTransaction(PayeeTransactionToFinishModel $model) : void
+    public function AddPayeeTransaction(PayeeTransactionToFinishModel $transaction) : void
     {
-        array_push($this->PayeeTransactions, $model);
+        $this->PayeeTransactions[] = $transaction;
     }
 
     

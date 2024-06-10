@@ -54,8 +54,8 @@ $ppr->PayerHint = "user@example.com";
 $ppr->Locale = UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
 $ppr->Currency = Currency::EUR;
-$ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
-$ppr->CallbackUrl = "http://webshop.example.com/processpayment";
+$ppr->RedirectUrl = "https://webshop.example.com/afterpayment";
+$ppr->CallbackUrl = "https://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
 ```
 
@@ -125,8 +125,8 @@ PreparePaymentRequestModel Object
     [BillingAddress] =>
     [InitiateRecurrence] =>
     [RecurrenceId] =>
-    [RedirectUrl] => http://webshop.example.com/afterpayment
-    [CallbackUrl] => http://webshop.example.com/processpayment
+    [RedirectUrl] => https://webshop.example.com/afterpayment
+    [CallbackUrl] => https://webshop.example.com/processpayment
     [Currency] => EUR
     [CardHolderNameHint] =>
     [PayerPhoneNumber] =>
@@ -200,7 +200,7 @@ The **RequestSuccessful** parameter shows that the request was successfully sent
 
 ### 3\. Redirecting the user to the Barion Smart Gateway
 
-You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **Id** query string parameter.  
+You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **ID** query string parameter.  
 The complete redirect URL looks like this:
 
 ```
@@ -358,8 +358,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] =>
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
     [Errors] => Array
         (
         )
@@ -498,8 +498,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
     [Errors] => Array
         (
         )
@@ -813,8 +813,8 @@ PaymentStateResponseModel Object
 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=d1d1c3eebab04c56b3c3b30c70f2d278
     [Errors] => Array
         (
         )

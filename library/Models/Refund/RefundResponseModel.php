@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,7 +62,7 @@ class RefundResponseModel extends BaseResponseModel implements IBarionModel
                 foreach ($refundedTransactions as $key => $refundedTransaction) {
                     $tr = new RefundedTransactionModel();
                     $tr->fromJson($refundedTransaction);
-                    array_push($this->RefundedTransactions, $tr);
+                    $this->RefundedTransactions[] = $tr;
                 }
             }
         }

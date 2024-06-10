@@ -28,7 +28,7 @@ Please note that the use of End-Of-Support and End-Of-Life software during integ
 # Supported API versions
 
 | BarionClient method | Endpoint description                                        | Current API version |
-| ------------------- | ----------------------------------------------------------- | ------------------- |
+|---------------------|-------------------------------------------------------------|---------------------|
 | PreparePayment      | Prepares a new payment in the Barion system                 | **v2**              |
 | PaymentState        | Requests the full current state of a payment                | **v4**              |
 | FinishReservation   | Finishes a previously reserved Reservation payment          | **v2**              |
@@ -155,8 +155,8 @@ $ppr->PayerHint = "user@example.com";
 $ppr->Locale = \Barion\Enumerations\UILocale::EN;
 $ppr->OrderNumber = "ORDER-0001";
 $ppr->Currency = \Barion\Enumerations\Currency::HUF;
-$ppr->RedirectUrl = "http://webshop.example.com/afterpayment";
-$ppr->CallbackUrl = "http://webshop.example.com/processpayment";
+$ppr->RedirectUrl = "https://webshop.example.com/afterpayment";
+$ppr->CallbackUrl = "https://webshop.example.com/processpayment";
 $ppr->AddTransaction($trans);
 ```
 
@@ -178,7 +178,7 @@ The `$myPayment` variable holds the response received from the Barion API, which
 
 ### 1.3. Redirecting the user to the Barion Smart Gateway
 
-You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **Id** query string parameter.  
+You can use the **PaymentId** value in the response to redirect the user to the Barion Smart Gateway. You have to supply this identifier in the **ID** query string parameter.  
 The complete redirect URL looks like this:
 
 ```
@@ -221,7 +221,7 @@ Please refer to the official [Barion API Documentation](https://docs.barion.com)
 
 # Basic troubleshooting
 
-Here are a few common mistakes you might want to double check for before reaching out to our support:
+Here are a few common mistakes you might want to double-check for before reaching out to our support:
 
 **1\. I get a "User authentication failed" error when sending my request**
 
@@ -234,7 +234,7 @@ Here are a few common mistakes you might want to double check for before reachin
 
 **3\. I get SSL errors about invalid certificates when trying to call the API**
 
-- Be sure to double check your server certificates and the issuer's trusted status. Always renew your server certificates in time to avoid loss of service.
+- Be sure to double-check your server certificates and the issuer's trusted status. Always renew your server certificates in time to avoid loss of service.
 - Check every single component of your architecture for outdated software. Be sure to use the latest PHP, other runtimes, and even operating systems whenever possible. Trusted certificate chains may expire or get revoked, and Barion has no control over them. Using End-Of-Support and End-Of-Life software is highly discouraged.
 - As a last resort, you may try creating the `BarionClient` instance with `useBundledRootCerts` set to `true`. But be advised, there is no guarantee that the bundled certificate chain remains valid at all times.
 

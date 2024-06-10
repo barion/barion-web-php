@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ class TransactionToCaptureModel implements IItemContainer, IPayeeTransactionCont
      */
     public function AddItem(ItemModel $item) : void
     {
-        array_push($this->Items, $item);
+        $this->Items[] = $item;
     }
 
     /** 
@@ -102,12 +102,12 @@ class TransactionToCaptureModel implements IItemContainer, IPayeeTransactionCont
     /**
      * Add a single payee transaction to the transaction.
      *
-     * @param PayeeTransactionToCaptureModel $model Model describing the payee transaction to be captured.
+     * @param PayeeTransactionToCaptureModel $transaction Model describing the payee transaction to be captured.
      * @return void
      */    
-    public function AddPayeeTransaction(PayeeTransactionToCaptureModel $model) : void
+    public function AddPayeeTransaction(PayeeTransactionToCaptureModel $transaction) : void
     {
-        array_push($this->PayeeTransactions, $model);
+        $this->PayeeTransactions[] = $transaction;
     }
 
     /** 

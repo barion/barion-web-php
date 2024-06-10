@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,12 +21,8 @@ namespace Barion\Models\Payment;
 use Barion\Interfaces\IBarionModel;
 use Barion\Models\BaseResponseModel;
 use Barion\Helpers\JSON;
-use Barion\Enumerations\{
-    PaymentType,
-    PaymentStatus,
-    Currency,
-    UILocale
-};
+use Barion\Models\Common\FundingInformationModel;
+use Barion\Enumerations\{FundingSourceType, PaymentType, PaymentStatus, Currency, UILocale};
 use Barion\Enumerations\ThreeDSecure\{
     RecurrenceType
 };
@@ -116,7 +112,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
     /** 
      * List of funding source types allowed to complete the payment.
      * 
-     * @var array<\Barion\Enumerations\FundingSourceType> 
+     * @var array<FundingSourceType>
     */
     public ?array $AllowedFundingSources;
     
@@ -243,7 +239,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
         $this->POSOwnerEmail = "";
         $this->POSOwnerCountry = "";
         $this->FundingSource = null;
-        $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
+        $this->FundingInformation = new FundingInformationModel();
         $this->AllowedFundingSources = array();
         $this->GuestCheckout = false;
         $this->CreatedAt = "";
@@ -283,7 +279,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
             
             $fundingInformation = JSON::getArray($json, 'FundingInformation');
             if(!empty($fundingInformation)) {
-                $this->FundingInformation = new \Barion\Models\Common\FundingInformationModel();
+                $this->FundingInformation = new FundingInformationModel();
                 $this->FundingInformation->fromJson($fundingInformation);
             }
             
@@ -323,7 +319,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
                 foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionDetailModel();
                     $tr->fromJson($transaction);
-                    array_push($this->Transactions, $tr);
+                    $this->Transactions[] = $tr;
                 }
             }
 

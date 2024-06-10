@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2016 Barion Payment Inc. All Rights Reserved.
+ * Copyright 2024 Barion Payment Inc. All Rights Reserved.
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,16 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 namespace Barion\Interfaces;
- 
+
 /**
-* Interface describing a model that can contain payee transactions.
-*
-* @method void AddPayeeTransaction(object $transaction)
-* @method void AddPayeeTransaction(array $transactions)
-*/
+ * Interface describing a model that can contain payee transactions.
+ *
+ * @method void AddPayeeTransaction(object $transaction)
+ * @method void AddPayeeTransactions(array $transactions)
+ */
 interface IPayeeTransactionContainer
 {
-   
+
 }
