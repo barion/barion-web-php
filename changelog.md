@@ -1,6 +1,6 @@
 # Changelog
 
-### v2.0.0 2024-XX-XX
+### v2.0.0 2024-07-16
 
 - Minimum supported PHP version increased to 8.2+
 - Fully supported Composer-based autoloading
