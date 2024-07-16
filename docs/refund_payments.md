@@ -38,7 +38,7 @@ PaymentStateResponseModel Object
     [CreatedAt] => 2019-08-12T05:07:57.754Z
     [ValidUntil] => 2019-08-12T05:37:57.754Z
     [CompletedAt] => 2019-08-12T05:17:55.824Z
-    [ReservedUntil] => 
+    [ReservedUntil] =>
     [Total] => 9.99
     [Currency] => EUR
     [Transactions] => Array
@@ -52,13 +52,13 @@ PaymentStateResponseModel Object
                     [Currency] => EUR
                     [Payer] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => user@example.com
                         )
 
                     [Payee] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
@@ -80,7 +80,7 @@ PaymentStateResponseModel Object
 
                         )
 
-                    [RelatedId] => 
+                    [RelatedId] =>
                     [POSId] => 56c5aa0ed69b40a39d89756817f83838
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
@@ -88,41 +88,40 @@ PaymentStateResponseModel Object
             [1] => TransactionDetailModel Object
                 (
                     [TransactionId] => 0d5645a581654b8b940ddcefff41ce73
-                    [POSTransactionId] => 
+                    [POSTransactionId] =>
                     [TransactionTime] => 2019-08-12T05:17:55.565Z
                     [Total] => 0.1
                     [Currency] => EUR
                     [Payer] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
                     [Payee] => UserModel Object
                         (
-                            [Name] => 
-                            [Email] => 
+                            [Name] =>
+                            [Email] =>
                         )
 
-                    [Comment] => 
+                    [Comment] =>
                     [Status] => Reserved
                     [TransactionType] => GatewayFee
                     [Items] => Array
                         (
                         )
 
-                    [RelatedId] => 
+                    [RelatedId] =>
                     [POSId] => 56c5aa0ed69b40a39d89756817f83838
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
 
         )
 
-    [RecurrenceResult] => 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )
@@ -135,7 +134,7 @@ Unfortunately, the product has been damaged during shipping, so the customer dem
 
 The webshop can easily manage this with a simple API call.
 
-### 1. Creating the request object
+### 1\. Creating the request object
 
 First, construct the **TransactionToRefundModel** accordingly:
 
@@ -172,13 +171,14 @@ RefundRequestModel Object
 
         )
 
-    [POSKey] => 
+    [POSKey] =>
 )
 ```
-**Note:** the secret *POSKey* used for authentication is not part of the request object.
+
+**Note:** the secret _POSKey_ used for authentication is not part of the request object.  
 The Barion client class automatically injects this value into every request sent to the Barion API.
 
-### 2. Calling the Barion API
+### 2\. Calling the Barion API
 
 Now you can call the **RefundPayment** method of the Barion client with the request model you just created:
 
@@ -214,7 +214,8 @@ RefundResponseModel Object
     [RequestSuccessful] => 1
 )
 ```
-The **RequestSuccessful** parameter shows that the request was successfully sent, and the response was successfully received. 
+
+The **RequestSuccessful** parameter shows that the request was successfully sent, and the response was successfully received.  
 As you can see, the **RefundedTransactions** array contains the refund transaction, with its status being **Succeeded**. This means the amount has been refunded successfully, and the customer got their money back.
 
 If we now request the payment details again, we can see that the structure changed slightly:
@@ -253,7 +254,7 @@ PaymentStateResponseModel Object
     [CreatedAt] => 2019-08-12T05:07:57.754Z
     [ValidUntil] => 2019-08-12T05:37:57.754Z
     [CompletedAt] => 2019-08-12T05:17:55.824Z
-    [ReservedUntil] => 
+    [ReservedUntil] =>
     [Total] => 0
     [Currency] => EUR
     [Transactions] => Array
@@ -267,13 +268,13 @@ PaymentStateResponseModel Object
                     [Currency] => EUR
                     [Payer] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => user@example.com
                         )
 
                     [Payee] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
@@ -295,7 +296,7 @@ PaymentStateResponseModel Object
 
                         )
 
-                    [RelatedId] => 
+                    [RelatedId] =>
                     [POSId] => 56c5aa0ed69b40a39d89756817f83838
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
@@ -303,30 +304,30 @@ PaymentStateResponseModel Object
             [1] => TransactionDetailModel Object
                 (
                     [TransactionId] => 0d5645a581654b8b940ddcefff41ce73
-                    [POSTransactionId] => 
+                    [POSTransactionId] =>
                     [TransactionTime] => 2019-08-12T05:17:55.565Z
                     [Total] => 0.1
                     [Currency] => EUR
                     [Payer] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
                     [Payee] => UserModel Object
                         (
-                            [Name] => 
-                            [Email] => 
+                            [Name] =>
+                            [Email] =>
                         )
 
-                    [Comment] => 
+                    [Comment] =>
                     [Status] => Reserved
                     [TransactionType] => GatewayFee
                     [Items] => Array
                         (
                         )
 
-                    [RelatedId] => 
+                    [RelatedId] =>
                     [POSId] => 56c5aa0ed69b40a39d89756817f83838
                     [PaymentId] => 6faf16e245e44bc0b60aebad6aeb9ec2
                 )
@@ -340,13 +341,13 @@ PaymentStateResponseModel Object
                     [Currency] => EUR
                     [Payer] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => barionaccount@demo-merchant.shop
                         )
 
                     [Payee] => UserModel Object
                         (
-                            [Name] => 
+                            [Name] =>
                             [Email] => user@example.com
                         )
 
@@ -364,11 +365,10 @@ PaymentStateResponseModel Object
 
         )
 
-    [RecurrenceResult] => 
     [SuggestedLocale] => en-US
     [FraudRiskScore] => 0
-    [RedirectUrl] => http://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
-    [CallbackUrl] => http://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [RedirectUrl] => https://webshop.example.com/afterpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
+    [CallbackUrl] => https://webshop.example.com/processpayment?paymentId=6faf16e245e44bc0b60aebad6aeb9ec2
     [Errors] => Array
         (
         )
@@ -377,5 +377,5 @@ PaymentStateResponseModel Object
 )
 ```
 
-The payment **Total** now shows 0 because the refund took place, and the webshop refunded the complete amount.
+The payment **Total** now shows 0 because the refund took place, and the webshop refunded the complete amount.  
 In the **Transactions** array, a new transaction appeared, which is the refund the webshop just did. The **RelatedId** property of the refund transaction contains the identifier of the initial transaction in the payment that has been refunded.

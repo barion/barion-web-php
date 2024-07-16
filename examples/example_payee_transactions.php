@@ -5,16 +5,41 @@
 *  
 *  Starting an immediate payment with two payee transactions
 *  
-*  � 2015 Barion Payment Inc.
+*  © 2024 Barion Payment Inc.
 */
 
 require_once '../library/BarionClient.php';
+
+use Barion\BarionClient;
+use Barion\Enumerations\{
+    BarionEnvironment,
+    PaymentType,
+    FundingSourceType,
+    UILocale,
+    Currency
+};
+use Barion\Models\Common\{
+    ItemModel
+};
+use Barion\Models\ThreeDSecure\{
+    ShippingAddressModel
+};
+use Barion\Models\Payment\{
+    PaymentTransactionModel,
+    PreparePaymentRequestModel,
+    PayeeTransactionModel
+};
 
 $myPosKey = "11111111-1111-1111-1111-111111111111"; // <-- Replace this with your POSKey!
 $myEmailAddress = "mywebshop@example.com"; // <-- Replace this with your e-mail address in Barion!
 
 // Barion Client that connects to the TEST environment
-$BC = new BarionClient($myPosKey, 2, BarionEnvironment::Test);
+$BC = new BarionClient(
+    poskey: $myPosKey, 
+    version: 2, 
+    env: BarionEnvironment::Test,
+    useBundledRootCerts: false
+);
 
 // create the item model
 $item = new ItemModel();
@@ -70,6 +95,7 @@ $psr->PayerHint = "user@example.com"; // no more than 256 characters
 $psr->Locale = UILocale::EN; // the UI language will be English 
 $psr->OrderNumber = "ORDER-0001"; // no more than 100 characters
 $psr->ShippingAddress = $shippingAddress;
+$psr->Currency = Currency::HUF;
 $psr->AddTransaction($trans); // add the transaction to the payment
 
 // send the request
@@ -77,5 +103,5 @@ $myPayment = $BC->PreparePayment($psr);
 
 if ($myPayment->RequestSuccessful === true) {
   // redirect the user to the Barion Smart Gateway
-  header("Location: " . BARION_WEB_URL_TEST . "?id=" . $myPayment->PaymentId);
+  header("Location: " . $BC::BARION_WEB_URL_TEST . "?id=" . $myPayment->PaymentId);
 }

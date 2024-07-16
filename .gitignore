@@ -3,3 +3,6 @@
 
 /_ReSharper.Caches
 /.vs
+
+/vendor/
+composer.lock
