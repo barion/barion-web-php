@@ -24,5 +24,5 @@ enum RecurrenceResult : string
     case Successful = "Successful";
     case Failed = "Failed";
     case NotFound = "NotFound";
-    case ThreeDSAuthenticationRequired = 'ThreeDSAuthenticationRequired';
+    case ThreeDSAuthenticationRequired = "ThreeDSAuthenticationRequired";
 }
