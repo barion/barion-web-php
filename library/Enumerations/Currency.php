@@ -25,4 +25,6 @@ enum Currency : string
     case EUR = "EUR";
     case USD = "USD";
     case CZK = "CZK";
+    case RON = "RON";
+    case PLN = "PLN";
 }

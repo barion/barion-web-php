@@ -1,5 +1,8 @@
 # Changelog
 
+### v2.1.0 2024-10-30
+- added support for RON and PLN currencies
+
 ### v2.0.0 2024-07-16
 
 - Minimum supported PHP version increased to 8.2+
