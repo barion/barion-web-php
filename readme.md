@@ -259,6 +259,7 @@ We will try to review your pull request as soon as possible.
 
 # Version history
 
+- **2.1.0** October 30. 2025
 - **2.0.0** July 16. 2024
 - **1.4.11** April 2. 2024
 - **1.4.10** June 13. 2022
