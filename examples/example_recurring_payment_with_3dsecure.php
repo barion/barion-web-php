@@ -130,12 +130,11 @@ $purchaseInfo->PurchaseType = PurchaseType::GoodsAndServicePurchase;
 
 // create the request model
 $psr = new PreparePaymentRequestModel();
-$psr->GuestCheckout = true; // we allow guest checkout
 $psr->PaymentType = PaymentType::Immediate; // we want an immediate payment
 $psr->FundingSources = array(FundingSourceType::All); // both Barion wallet and bank card accepted
 $psr->PaymentRequestId = "TESTPAY-01"; // no more than 100 characters
 $psr->PayerHint = $payerEmail; // no more than 256 characters
-$psr->Locale = UILocale::EN; // the UI language will be English 
+$psr->Locale = UILocale::EN; // the UI language will be English
 $psr->Currency = Currency::EUR;
 $psr->OrderNumber = "ORDER-0001"; // no more than 100 characters
 $psr->AddTransaction($trans); // add the transaction to the payment

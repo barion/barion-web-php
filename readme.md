@@ -147,7 +147,6 @@ Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactio
 
 ```php
 $ppr = new \Barion\Models\Payment\PreparePaymentRequestModel();
-$ppr->GuestCheckout = true;
 $ppr->PaymentType = \Barion\Enumerations\PaymentType::Immediate;
 $ppr->FundingSources = array(FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
