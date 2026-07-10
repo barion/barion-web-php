@@ -1,5 +1,8 @@
 # Changelog
 
+### v2.2.0 2026-07-10
+- Added Croatian (hr-HR), Romanian (ro-RO), Polish (pl-PL), Italian (it-IT) and Bulgarian (bg-BG) locales to the supported Barion Smart Gateway languages
+
 ### v2.1.0 2024-10-30
 - added support for RON and PLN currencies
 
