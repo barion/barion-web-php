@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.0.0 2026-06-17
+- Removed GuestCheckout from payment request model 
+
 ### v2.1.0 2024-10-30
 - added support for RON and PLN currencies
 

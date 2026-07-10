@@ -147,7 +147,6 @@ Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactio
 
 ```php
 $ppr = new \Barion\Models\Payment\PreparePaymentRequestModel();
-$ppr->GuestCheckout = true;
 $ppr->PaymentType = \Barion\Enumerations\PaymentType::Immediate;
 $ppr->FundingSources = array(FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
@@ -259,6 +258,7 @@ We will try to review your pull request as soon as possible.
 
 # Version history
 
+- **3.0.0** June 17. 2026
 - **2.1.0** October 30. 2025
 - **2.0.0** July 16. 2024
 - **1.4.11** April 2. 2024

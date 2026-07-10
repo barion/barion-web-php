@@ -81,7 +81,6 @@ $shippingAddress->FullName = "Teszt Tibor";
 
 // create the request model
 $psr = new PreparePaymentRequestModel();
-$psr->GuestCheckout = true; // we allow guest checkout
 $psr->PaymentType = PaymentType::Reservation; // we want an immediate payment
 $psr->ReservationPeriod = "1:00:00:00"; // money is reserved for one day
 $psr->PaymentWindow = "00:20:00"; // the payment must be completed in 20 minutes

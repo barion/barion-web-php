@@ -66,14 +66,7 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      */
     public string $PaymentWindow;
 
-    /** 
-     * Flag indicating if guest checkout is available for the payment.
-     * 
-     * @var bool
-     */
-    public bool $GuestCheckout;
-    
-    /** 
+    /**
      * Array of funding source types allowed to complete the payment.
      * 
      * @var array<FundingSourceType> 
@@ -232,7 +225,6 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      *
      * @param string $requestId
      * @param PaymentType $paymentType
-     * @param bool $guestCheckoutAllowed
      * @param array<FundingSourceType> $allowedFundingSources
      * @param string $paymentWindow
      * @param UILocale $locale
@@ -243,15 +235,14 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      * @param Currency $currency
      * @param string|null $traceId
      */
-    function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate, bool $guestCheckoutAllowed = true, 
-                            array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU, 
+    function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate,
+                            array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU,
                             bool $initiateRecurrence = false, string $recurrenceId = null, string $redirectUrl = null, 
                             string $callbackUrl = null, Currency $currency = Currency::HUF, string $traceId = null)
     {
         $this->PaymentRequestId = $requestId;
         $this->PaymentType = $paymentType;
         $this->PaymentWindow = $paymentWindow;
-        $this->GuestCheckout = $guestCheckoutAllowed;
         $this->FundingSources = $allowedFundingSources;
         $this->Locale = $locale;
         $this->InitiateRecurrence = $initiateRecurrence;

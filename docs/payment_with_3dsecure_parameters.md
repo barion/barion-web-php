@@ -100,7 +100,6 @@ Lastly, the final **PreparePaymentRequestModel** can be constructed using the tr
 
 ```php
 $psr = new PreparePaymentRequestModel();
-$psr->GuestCheckout = true;
 $psr->PaymentType = PaymentType::Immediate;
 $psr->FundingSources = array(FundingSourceType::All);
 $psr->PaymentRequestId = "TESTPAY-01";
@@ -129,7 +128,6 @@ PreparePaymentRequestModel Object
     [ReservationPeriod] =>
     [DelayedCapturePeriod] =>
     [PaymentWindow] => 00:30:00
-    [GuestCheckout] => 1
     [FundingSources] => Array
         (
             [0] => All

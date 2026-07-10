@@ -35,7 +35,6 @@ Finally, create a **PreparePaymentRequestModel** and add the **PaymentTransactio
 
 ```php
 $ppr = new PreparePaymentRequestModel();
-$ppr->GuestCheckout = true;
 $ppr->PaymentType = PaymentType::Immediate;
 $ppr->FundingSources = array(FundingSourceType::All);
 $ppr->PaymentRequestId = "PAYMENT-01";
@@ -57,7 +56,6 @@ PreparePaymentRequestModel Object
     [ReservationPeriod] =>
     [DelayedCapturePeriod] =>
     [PaymentWindow] => 00:30:00
-    [GuestCheckout] => 1
     [FundingSources] => Array
         (
             [0] => All
