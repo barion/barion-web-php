@@ -71,7 +71,6 @@ $shippingAddress->FullName = "Teszt Tibor";
 
 // create the request model
 $psr = new PreparePaymentRequestModel();
-$psr->GuestCheckout = true; // we allow guest checkout
 $psr->PaymentType = PaymentType::DelayedCapture; // we want a delayed capture payment
 $psr->DelayedCapturePeriod = "3:00:00:00"; // capture is delayed for 3 days
 $psr->FundingSources = array(FundingSourceType::All); // both Barion wallet and bank card accepted

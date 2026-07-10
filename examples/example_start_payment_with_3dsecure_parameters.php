@@ -136,7 +136,6 @@ $purchaseInfo->PurchaseDate = "2021-05-01 10:00:00";
 
 // create the request model
 $psr = new PreparePaymentRequestModel();
-$psr->GuestCheckout = true; // we allow guest checkout
 $psr->PaymentType = PaymentType::Immediate; // we want an immediate payment
 $psr->FundingSources = array(FundingSourceType::All); // both Barion wallet and bank card accepted
 $psr->PaymentRequestId = "TESTPAY-01"; // no more than 100 characters

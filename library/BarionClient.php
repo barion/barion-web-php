@@ -411,7 +411,10 @@ class BarionClient
         $ch = curl_init();
         $posKey = $this->POSKey;
         
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = "";
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
+        }
         if ($userAgent == "") {
             $cver = (array)curl_version();
             $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
@@ -447,7 +450,10 @@ class BarionClient
         $getData = http_build_query($data);
         $fullUrl = $url . '?' . $getData;
         
-        $userAgent = $_SERVER['HTTP_USER_AGENT'];
+        $userAgent = "";
+        if (isset($_SERVER['HTTP_USER_AGENT'])) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
+        }
         if ($userAgent == "") {
             $cver = (array)curl_version();
             $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
@@ -492,4 +498,5 @@ class BarionClient
 
         return $output;
     }
+
 }
