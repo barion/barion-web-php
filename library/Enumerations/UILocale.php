@@ -29,4 +29,9 @@ enum UILocale : string
     case CZ = "cs-CZ";
     case GR = "el-GR";
     case ES = "es-ES";
+    case HR = "hr-HR";
+    case RO = "ro-RO";
+    case PL = "pl-PL";
+    case IT = "it-IT";
+    case BG = "bg-BG";
 }

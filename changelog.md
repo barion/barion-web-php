@@ -1,5 +1,8 @@
 # Changelog
 
+### v3.1.0 2026-07-10
+- Added Croatian (hr-HR), Romanian (ro-RO), Polish (pl-PL), Italian (it-IT) and Bulgarian (bg-BG) locales to the supported Barion Smart Gateway languages
+
 ### v3.0.0 2026-06-17
 - Removed GuestCheckout from payment request model 
 
