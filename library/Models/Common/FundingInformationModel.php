@@ -57,7 +57,7 @@ class FundingInformationModel implements IBarionModel
     /**
      * Build model from a JSON array.
      *  
-     * @param array<object> $json 
+     * @param array<string, mixed> $json 
      * @return void
     */
     public function fromJson(array $json) : void

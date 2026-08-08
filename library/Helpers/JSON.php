@@ -23,134 +23,135 @@ class JSON {
     /**
      * Gets the value of the specified property from the JSON as a string.
      *
-     * @param mixed $json The JSON
+     * @param array<string, mixed> $json The JSON
      * @param string $propertyName
      * @return ?string The value of the property as string
-     */ 
-    public static function getString(mixed $json, string $propertyName): ?string
+     */
+    public static function getString(array $json, string $propertyName): ?string
     {
         if (!isset($json[$propertyName])) {
             return null;
         }
-        
+
         $value = $json[$propertyName];
-        
-        if (is_array($value) || is_object($value)) {
+
+        if (!is_scalar($value)) {
             return null;
         }
-        
+
         return strval($value);
     }
-    
+
     /**
      * Gets the value of the specified property from the JSON as an integer number.
      *
-     * @param mixed $json The JSON
+     * @param array<string, mixed> $json The JSON
      * @param string $propertyName
      * @return ?int The value of the property as int
-     */ 
-    public static function getInt(mixed $json, string $propertyName): ?int
+     */
+    public static function getInt(array $json, string $propertyName): ?int
     {
         if (!isset($json[$propertyName])) {
             return null;
         }
-        
+
         $value = $json[$propertyName];
-        
-        if (is_array($value) || is_object($value)) {
+
+        if (!is_scalar($value)) {
             return null;
         }
-        
+
         return intval($value);
     }
-    
-    
+
+
     /**
      * Gets the value of the specified property from the JSON as a floating point number.
      *
-     * @param mixed $json The JSON
+     * @param array<string, mixed> $json The JSON
      * @param string $propertyName
      * @return ?float The value of the property as float
-     */ 
-    public static function getFloat(mixed $json, string $propertyName): ?float
+     */
+    public static function getFloat(array $json, string $propertyName): ?float
     {
         if (!isset($json[$propertyName])) {
             return null;
         }
-        
+
         $value = $json[$propertyName];
-        
-        if (is_array($value) || is_object($value)) {
+
+        if (!is_scalar($value)) {
             return null;
         }
-        
+
         return floatval($value);
     }
-    
+
     /**
      * Gets the value of the specified property from the JSON as a boolean.
      *
-     * @param mixed $json The JSON
+     * @param array<string, mixed> $json The JSON
      * @param string $propertyName
      * @return ?bool The value of the property as bool
-     */ 
-    public static function getBool(mixed $json, string $propertyName): ?bool
+     */
+    public static function getBool(array $json, string $propertyName): ?bool
     {
         if (!isset($json[$propertyName])) {
             return null;
         }
-        
+
         $value = $json[$propertyName];
-        
-        if (is_array($value) || is_object($value)) {
+
+        if (!is_scalar($value)) {
             return null;
         }
-        
+
         return (bool)$value;
-    }        
-    
+    }
+
     /**
      * Gets the value of the specified property from the JSON as an associative array.
      *
-     * @param mixed $json The JSON
+     * @param array<string, mixed> $json The JSON
      * @param string $propertyName
-     * @return ?array The value of the property as an array
-     */ 
-    public static function getArray(mixed $json, string $propertyName): ?array
+     * @return array<string, mixed>|null The value of the property as an array
+     */
+    public static function getArray(array $json, string $propertyName): ?array
     {
         if (!isset($json[$propertyName])) {
             return null;
         }
-        
+
         $value = $json[$propertyName];
-        
+
         if (is_array($value)) {
+            /** @var array<string, mixed> $value */
             return $value;
         }
-        
+
         return null;
     }
-    
+
     /**
      * Gets the value of the specified property from the JSON as a standard PHP object.
      *
-     * @param mixed $json The JSON
+     * @param array<string, mixed> $json The JSON
      * @param string $propertyName
      * @return ?object The value of the property as object
-     */ 
-    public static function getObject(mixed $json, string $propertyName): ?object
+     */
+    public static function getObject(array $json, string $propertyName): ?object
     {
         if (!isset($json[$propertyName])) {
             return null;
         }
-        
+
         $value = $json[$propertyName];
-        
+
         if (is_object($value)) {
             return $value;
         }
-        
+
         return null;
-    }    
+    }
 
 }

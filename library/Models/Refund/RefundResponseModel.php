@@ -61,6 +61,7 @@ class RefundResponseModel extends BaseResponseModel implements IBarionModel
             if (!empty($refundedTransactions)) {
                 foreach ($refundedTransactions as $key => $refundedTransaction) {
                     $tr = new RefundedTransactionModel();
+                    /** @var array<string, mixed> $refundedTransaction */
                     $tr->fromJson($refundedTransaction);
                     $this->RefundedTransactions[] = $tr;
                 }

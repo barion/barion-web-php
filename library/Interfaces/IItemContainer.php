@@ -22,7 +22,7 @@ namespace Barion\Interfaces;
 * Interface describing a model that can contain items.
 *
 * @method void AddItem(object $item)
-* @method void AddItems(array $items)
+* @method void AddItems(array<object> $items)
 */
 interface IItemContainer
 {

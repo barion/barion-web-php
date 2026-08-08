@@ -26,7 +26,7 @@ interface IBarionModel
     /**
      * Assemble the model from an array representing standard JSON stucture.
      *
-     * @param array<int, object> $json Associative array returned by json_decode.
+     * @param array<string, mixed> $json Associative array returned by json_decode.
      * @return void
      */
     public function fromJson(array $json) : void;

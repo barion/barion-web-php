@@ -19,11 +19,11 @@
 /*
 * BARION WEB PHP
 * PHP library for implementing REST API calls towards the Barion payment system.
-* 
+*
 * https://docs.barion.com
 * https://www.barion.com
 */
- 
+
 namespace Barion;
 
 /*
@@ -43,7 +43,9 @@ use Barion\Enumerations\{
 };
 use Barion\Exceptions\BarionException;
 use Barion\Models\{
-    BaseResponseModel
+    BaseRequestModel,
+    BaseResponseModel,
+    HttpResponseModel
 };
 use Barion\Models\Error\{
     ApiErrorModel
@@ -81,8 +83,8 @@ class BarionClient
 
     public const BARION_API_URL_PROD               = "https://api.barion.com";
     public const BARION_WEB_URL_PROD               = "https://secure.barion.com/Pay";
-    public const BARION_API_URL_TEST               = "https://api.test.barion.com";
-    public const BARION_WEB_URL_TEST               = "https://secure.test.barion.com/Pay";
+    public const BARION_API_URL_TEST               = "https://api.barion.local";
+    public const BARION_WEB_URL_TEST               = "https://secure.barion.local/Pay";
 
     public const API_ENDPOINT_PREPAREPAYMENT       = "/Payment/Start";
     public const API_ENDPOINT_GETPAYMENTSTATE      = "/Payment/GetPaymentState";
@@ -165,7 +167,7 @@ class BarionClient
      *
      * @param PreparePaymentRequestModel $model The request model for payment preparation
      * @return PreparePaymentResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function PreparePayment(PreparePaymentRequestModel $model): PreparePaymentResponseModel
@@ -178,13 +180,16 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_PREPAREPAYMENT;
         $response = $this->PostToBarion($url, $model);
         $rm = new PreparePaymentResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $rm->fromJson($json);
+            $rm->HttpStatusCode = $response->StatusCode;
             if (!empty($rm->PaymentId)) {
                 $rm->PaymentRedirectUrl = $this->BARION_WEB_URL . "?" . http_build_query(array("id" => $rm->PaymentId));
             }
         }
+        $rm->HttpStatusCode = $response->StatusCode;
         return $rm;
     }
 
@@ -194,7 +199,7 @@ class BarionClient
      *
      * @param FinishReservationRequestModel $model The request model for the finish process
      * @return FinishReservationResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function FinishReservation(FinishReservationRequestModel $model): FinishReservationResponseModel
@@ -207,20 +212,22 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_FINISHRESERVATION;
         $response = $this->PostToBarion($url, $model);
         $rm = new FinishReservationResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $rm->fromJson($json);
         }
+        $rm->HttpStatusCode = $response->StatusCode;
         return $rm;
     }
-    
+
     /**
      *
      * Capture the previously authorized money in a Delayed Capture payment
      *
      * @param CaptureRequestModel $model The request model for the capture process
      * @return CaptureResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function Capture(CaptureRequestModel $model): CaptureResponseModel
@@ -233,10 +240,12 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_CAPTURE;
         $response = $this->PostToBarion($url, $model);
         $captureResponse = new CaptureResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $captureResponse->fromJson($json);
         }
+        $captureResponse->HttpStatusCode = $response->StatusCode;
         return $captureResponse;
     }
 
@@ -246,7 +255,7 @@ class BarionClient
      *
      * @param CancelAuthorizationRequestModel $model The request model for cancelling the authorization
      * @return CancelAuthorizationResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function CancelAuthorization(CancelAuthorizationRequestModel $model): CancelAuthorizationResponseModel
@@ -259,19 +268,21 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_CANCELAUTHORIZATION;
         $response = $this->PostToBarion($url, $model);
         $cancelAuthResponse = new CancelAuthorizationResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $cancelAuthResponse->fromJson($json);
         }
+        $cancelAuthResponse->HttpStatusCode = $response->StatusCode;
         return $cancelAuthResponse;
     }
-    
+
     /**
      * Complete a previously 3DSecure-authenticated payment
      *
      * @param Complete3DSPaymentRequestModel $model The request model for completing the authenticated payment
      * @return Complete3DSPaymentResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function Complete3DSPayment(Complete3DSPaymentRequestModel $model): Complete3DSPaymentResponseModel
@@ -284,10 +295,12 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_3DS_COMPLETE;
         $response = $this->PostToBarion($url, $model);
         $rm = new Complete3DSPaymentResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $rm->fromJson($json);
         }
+        $rm->HttpStatusCode = $response->StatusCode;
         return $rm;
     }
 
@@ -296,7 +309,7 @@ class BarionClient
      *
      * @param RefundRequestModel $model The request model for the refund process
      * @return RefundResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function RefundPayment(RefundRequestModel $model): RefundResponseModel
@@ -309,10 +322,12 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_REFUND;
         $response = $this->PostToBarion($url, $model);
         $rm = new RefundResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $rm->fromJson($json);
         }
+        $rm->HttpStatusCode = $response->StatusCode;
         return $rm;
     }
 
@@ -321,7 +336,7 @@ class BarionClient
      *
      * @param string $paymentId The ID of the payment
      * @return GetPaymentStateResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      * @deprecated
      */
@@ -336,10 +351,12 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . BarionClient::API_ENDPOINT_GETPAYMENTSTATE;
         $response = $this->GetFromBarion($url, $model);
         $ps = new GetPaymentStateResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $ps->fromJson($json);
         }
+        $ps->HttpStatusCode = $response->StatusCode;
         return $ps;
     }
 
@@ -348,7 +365,7 @@ class BarionClient
      *
      * @param string $paymentId The ID of the payment
      * @return PaymentStateResponseModel Returns the response from the Barion API
-     * 
+     *
      * @throws BarionException
      */
     public function PaymentState(string $paymentId): PaymentStateResponseModel
@@ -362,10 +379,12 @@ class BarionClient
         $url = $this->BARION_API_URL . "/v" . $this->APIVersion . str_ireplace("{paymentId}", $paymentId, BarionClient::API_ENDPOINT_PAYMENTSTATE);
         $response = $this->GetFromBarion($url, $model);
         $ps = new PaymentStateResponseModel();
-        if (!empty($response)) {
-            $json = json_decode($response, true);
+        $json = json_decode((string)$response->Body, true);
+        if (is_array($json)) {
+            /** @var array<string, mixed> $json */
             $ps->fromJson($json);
         }
+        $ps->HttpStatusCode = $response->StatusCode;
         return $ps;
     }
 
@@ -379,12 +398,12 @@ class BarionClient
      * @param string $password The password of the shop's owner
      * @param string $paymentId The ID of the payment
      * @param QRCodeSize $qrCodeSize The desired size of the QR image
-     * @return string|bool Returns the response of the QR request
+     * @return string Returns the response of the QR request
      *
      * @throws BarionException
      *@deprecated
      */
-    public function GetPaymentQRImage(string $username, string $password, string $paymentId, QRCodeSize $qrCodeSize = QRCodeSize::Large): string|bool
+    public function GetPaymentQRImage(string $username, string $password, string $paymentId, QRCodeSize $qrCodeSize = QRCodeSize::Large): string
     {
         if ($this->APIVersion != 1) {
             throw new BarionException("Incorrect API version for QR Code endpoint! Current: $this->APIVersion. Expected: 1.");
@@ -394,7 +413,7 @@ class BarionClient
         $model->POSKey = $this->POSKey;
         $model->Size = $qrCodeSize;
         $url = $this->BARION_API_URL . BarionClient::API_ENDPOINT_QRCODE;
-        return $this->GetFromBarion($url, $model);
+        return (string)$this->GetFromBarion($url, $model)->Body;
     }
 
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
@@ -403,77 +422,98 @@ class BarionClient
      * Managing HTTP POST requests
      *
      * @param string $url The URL of the API endpoint
-     * @param object $data The data object to be sent to the endpoint
-     * @return string|bool Returns the response of the API
+     * @param BaseRequestModel $data The data object to be sent to the endpoint
+     * @return HttpResponseModel Returns the response of the API
      */
-    private function PostToBarion(string $url, object $data): string|bool
+    private function PostToBarion(string $url, BaseRequestModel $data): HttpResponseModel
     {
         $ch = curl_init();
+        if ($ch === false) {
+            return new HttpResponseModel();
+        }
+
         $posKey = $this->POSKey;
-        
+
         $userAgent = "";
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
+        if (isset($_SERVER['HTTP_USER_AGENT']) && is_string($_SERVER['HTTP_USER_AGENT'])) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
         }
         if ($userAgent == "") {
+            /** @var array<string, string> $cver */
             $cver = (array)curl_version();
-            $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
+            $userAgent = "curl/" . $cver["version"] . " " . $cver["ssl_version"];
         }
 
         $postData = json_encode($data);
+        if ($postData === false) {
+            $postData = '';
+        }
 
+        $httpHeaders = [
+            "Content-Type: application/json",
+            "User-Agent: " . $userAgent,
+            "x-pos-key: $posKey"
+        ];
+
+        if ($data->GetIdempotencyKey() != null) {
+            array_push($httpHeaders, "Idempotency-Key: " . $data->GetIdempotencyKey());
+        }
+
+        /** @var non-empty-string $url */
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "Content-Type: application/json", 
-            "User-Agent: $userAgent",
-            "x-pos-key: $posKey"
-        ]);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        return $this->PostWithCurl($ch);
+        return $this->SendCurlRequest($ch);
     }
 
     /**
      * Managing HTTP GET requests
      *
      * @param string $url The URL of the API endpoint
-     * @param object $data The data object to be sent to the endpoint
-     * @return string|bool Returns the response of the API
+     * @param BaseRequestModel $data The data object to be sent to the endpoint
+     * @return HttpResponseModel Returns the response of the API
      */
-    private function GetFromBarion(string $url, object $data): string|bool
+    private function GetFromBarion(string $url, BaseRequestModel $data): HttpResponseModel
     {
         $ch = curl_init();
+        if ($ch === false) {
+            return new HttpResponseModel();
+        }
+
         $posKey = $this->POSKey;
 
         $getData = http_build_query($data);
         $fullUrl = $url . '?' . $getData;
-        
+
         $userAgent = "";
-        if (isset($_SERVER['HTTP_USER_AGENT'])) {
-            $userAgent = $_SERVER['HTTP_USER_AGENT'] ?? "";
+        if (isset($_SERVER['HTTP_USER_AGENT']) && is_string($_SERVER['HTTP_USER_AGENT'])) {
+            $userAgent = $_SERVER['HTTP_USER_AGENT'];
         }
         if ($userAgent == "") {
+            /** @var array<string, string> $cver */
             $cver = (array)curl_version();
-            $userAgent = "curl/" . $cver["version"] . " " .$cver["ssl_version"];
+            $userAgent = "curl/" . $cver["version"] . " " . $cver["ssl_version"];
         }
 
         curl_setopt($ch, CURLOPT_URL, $fullUrl);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, [
-            "User-Agent: $userAgent",
+            "User-Agent: " . $userAgent,
             "x-pos-key: $posKey"
         ]);
 
-        return $this->PostWithCurl($ch);
+        return $this->SendCurlRequest($ch);
     }
 
     /**
-     * @param CurlHandle|false $ch
-     * @return bool|string
+     * @param CurlHandle $ch
+     * @return HttpResponseModel
      */
-    private function PostWithCurl(CurlHandle|false $ch): string|bool
+    private function SendCurlRequest(CurlHandle $ch): HttpResponseModel
     {
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'SSL', 'cacert.pem')));
@@ -483,20 +523,39 @@ class BarionClient
             }
         }
 
-        $output = curl_exec($ch);
-        if ($err_nr = curl_errno($ch)) {
-            $error = new ApiErrorModel();
-            $error->ErrorCode = "CURL_ERROR";
-            $error->Title = "CURL Error #" . $err_nr;
-            $error->Description = curl_error($ch);
+        $rawOutput = curl_exec($ch);
+        $output = is_string($rawOutput) ? $rawOutput : '';
+        $statusCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-            $response = new BaseResponseModel();
-            $response->Errors = array($error);
-            $output = json_encode($response);
+        if ($statusCode == 400 || $statusCode == 409 || $statusCode == 422) {
+            $response = json_decode($output);
+            if ($response instanceof \stdClass && property_exists($response, "Message")) {
+                $errorMessage = $response->Message;
+                $error = new ApiErrorModel();
+                $error->Description = $errorMessage;
+                $response->Errors = array($error);
+                $encoded = json_encode($response);
+                $output = $encoded !== false ? $encoded : '';
+            }
+        } else {
+            if ($err_nr = curl_errno($ch)) {
+                $error = new ApiErrorModel();
+                $error->ErrorCode = "CURL_ERROR";
+                $error->Title = "CURL Error #" . $err_nr;
+                $error->Description = curl_error($ch);
+
+                $response = new BaseResponseModel();
+                $response->Errors = array($error);
+                $encoded = json_encode($response);
+                $output = $encoded !== false ? $encoded : '';
+            }
         }
         curl_close($ch);
 
-        return $output;
-    }
+        $result = new HttpResponseModel();
+        $result->StatusCode = $statusCode;
+        $result->Body = $output;
 
+        return $result;
+    }
 }

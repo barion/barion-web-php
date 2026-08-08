@@ -177,6 +177,7 @@ class TransactionDetailModel implements IBarionModel
             if (!empty($items)) {
                 foreach ($items as $key => $i) {
                     $item = new ItemModel();
+                    /** @var array<string, mixed> $i */
                     $item->fromJson($i);
                     $this->Items[] = $item;
                 }

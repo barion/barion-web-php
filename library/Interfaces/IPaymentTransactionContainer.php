@@ -22,7 +22,7 @@ namespace Barion\Interfaces;
 * Interface describing a class that can contain payment transactions.
 *
 * @method void AddTransaction(object $transaction)
-* @method void AddTransactions(array $transactions)
+* @method void AddTransactions(array<object> $transactions)
 */
 interface IPaymentTransactionContainer
 {

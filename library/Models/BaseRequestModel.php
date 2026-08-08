@@ -29,4 +29,34 @@ class BaseRequestModel
      * @var string
      */   
     public string $POSKey;
+
+    /** 
+     * A unique key for the particular request, used to maintain idempotency across subsequent API calls.
+     * 
+     * @var string
+     */   
+    private string $IdempotencyKey;
+
+    /** 
+     * Add a unique idempotency key to the request
+     * 
+     * @param string $idempotencyKey
+     * @return void
+    */
+    public function SetIdempotencyKey(string $idempotencyKey) {
+        $this->IdempotencyKey = $idempotencyKey;
+    }
+
+    /**
+     * Gets the idempotency key of the request
+     *
+     * @return ?string
+    */
+    public function GetIdempotencyKey(): ?string {
+        if (!isset($this->IdempotencyKey)) {
+            return null;
+        }
+
+        return $this->IdempotencyKey;
+    }
 }
