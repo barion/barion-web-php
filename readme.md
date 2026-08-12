@@ -163,6 +163,17 @@ $ppr->AddTransaction($trans);
 > The secret _POSKey_ used for authentication is not part of the request object.  
 > The Barion client class automatically injects this value into every request sent to the Barion API.
 
+#### Idempotent requests
+
+If desired, you can give the request a unique idempotency key. This will make sure that the API response will remain idempotent through multiple requests with the same payload. Idempotency does not apply to GET endpoints.
+
+```php
+$ppr->SetIdempotencyKey("f429bd35-684f-4d2f-bc9b-631085f2b64f");
+```
+
+> **Note**  
+> Using an idempotency key is not required, but strongly recommended.
+
 ### 1.2. Calling the Barion API
 
 Now you can call the **PreparePayment** method of the Barion client with the request model you just created:
@@ -258,6 +269,7 @@ We will try to review your pull request as soon as possible.
 
 # Version history
 
+- **4.0.0** August 12. 2026
 - **3.0.0** June 17. 2026
 - **2.1.0** October 30. 2025
 - **2.0.0** July 16. 2024
