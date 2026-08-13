@@ -83,8 +83,8 @@ class BarionClient
 
     public const BARION_API_URL_PROD               = "https://api.barion.com";
     public const BARION_WEB_URL_PROD               = "https://secure.barion.com/Pay";
-    public const BARION_API_URL_TEST               = "https://api.barion.local";
-    public const BARION_WEB_URL_TEST               = "https://secure.barion.local/Pay";
+    public const BARION_API_URL_TEST               = "https://api.test.barion.com";
+    public const BARION_WEB_URL_TEST               = "https://secure.test.barion.com/Pay";
 
     public const API_ENDPOINT_PREPAREPAYMENT       = "/Payment/Start";
     public const API_ENDPOINT_GETPAYMENTSTATE      = "/Payment/GetPaymentState";
@@ -184,7 +184,6 @@ class BarionClient
         if (is_array($json)) {
             /** @var array<string, mixed> $json */
             $rm->fromJson($json);
-            $rm->HttpStatusCode = $response->StatusCode;
             if (!empty($rm->PaymentId)) {
                 $rm->PaymentRedirectUrl = $this->BARION_WEB_URL . "?" . http_build_query(array("id" => $rm->PaymentId));
             }
@@ -424,12 +423,14 @@ class BarionClient
      * @param string $url The URL of the API endpoint
      * @param BaseRequestModel $data The data object to be sent to the endpoint
      * @return HttpResponseModel Returns the response of the API
+     *
+     * @throws BarionException
      */
     private function PostToBarion(string $url, BaseRequestModel $data): HttpResponseModel
     {
         $ch = curl_init();
         if ($ch === false) {
-            return new HttpResponseModel();
+            throw new BarionException("Failed to initialze cURL module.");
         }
 
         $posKey = $this->POSKey;
@@ -465,7 +466,6 @@ class BarionClient
         curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         return $this->SendCurlRequest($ch);
     }
@@ -476,12 +476,14 @@ class BarionClient
      * @param string $url The URL of the API endpoint
      * @param BaseRequestModel $data The data object to be sent to the endpoint
      * @return HttpResponseModel Returns the response of the API
+     *
+     * @throws BarionException
      */
     private function GetFromBarion(string $url, BaseRequestModel $data): HttpResponseModel
     {
         $ch = curl_init();
         if ($ch === false) {
-            return new HttpResponseModel();
+            throw new BarionException("Failed to initialze cURL module.");
         }
 
         $posKey = $this->POSKey;

@@ -80,7 +80,7 @@ $psr->Currency = Currency::HUF;
 $psr->OrderNumber = "ORDER-0001"; // no more than 100 characters
 $psr->ShippingAddress = $shippingAddress;
 $psr->AddTransaction($trans); // add the transaction to the payment
-$psr->SetIdempotencyKey("416427d6-9c61-47f5-801a-f5fce32985a8"); // add an idempotency key to the reuqest
+$psr->SetIdempotencyKey("416427d6-9c61-47f5-801a-f5fce32985a8"); // add an idempotency key to the request
 
 // send the request
 $myPayment = $BC->PreparePayment($psr);

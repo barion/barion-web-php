@@ -43,7 +43,7 @@ class BaseRequestModel
      * @param string $idempotencyKey
      * @return void
     */
-    public function SetIdempotencyKey(string $idempotencyKey) {
+    public function SetIdempotencyKey(string $idempotencyKey): void {
         $this->IdempotencyKey = $idempotencyKey;
     }
 
