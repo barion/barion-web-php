@@ -94,6 +94,7 @@ class CancelAuthorizationResponseModel extends BaseResponseModel implements IBar
             if (!empty($transactions)) {
                 foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionResponseModel();
+                    /** @var array<string, mixed> $transaction */
                     $tr->fromJson($transaction);
                     $this->Transactions[] = $tr;
                 }

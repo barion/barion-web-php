@@ -109,10 +109,10 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
      */
     public object $FundingInformation;
     
-    /** 
+    /**
      * List of funding source types allowed to complete the payment.
-     * 
-     * @var array<FundingSourceType>
+     *
+     * @var array<mixed>|null
     */
     public ?array $AllowedFundingSources;
     
@@ -305,7 +305,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
             $this->CallbackUrl = JSON::getString($json, 'CallbackUrl');
             $this->TraceId = JSON::getString($json, 'TraceId');
 
-            if (array_key_exists("RecurrenceType", $json) && $json["RecurrenceType"] !== null) {
+            if (array_key_exists("RecurrenceType", $json) && !is_null($json["RecurrenceType"])) {
                 $this->RecurrenceType = RecurrenceType::from(JSON::getString($json, 'RecurrenceType') ?? 'MerchantInitiatedPayment')->value;
             }
 
@@ -318,6 +318,7 @@ class PaymentStateResponseModel extends BaseResponseModel implements IBarionMode
             if (!empty($transactions)) {
                 foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionDetailModel();
+                    /** @var array<string, mixed> $transaction */
                     $tr->fromJson($transaction);
                     $this->Transactions[] = $tr;
                 }

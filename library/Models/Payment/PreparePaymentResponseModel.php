@@ -128,6 +128,7 @@ class PreparePaymentResponseModel extends BaseResponseModel implements IBarionMo
             if (!empty($transactions)) {
                 foreach ($transactions as $key => $transaction) {
                     $tr = new TransactionResponseModel();
+                    /** @var array<string, mixed> $transaction */
                     $tr->fromJson($transaction);
                     $this->Transactions[] = $tr;
                 }

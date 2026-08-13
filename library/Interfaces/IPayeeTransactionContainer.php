@@ -22,7 +22,7 @@ namespace Barion\Interfaces;
  * Interface describing a model that can contain payee transactions.
  *
  * @method void AddPayeeTransaction(object $transaction)
- * @method void AddPayeeTransactions(array $transactions)
+ * @method void AddPayeeTransactions(array<object> $transactions)
  */
 interface IPayeeTransactionContainer
 {

@@ -237,8 +237,8 @@ class PreparePaymentRequestModel extends BaseRequestModel implements IPaymentTra
      */
     function __construct(string $requestId = "", PaymentType $paymentType = PaymentType::Immediate,
                             array $allowedFundingSources = array(FundingSourceType::All), string $paymentWindow = "00:30:00", UILocale $locale = UILocale::HU,
-                            bool $initiateRecurrence = false, string $recurrenceId = null, string $redirectUrl = null, 
-                            string $callbackUrl = null, Currency $currency = Currency::HUF, string $traceId = null)
+                            bool $initiateRecurrence = false, ?string $recurrenceId = null, ?string $redirectUrl = null,
+                            ?string $callbackUrl = null, Currency $currency = Currency::HUF, ?string $traceId = null)
     {
         $this->PaymentRequestId = $requestId;
         $this->PaymentType = $paymentType;

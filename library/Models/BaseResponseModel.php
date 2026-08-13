@@ -37,17 +37,25 @@ class BaseResponseModel
      * @var bool
      */    
     public bool $RequestSuccessful;
-    
+
+    /** 
+     * The HTTP status code associated with the response.
+     * 
+     * @var int
+     */   
+    public int $HttpStatusCode;
+
     function __construct()
     {
         $this->Errors = array();
         $this->RequestSuccessful = false;
+        $this->HttpStatusCode = 0;
     }
 
     /**
      * Build model from a JSON array.
      *  
-     * @param array<object> $json 
+     * @param array<string, mixed> $json 
      * @return void
     */
     public function fromJson(array $json) : void
@@ -63,13 +71,14 @@ class BaseResponseModel
                 if (is_array($errors) && !empty($errors)) {
                     foreach ($errors as $key => $error) {
                         $apiError = new ApiErrorModel();
+                        /** @var array<string, mixed> $error */
                         $apiError->fromJson($error);
                         $this->Errors[] = $apiError;
                     }
                 }
             } else {
                 $internalError = new ApiErrorModel();
-                $internalError->ErrorCode = "500";
+                $internalError->ErrorCode = "INTERNAL_SERVER_ERROR";
                 if (array_key_exists('ExceptionMessage', $json)) {
                     $internalError->Title = JSON::getString($json, 'ExceptionMessage');
                     $internalError->Description = JSON::getString($json, 'ExceptionType');
