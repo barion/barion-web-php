@@ -1,6 +1,6 @@
 ﻿# Barion Web PHP Library
 
-[![version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://packagist.org/packages/barion/barion-web-php) [![Total Downloads](https://poser.pugx.org/barion/barion-web-php/downloads.svg)](https://packagist.org/packages/barion/barion-web-php) [![License](https://poser.pugx.org/barion/barion-web-php/license.svg)](https://packagist.org/packages/barion/barion-web-php)
+[![version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://packagist.org/packages/barion/barion-web-php) [![Total Downloads](https://poser.pugx.org/barion/barion-web-php/downloads.svg)](https://packagist.org/packages/barion/barion-web-php) [![License](https://poser.pugx.org/barion/barion-web-php/license.svg)](https://packagist.org/packages/barion/barion-web-php)
 
 A compact PHP library to manage online e-money and card payments via the _Barion Smart Gateway_.  
 It allows you to accept credit card, e-money, and wire transfer payments in just a few lines of code.
