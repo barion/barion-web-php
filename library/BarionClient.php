@@ -42,6 +42,7 @@ use Barion\Enumerations\{
     QRCodeSize
 };
 use Barion\Exceptions\BarionException;
+use Barion\Helpers\HmacSignature;
 use Barion\Models\{
     BaseRequestModel,
     BaseResponseModel,
@@ -80,6 +81,7 @@ class BarionClient
     /* -------- CONSTANTS -------- */
 
     private const MINIMUM_PHP_VERSION               = "8.2";
+    private const HMAC_TIMESTAMP_TOLERANCE_SECONDS  = 300;
 
     public const BARION_API_URL_PROD               = "https://api.barion.com";
     public const BARION_WEB_URL_PROD               = "https://secure.barion.com/Pay";
@@ -100,6 +102,8 @@ class BarionClient
 
     private int $APIVersion;
     private string $POSKey;
+    private ?string $HmacKey = null;
+    private ?string $NextHmacKey = null;
 
     private string $BARION_API_URL = "";
     private string $BARION_WEB_URL = "";
@@ -157,6 +161,29 @@ class BarionClient
     public function SetVersion(int $version): void
     {
         $this->APIVersion = $version;
+    }
+
+    /**
+     * Sets the HMAC key of the shop. Once set, every request is signed with it, and every signed response is checked.
+     * Barion ignores the signature until the key is activated, so the key can be set before the activation.
+     *
+     * When rotating the key, pass the new key as $nextHmacKey before activating it in Barion: requests are still signed
+     * with $hmacKey, which Barion accepts for 24 hours after the activation, while the responses Barion signs with
+     * the new key are accepted too. Within those 24 hours, switch to SetHmacKey(<the new key>).
+     *
+     * @param string $hmacKey The HMAC key of the shop, as shown in Barion (base64 encoded)
+     * @param ?string $nextHmacKey The key the shop is rotating to, only used to check responses (base64 encoded)
+     * @return void
+     * @throws BarionException
+     */
+    public function SetHmacKey(string $hmacKey, ?string $nextHmacKey = null): void
+    {
+        if (!HmacSignature::IsValidKey($hmacKey) || ($nextHmacKey !== null && !HmacSignature::IsValidKey($nextHmacKey))) {
+            throw new BarionException("The HMAC key must be the base64 encoded key shown in Barion.");
+        }
+
+        $this->HmacKey = $hmacKey;
+        $this->NextHmacKey = $nextHmacKey;
     }
 
     /* -------- BARION API CALL IMPLEMENTATIONS -------- */
@@ -415,6 +442,52 @@ class BarionClient
         return (string)$this->GetFromBarion($url, $model)->Body;
     }
 
+    /* -------- CALLBACK (IPN) VERIFICATION -------- */
+
+    /**
+     * Checks that a payment callback (IPN) really comes from Barion: it is signed with the shop's HMAC key,
+     * and its timestamp is within 5 minutes of the server time. An unsigned callback is invalid.
+     *
+     * Without parameters, it checks the current request: the path and query from $_SERVER['REQUEST_URI'],
+     * the raw body from php://input, and the signature headers from $_SERVER.
+     *
+     * @param ?string $requestUri The path and query of the callback, as it was called (e.g. /callback?paymentId=...)
+     * @param ?string $body The raw body of the callback
+     * @param ?array<string, string> $headers The headers of the callback, with lower case names
+     * @param ?callable(string): bool $isNonceNew Optional replay protection: called with the nonce of a correctly
+     *  signed callback, it must store the nonce for at least 10 minutes and return false if it was already stored
+     *  (e.g. fn($nonce) => apcu_add("barion-nonce-" . $nonce, true, 600)). A callback with a used nonce is invalid.
+     * @return bool
+     * @throws BarionException
+     */
+    public function IsCallbackValid(?string $requestUri = null, ?string $body = null, ?array $headers = null, ?callable $isNonceNew = null): bool
+    {
+        if ($this->HmacKey === null) {
+            throw new BarionException("The HMAC key must be set to check the signature of a callback.");
+        }
+
+        $requestUri ??= is_string($_SERVER['REQUEST_URI'] ?? null) ? $_SERVER['REQUEST_URI'] : "";
+        $body ??= (string)file_get_contents("php://input");
+        $headers ??= [
+            HmacSignature::HEADER_TIMESTAMP => $_SERVER['HTTP_X_TIMESTAMP'] ?? null,
+            HmacSignature::HEADER_NONCE => $_SERVER['HTTP_X_NONCE'] ?? null,
+            HmacSignature::HEADER_SIGNATURE => $_SERVER['HTTP_X_SIGNATURE_SHA512'] ?? null
+        ];
+
+        $timestamp = $headers[HmacSignature::HEADER_TIMESTAMP] ?? null;
+        $nonce = $headers[HmacSignature::HEADER_NONCE] ?? null;
+        $signature = $headers[HmacSignature::HEADER_SIGNATURE] ?? null;
+        if (!is_string($timestamp) || !is_string($nonce) || !is_string($signature)) {
+            return false;
+        }
+
+        $payload = HmacSignature::RequestPayload($timestamp, $nonce, "POST", $requestUri, $body);
+        // the nonce is only stored for a genuine callback, so forged ones cannot fill the shop's store
+        return $this->IsSignedByBarion($payload, $signature)
+            && BarionClient::IsTimestampCurrent($timestamp)
+            && ($isNonceNew === null || $isNonceNew($nonce) === true);
+    }
+
     /* -------- CURL HTTP REQUEST IMPLEMENTATIONS -------- */
 
     /**
@@ -460,6 +533,8 @@ class BarionClient
             array_push($httpHeaders, "Idempotency-Key: " . $data->GetIdempotencyKey());
         }
 
+        $nonce = $this->AddSignatureHeaders($httpHeaders, "POST", $url, $postData);
+
         /** @var non-empty-string $url */
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, true);
@@ -467,7 +542,7 @@ class BarionClient
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
 
-        return $this->SendCurlRequest($ch);
+        return $this->SendCurlRequest($ch, $nonce);
     }
 
     /**
@@ -501,21 +576,68 @@ class BarionClient
             $userAgent = "curl/" . $cver["version"] . " " . $cver["ssl_version"];
         }
 
-        curl_setopt($ch, CURLOPT_URL, $fullUrl);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+        $httpHeaders = [
             "User-Agent: " . $userAgent,
             "x-pos-key: $posKey"
-        ]);
+        ];
 
-        return $this->SendCurlRequest($ch);
+        $nonce = $this->AddSignatureHeaders($httpHeaders, "GET", $fullUrl, "");
+
+        curl_setopt($ch, CURLOPT_URL, $fullUrl);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $httpHeaders);
+
+        return $this->SendCurlRequest($ch, $nonce);
+    }
+
+    /**
+     * Signs the request if an HMAC key is set
+     *
+     * @param array<int, string> $httpHeaders The headers of the request, the signature headers are added to these
+     * @param string $method The HTTP method
+     * @param string $url The full URL of the request
+     * @param string $body The exact body sent
+     * @return ?string Returns the nonce of the request, or null if the request is not signed
+     */
+    private function AddSignatureHeaders(array &$httpHeaders, string $method, string $url, string $body): ?string
+    {
+        if ($this->HmacKey === null) {
+            return null;
+        }
+
+        $timestamp = (string)time();
+        $nonce = HmacSignature::NewNonce();
+        $payload = HmacSignature::RequestPayload($timestamp, $nonce, $method, BarionClient::PathAndQuery($url), $body);
+
+        array_push(
+            $httpHeaders,
+            HmacSignature::HEADER_TIMESTAMP . ": " . $timestamp,
+            HmacSignature::HEADER_NONCE . ": " . $nonce,
+            HmacSignature::HEADER_SIGNATURE . ": " . HmacSignature::Compute($this->HmacKey, $payload)
+        );
+
+        return $nonce;
+    }
+
+    /**
+     * Returns the path and query of the URL, the way Barion sees it when checking the signature
+     *
+     * @param string $url
+     * @return string
+     */
+    private static function PathAndQuery(string $url): string
+    {
+        $path = (string)parse_url($url, PHP_URL_PATH);
+        $query = parse_url($url, PHP_URL_QUERY);
+        return is_string($query) ? $path . "?" . $query : $path;
     }
 
     /**
      * @param CurlHandle $ch
+     * @param ?string $nonce The nonce of a signed request, null if the request was not signed
      * @return HttpResponseModel
      */
-    private function SendCurlRequest(CurlHandle $ch): HttpResponseModel
+    private function SendCurlRequest(CurlHandle $ch, ?string $nonce = null): HttpResponseModel
     {
         if ($this->UseBundledRootCertificates) {
             curl_setopt($ch, CURLOPT_CAINFO, join(DIRECTORY_SEPARATOR, array(dirname(__FILE__), 'SSL', 'cacert.pem')));
@@ -525,11 +647,28 @@ class BarionClient
             }
         }
 
+        /** @var array<string, string> $responseHeaders */
+        $responseHeaders = [];
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION, function (CurlHandle $ch, string $header) use (&$responseHeaders): int {
+            $parts = explode(":", $header, 2);
+            if (count($parts) == 2) {
+                $responseHeaders[strtolower(trim($parts[0]))] = trim($parts[1]);
+            }
+            return strlen($header);
+        });
+
         $rawOutput = curl_exec($ch);
         $output = is_string($rawOutput) ? $rawOutput : '';
         $statusCode = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
 
-        if ($statusCode == 400 || $statusCode == 409 || $statusCode == 422) {
+        $signatureError = $nonce !== null ? $this->CheckResponseSignature($responseHeaders, $nonce, $statusCode, $output) : null;
+
+        if ($signatureError !== null) {
+            $response = new BaseResponseModel();
+            $response->Errors = array($signatureError);
+            $encoded = json_encode($response);
+            $output = $encoded !== false ? $encoded : '';
+        } elseif ($statusCode == 400 || $statusCode == 409 || $statusCode == 422) {
             $response = json_decode($output);
             if ($response instanceof \stdClass && property_exists($response, "Message")) {
                 $errorMessage = $response->Message;
@@ -559,5 +698,69 @@ class BarionClient
         $result->Body = $output;
 
         return $result;
+    }
+
+    /**
+     * Checks the signature and the timestamp of the response to a signed request.
+     * Barion signs the response only if the shop's key is active and the request's signature was valid,
+     * so an unsigned response is accepted: it is either sent before the key's activation, or a signature error.
+     * Barion always signs with its active key, which is the next key once a rotation's new key is activated.
+     *
+     * @param array<string, string> $responseHeaders The response headers, with lower case names
+     * @param string $nonce The nonce of the request
+     * @param int $statusCode The HTTP status code of the response
+     * @param string $body The raw response body
+     * @return ?ApiErrorModel Returns the error the response is discarded for, or null if the response is accepted
+     */
+    private function CheckResponseSignature(array $responseHeaders, string $nonce, int $statusCode, string $body): ?ApiErrorModel
+    {
+        if (!isset($responseHeaders[HmacSignature::HEADER_SIGNATURE]) || $this->HmacKey === null) {
+            return null;
+        }
+
+        $timestamp = $responseHeaders[HmacSignature::HEADER_TIMESTAMP] ?? "";
+        $payload = HmacSignature::ResponsePayload($timestamp, $nonce, $statusCode, $body);
+
+        $error = new ApiErrorModel();
+        if (!$this->IsSignedByBarion($payload, $responseHeaders[HmacSignature::HEADER_SIGNATURE])) {
+            $error->ErrorCode = "InvalidResponseSignature";
+            $error->Title = "Invalid response signature";
+            $error->Description = "The signature of the Barion API response is invalid, the response was discarded.";
+            return $error;
+        }
+
+        if (!BarionClient::IsTimestampCurrent($timestamp)) {
+            $error->ErrorCode = "InvalidResponseTimestamp";
+            $error->Title = "Invalid response timestamp";
+            $error->Description = "The timestamp of the Barion API response is more than 5 minutes off the server time, the response was discarded. Please check the clock of your server.";
+            return $error;
+        }
+
+        return null;
+    }
+
+    /**
+     * Checks a signature Barion made. Barion always signs with its active key,
+     * which is the next key once a rotation's new key is activated.
+     *
+     * @param string $payload The signed text
+     * @param string $signature The received signature (base64 encoded)
+     * @return bool
+     */
+    private function IsSignedByBarion(string $payload, string $signature): bool
+    {
+        return ($this->HmacKey !== null && HmacSignature::IsValid($this->HmacKey, $payload, $signature))
+            || ($this->NextHmacKey !== null && HmacSignature::IsValid($this->NextHmacKey, $payload, $signature));
+    }
+
+    /**
+     * Checks that a signature's timestamp is within the same tolerance Barion allows for the timestamp of the requests
+     *
+     * @param string $timestamp Unix time in seconds
+     * @return bool
+     */
+    private static function IsTimestampCurrent(string $timestamp): bool
+    {
+        return ctype_digit($timestamp) && abs(time() - (int)$timestamp) <= BarionClient::HMAC_TIMESTAMP_TOLERANCE_SECONDS;
     }
 }
