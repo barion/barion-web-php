@@ -1,6 +1,6 @@
 ﻿# Barion Web PHP Library
 
-[![version](https://img.shields.io/badge/version-4.0.0-blue.svg)](https://packagist.org/packages/barion/barion-web-php) [![Total Downloads](https://poser.pugx.org/barion/barion-web-php/downloads.svg)](https://packagist.org/packages/barion/barion-web-php) [![License](https://poser.pugx.org/barion/barion-web-php/license.svg)](https://packagist.org/packages/barion/barion-web-php)
+[![version](https://img.shields.io/badge/version-4.1.0-blue.svg)](https://packagist.org/packages/barion/barion-web-php) [![Total Downloads](https://poser.pugx.org/barion/barion-web-php/downloads.svg)](https://packagist.org/packages/barion/barion-web-php) [![License](https://poser.pugx.org/barion/barion-web-php/license.svg)](https://packagist.org/packages/barion/barion-web-php)
 
 A compact PHP library to manage online e-money and card payments via the _Barion Smart Gateway_.  
 It allows you to accept credit card, e-money, and wire transfer payments in just a few lines of code.
@@ -108,6 +108,70 @@ $BC = new \Barion\BarionClient(
 
 > **Note**  
 > Only set `useBundledRootCerts` to `true` as a last resort if you are having SSL connection problems. It is your own responsibility to use up-to-date software that includes the latest international trusted CA certificate chains. The authors take no responsibility for loss of service resulting from the use of the certificate chain bundled with the library.
+
+## Request signing (HMAC)
+
+If your shop has an HMAC key in Barion, give it to the client. Every request is then signed with HMAC-SHA512 (in the `x-timestamp`, `x-nonce` and `x-signature-sha512` headers), and the signature of every signed response is checked.
+
+```php
+$BC->SetHmacKey("<the base64 encoded HMAC key of your shop>");
+```
+
+Barion ignores the signature until the key is activated, and once the key is active, it rejects every unsigned request. Its callbacks are only signed while the key is active. So introduce the key in this order:
+
+1. Set the key in your shop with `SetHmacKey`.
+2. Activate the key in Barion.
+3. Turn on the callback check (see below) in your callback endpoint. Before the key is activated, every callback arrives unsigned, so the check would reject all of them.
+
+> **Note**  
+> The signature contains the current time, so the clock of your server must be accurate (within 5 minutes).  
+> If the signature of a response is invalid, the response is discarded, and the returned model contains an error with the `InvalidResponseSignature` error code.  
+> If the timestamp of a signed response is more than 5 minutes off your server time, the response is discarded too, with the `InvalidResponseTimestamp` error code.
+
+### Checking the signature of a payment callback (IPN)
+
+Barion signs the callbacks it sends to your `CallbackUrl` too. In your callback endpoint, check the signature before processing the callback:
+
+```php
+if (!$BC->IsCallbackValid()) {
+    http_response_code(401);
+    exit;
+}
+```
+
+> **Warning**  
+> The signature covers the path and query of your callback URL. If a proxy or load balancer in front of your server changes the path or the query (for example removes a prefix), the signature of every callback will be invalid. In that case, pass the path and query exactly as Barion called them: `$BC->IsCallbackValid(requestUri: "/the/original/path?paymentId=...")`.
+
+To reject a callback that was captured and sent again, give the client a way to remember the nonces it has seen. The function gets the nonce of a correctly signed callback, and must return `false` if the nonce was already used. Keep the nonces for at least 10 minutes; older callbacks are rejected by their timestamp anyway. Use a store that all your servers share (e.g. Redis or your database) if you have more than one. With APCu, on a single server:
+
+```php
+$isNonceNew = fn(string $nonce) => apcu_add("barion-nonce-" . $nonce, true, 600);
+
+if (!$BC->IsCallbackValid(isNonceNew: $isNonceNew)) {
+    http_response_code(401);
+    exit;
+}
+```
+
+Barion sends every retry of a callback with a new nonce, so this does not reject the retries.
+
+### Rotating the HMAC key
+
+Once a new key is activated, Barion signs its responses with the new key right away, while it still accepts requests signed with the old key for 24 hours. To follow this:
+
+1. Generate the new key in Barion, but do not activate it yet.
+2. Give the new key to the client as the next key. Requests are still signed with the old key, and responses signed with either key are accepted:
+
+```php
+$BC->SetHmacKey("<the old key>", "<the new key>");
+```
+
+3. Activate the new key in Barion.
+4. Within 24 hours, switch the client to the new key, then delete the old key in Barion:
+
+```php
+$BC->SetHmacKey("<the new key>");
+```
 
 # Base flow
 
@@ -269,6 +333,7 @@ We will try to review your pull request as soon as possible.
 
 # Version history
 
+- **4.1.0** October 28. 2026
 - **4.0.0** August 12. 2026
 - **3.0.0** June 17. 2026
 - **2.1.0** October 30. 2025

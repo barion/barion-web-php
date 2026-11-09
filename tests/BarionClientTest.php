@@ -24,6 +24,7 @@ use Barion\Enumerations\{
     QRCodeSize
 };
 use Barion\Exceptions\BarionException;
+use Barion\Helpers\HmacSignature;
 use Barion\Models\Payment\{
     PreparePaymentRequestModel,
     FinishReservationRequestModel,
@@ -33,6 +34,7 @@ use Barion\Models\Payment\{
 };
 use Barion\Models\Refund\RefundRequestModel;
 use PHPUnit\Framework\TestCase;
+use ReflectionMethod;
 use ReflectionProperty;
 
 /**
@@ -143,6 +145,346 @@ class BarionClientTest extends TestCase
         $client = $this->makeClient(4);
         $client->SetVersion(2);
         $this->assertSame(2, $this->getPrivate($client, 'APIVersion'));
+    }
+
+    // -----------------------------------------------------------------------
+    // HMAC signing
+    // -----------------------------------------------------------------------
+
+    private const HMAC_KEY = 'dGVzdF9zZWNyZXRfa2V5';
+    private const NEXT_HMAC_KEY = 'bmV4dF9zZWNyZXRfa2V5';
+
+    /**
+     * Call a private method via Reflection, passing the arguments by reference where the method expects it.
+     *
+     * @param array<int, mixed> $args
+     */
+    private function callPrivate(object $obj, string $method, array &$args): mixed
+    {
+        $ref = new ReflectionMethod($obj, $method);
+        return $ref->invokeArgs($obj, $args);
+    }
+
+    public function testHmacKeyIsNotSetByDefault(): void
+    {
+        $this->assertNull($this->getPrivate($this->makeClient(), 'HmacKey'));
+    }
+
+    public function testSetHmacKeyStoresKey(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+        $this->assertSame(self::HMAC_KEY, $this->getPrivate($client, 'HmacKey'));
+    }
+
+    public function testSetHmacKeyThrowsOnInvalidKey(): void
+    {
+        $this->expectException(BarionException::class);
+        $this->makeClient()->SetHmacKey('not base64!');
+    }
+
+    public function testRequestIsNotSignedWithoutKey(): void
+    {
+        $headers = ['x-pos-key: key'];
+        $args = [&$headers, 'POST', 'https://api.test.barion.com/v2/Payment/Start', '{}'];
+
+        $this->assertNull($this->callPrivate($this->makeClient(), 'AddSignatureHeaders', $args));
+        $this->assertSame(['x-pos-key: key'], $headers);
+    }
+
+    public function testPostRequestIsSigned(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+        $headers = [];
+        $args = [&$headers, 'POST', 'https://api.test.barion.com/v2/Payment/Start', '{"PaymentId":"abc"}'];
+
+        $nonce = $this->callPrivate($client, 'AddSignatureHeaders', $args);
+
+        $this->assertCount(3, $headers);
+        $this->assertSame('x-nonce: ' . $nonce, $headers[1]);
+        $timestamp = substr($headers[0], strlen('x-timestamp: '));
+        $this->assertEqualsWithDelta(time(), (int)$timestamp, 5);
+        $payload = HmacSignature::RequestPayload($timestamp, $nonce, 'POST', '/v2/Payment/Start', '{"PaymentId":"abc"}');
+        $this->assertSame('x-signature-sha512: ' . HmacSignature::Compute(self::HMAC_KEY, $payload), $headers[2]);
+    }
+
+    public function testGetRequestSignsPathAndQueryWithoutHost(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+        $headers = [];
+        $args = [&$headers, 'GET', 'https://api.test.barion.com/v2/Payment/GetPaymentState?POSKey=x&PaymentId=y', ''];
+
+        $nonce = $this->callPrivate($client, 'AddSignatureHeaders', $args);
+
+        $timestamp = substr($headers[0], strlen('x-timestamp: '));
+        $payload = "$timestamp\n$nonce\nGET\n/v2/payment/getpaymentstate?poskey=x&paymentid=y\n";
+        $this->assertSame('x-signature-sha512: ' . HmacSignature::Compute(self::HMAC_KEY, $payload), $headers[2]);
+    }
+
+    /**
+     * Check a 200 response to a request with the nonce 'nonce' and the body '{}', signed as the parameters say.
+     * Returns the error code the response is discarded for, or null if it is accepted.
+     */
+    private function checkResponse(BarionClient $client, string $signingKey, int $timestamp, string $signedNonce = 'nonce', string $signedBody = '{}'): ?string
+    {
+        $signature = HmacSignature::Compute($signingKey, HmacSignature::ResponsePayload((string)$timestamp, $signedNonce, 200, $signedBody));
+        $args = [['x-timestamp' => (string)$timestamp, 'x-signature-sha512' => $signature], 'nonce', 200, '{}'];
+
+        return $this->callPrivate($client, 'CheckResponseSignature', $args)?->ErrorCode;
+    }
+
+    public function testUnsignedResponseIsAccepted(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+        $args = [[], 'nonce', 401, '{}'];
+
+        $this->assertNull($this->callPrivate($client, 'CheckResponseSignature', $args));
+    }
+
+    public function testSignedResponseIsAccepted(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertNull($this->checkResponse($client, self::HMAC_KEY, time()));
+    }
+
+    public function testResponseWithChangedBodyIsRejected(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertSame('InvalidResponseSignature', $this->checkResponse($client, self::HMAC_KEY, time(), signedBody: '{"Status":"Succeeded"}'));
+    }
+
+    public function testResponseWithinTimestampToleranceIsAccepted(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertNull($this->checkResponse($client, self::HMAC_KEY, time() - 290));
+        $this->assertNull($this->checkResponse($client, self::HMAC_KEY, time() + 290));
+    }
+
+    public function testResponseWithOldTimestampIsRejected(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertSame('InvalidResponseTimestamp', $this->checkResponse($client, self::HMAC_KEY, time() - 310));
+    }
+
+    public function testResponseWithFutureTimestampIsRejected(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertSame('InvalidResponseTimestamp', $this->checkResponse($client, self::HMAC_KEY, time() + 310));
+    }
+
+    public function testResponseWithoutTimestampIsRejected(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+        $signature = HmacSignature::Compute(self::HMAC_KEY, HmacSignature::ResponsePayload('', 'nonce', 200, '{}'));
+        $args = [['x-signature-sha512' => $signature], 'nonce', 200, '{}'];
+
+        $this->assertSame('InvalidResponseTimestamp', $this->callPrivate($client, 'CheckResponseSignature', $args)?->ErrorCode);
+    }
+
+    public function testSetHmacKeyStoresNextKey(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY, self::NEXT_HMAC_KEY);
+        $this->assertSame(self::HMAC_KEY, $this->getPrivate($client, 'HmacKey'));
+        $this->assertSame(self::NEXT_HMAC_KEY, $this->getPrivate($client, 'NextHmacKey'));
+    }
+
+    public function testSetHmacKeyClearsNextKey(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY, self::NEXT_HMAC_KEY);
+        $client->SetHmacKey(self::NEXT_HMAC_KEY);
+        $this->assertNull($this->getPrivate($client, 'NextHmacKey'));
+    }
+
+    public function testSetHmacKeyThrowsOnInvalidNextKey(): void
+    {
+        $this->expectException(BarionException::class);
+        $this->makeClient()->SetHmacKey(self::HMAC_KEY, 'not base64!');
+    }
+
+    public function testRequestIsSignedWithCurrentKeyDuringRotation(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY, self::NEXT_HMAC_KEY);
+        $headers = [];
+        $args = [&$headers, 'POST', 'https://api.test.barion.com/v2/Payment/Start', '{}'];
+
+        $nonce = $this->callPrivate($client, 'AddSignatureHeaders', $args);
+
+        $timestamp = substr($headers[0], strlen('x-timestamp: '));
+        $payload = HmacSignature::RequestPayload($timestamp, $nonce, 'POST', '/v2/Payment/Start', '{}');
+        $this->assertSame('x-signature-sha512: ' . HmacSignature::Compute(self::HMAC_KEY, $payload), $headers[2]);
+    }
+
+    public function testResponseSignedWithNextKeyIsAcceptedDuringRotation(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY, self::NEXT_HMAC_KEY);
+
+        $this->assertNull($this->checkResponse($client, self::NEXT_HMAC_KEY, time()));
+    }
+
+    public function testResponseSignedWithNextKeyIsRejectedWithoutRotation(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertSame('InvalidResponseSignature', $this->checkResponse($client, self::NEXT_HMAC_KEY, time()));
+    }
+
+    // -----------------------------------------------------------------------
+    // Callback (IPN) verification
+    // -----------------------------------------------------------------------
+
+    private const CALLBACK_URI = '/hu/DemoClub/Callback?paymentId=4d924e8da6cbf11199f4001dd8b71d1a';
+    private const CALLBACK_BODY = 'PaymentId=4d924e8da6cbf11199f4001dd8b71d1a';
+
+    /**
+     * Build the headers Barion sends with a callback to CALLBACK_URI with CALLBACK_BODY.
+     *
+     * @return array<string, string>
+     */
+    private function callbackHeaders(string $signingKey, int $timestamp): array
+    {
+        $nonce = '7b1e4d2a-6c3f-4a8b-9d50-1e2f3a4b5c6d';
+        $payload = HmacSignature::RequestPayload((string)$timestamp, $nonce, 'POST', self::CALLBACK_URI, self::CALLBACK_BODY);
+
+        return [
+            'x-timestamp' => (string)$timestamp,
+            'x-nonce' => $nonce,
+            'x-signature-sha512' => HmacSignature::Compute($signingKey, $payload)
+        ];
+    }
+
+    private function makeSigningClient(?string $nextKey = null): BarionClient
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY, $nextKey);
+        return $client;
+    }
+
+    public function testCallbackCheckThrowsWithoutKey(): void
+    {
+        $this->expectException(BarionException::class);
+        $this->makeClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, []);
+    }
+
+    public function testSignedCallbackIsValid(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time());
+        $this->assertTrue($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers));
+    }
+
+    public function testUnsignedCallbackIsInvalid(): void
+    {
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, []));
+    }
+
+    public function testCallbackWithoutNonceIsInvalid(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time());
+        unset($headers['x-nonce']);
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers));
+    }
+
+    public function testCallbackWithChangedBodyIsInvalid(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time());
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, 'PaymentId=00000000000000000000000000000000', $headers));
+    }
+
+    public function testCallbackToAnotherUrlIsInvalid(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time());
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid('/other/callback?paymentId=4d924e8da6cbf11199f4001dd8b71d1a', self::CALLBACK_BODY, $headers));
+    }
+
+    public function testCallbackWithOldTimestampIsInvalid(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time() - 310);
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers));
+    }
+
+    public function testCallbackSignedWithNextKeyIsValidDuringRotation(): void
+    {
+        $headers = $this->callbackHeaders(self::NEXT_HMAC_KEY, time());
+        $this->assertTrue($this->makeSigningClient(self::NEXT_HMAC_KEY)->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers));
+    }
+
+    public function testCallbackSignedWithNextKeyIsInvalidWithoutRotation(): void
+    {
+        $headers = $this->callbackHeaders(self::NEXT_HMAC_KEY, time());
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers));
+    }
+
+    public function testReplayedCallbackIsInvalidWithNonceStore(): void
+    {
+        $client = $this->makeSigningClient();
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time());
+        $usedNonces = [];
+        $isNonceNew = function (string $nonce) use (&$usedNonces): bool {
+            if (isset($usedNonces[$nonce])) {
+                return false;
+            }
+            $usedNonces[$nonce] = true;
+            return true;
+        };
+
+        $this->assertTrue($client->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers, $isNonceNew));
+        $this->assertFalse($client->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers, $isNonceNew));
+        $this->assertSame([$headers['x-nonce']], array_keys($usedNonces));
+    }
+
+    public function testNonceStoreIsNotCalledForInvalidCallback(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time() - 310);
+        $called = false;
+        $isNonceNew = function (string $nonce) use (&$called): bool {
+            $called = true;
+            return true;
+        };
+
+        $this->assertFalse($this->makeSigningClient()->IsCallbackValid(self::CALLBACK_URI, self::CALLBACK_BODY, $headers, $isNonceNew));
+        $this->assertFalse($called);
+    }
+
+    public function testCallbackCheckReadsCurrentRequest(): void
+    {
+        $headers = $this->callbackHeaders(self::HMAC_KEY, time());
+        $_SERVER['REQUEST_URI'] = self::CALLBACK_URI;
+        $_SERVER['HTTP_X_TIMESTAMP'] = $headers['x-timestamp'];
+        $_SERVER['HTTP_X_NONCE'] = $headers['x-nonce'];
+        $_SERVER['HTTP_X_SIGNATURE_SHA512'] = $headers['x-signature-sha512'];
+
+        try {
+            // php://input is empty on the command line, so only the body is passed
+            $this->assertTrue($this->makeSigningClient()->IsCallbackValid(body: self::CALLBACK_BODY));
+        } finally {
+            unset($_SERVER['REQUEST_URI'], $_SERVER['HTTP_X_TIMESTAMP'], $_SERVER['HTTP_X_NONCE'], $_SERVER['HTTP_X_SIGNATURE_SHA512']);
+        }
+    }
+
+    public function testResponseToAnotherRequestIsRejected(): void
+    {
+        $client = $this->makeClient();
+        $client->SetHmacKey(self::HMAC_KEY);
+
+        $this->assertSame('InvalidResponseSignature', $this->checkResponse($client, self::HMAC_KEY, time(), signedNonce: 'other-nonce'));
     }
 
     // -----------------------------------------------------------------------
